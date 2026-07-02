@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import ToolPageLayout, { generateToolMetadata } from '@/components/ToolPageLayout';
 import JurosCompostosClient from './JurosCompostosClient';
 
+export const revalidate = 3600;
+
 export const metadata: Metadata = generateToolMetadata(
   'Calculadora de Juros Compostos',
   'Simule investimentos com juros compostos. Calcule o rendimento do seu dinheiro ao longo do tempo.',

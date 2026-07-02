@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation';
 import ToolPageLayout from '@/components/ToolPageLayout';
 import CryptoDetailClient from './CryptoDetailClient';
 
+export const revalidate = 3600;
+
 const CRYPTO_MAP: Record<string, { name: string; symbol: string; description: string }> = {
   bitcoin: { name: 'Bitcoin', symbol: 'BTC', description: 'Cotação do Bitcoin (BTC) em tempo real em Reais. Veja gráficos, capitalização de mercado, volume 24h e dados históricos.' },
   ethereum: { name: 'Ethereum', symbol: 'ETH', description: 'Cotação do Ethereum (ETH) em tempo real em Reais. Veja gráficos, capitalização de mercado, volume 24h e dados históricos.' },
