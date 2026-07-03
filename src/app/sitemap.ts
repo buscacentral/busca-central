@@ -156,7 +156,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return allRoutes.map((route) => {
     const meta = routeMeta(route);
     return {
-      url: `${baseUrl}${route}`,
+      url: route === '/' ? baseUrl : `${baseUrl}${route}`,
       lastModified: meta.lastModified,
       changeFrequency: meta.changeFrequency,
       priority: meta.priority,
