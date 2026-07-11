@@ -484,6 +484,17 @@ export default async function DistanciaParPage({ params }: Props) {
           De ônibus a ~60 km/h, espere cerca de <strong>{formatHoras(road, 60)}</strong>. Para a rota exata,
           recomendamos conferir também no Google Maps.
         </p>
+
+        <h3>Planejando sua viagem de {origin.n} para {dest.n}</h3>
+        <p>
+          Ao planejar uma viagem de <strong>{origin.n} ({origin.u})</strong> para <strong>{dest.n} ({dest.u})</strong>, é essencial compreender as características da rota. Este percurso exige preparação adequada e atenção aos detalhes da estrada para garantir uma jornada tranquila e segura até o seu destino. A distância de {road.toLocaleString('pt-BR')} km e o tempo estimado reforçam a importância de um planejamento detalhado.
+        </p>
+        <p>
+          Recomendamos realizar uma revisão veicular completa antes de pegar a estrada para {dest.n}. Verifique a pressão e o desgaste dos pneus, os níveis de óleo e fluidos, além de testar os freios e o sistema de iluminação. Devido à extensão do trajeto, é fundamental planejar paradas estratégicas para abastecimento e descanso, ajudando a manter o foco e a segurança durante a condução.
+        </p>
+        <p>
+          Como dicas gerais para uma viagem segura, sempre verifique as condições meteorológicas previstas para o dia e evite dirigir sob chuva forte ou neblina intensa. Respeite os limites de velocidade e mantenha distância segura dos outros veículos. Caso prefira não dirigir, avaliar a possibilidade de fazer o trajeto de ônibus pode ser uma alternativa confortável, permitindo que você descanse enquanto viaja de {origin.n} até {dest.n}.
+        </p>
       </article>
 
       {/* ================================================================= */}
