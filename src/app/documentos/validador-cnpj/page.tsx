@@ -2,10 +2,11 @@ import type { Metadata } from 'next';
 import ToolPageLayout, { generateToolMetadata } from '@/components/ToolPageLayout';
 import ValidadorCNPJClient from './ValidadorCNPJClient';
 
+const year = new Date().getFullYear();
 export const metadata: Metadata = {
   ...generateToolMetadata(
-    'Validador de CNPJ Online — Resultado Imediato',
-    'Valide qualquer CNPJ em 1 clique. Verifique se o número é válido com o algoritmo oficial da Receita Federal. 100% gratuito, sem cadastro e sem anúncios invasivos.',
+    `Validador de CNPJ Online — Resultado Imediato (${year})`,
+    `Valide qualquer CNPJ com o algoritmo da Receita Federal em 1 clique. 100% gratuito, sem cadastro e sem anúncios.`,
     '/documentos/validador-cnpj'
   ),
   keywords: [

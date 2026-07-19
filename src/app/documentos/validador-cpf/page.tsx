@@ -2,10 +2,11 @@ import type { Metadata } from 'next';
 import ToolPageLayout, { generateToolMetadata } from '@/components/ToolPageLayout';
 import ValidadorCPFClient from './ValidadorCPFClient';
 
+const year = new Date().getFullYear();
 export const metadata: Metadata = {
   ...generateToolMetadata(
-    'Validador de CPF',
-    'Valide CPFs e entenda como calcular o dígito verificador (DV) com o algoritmo oficial da Receita Federal. Passo a passo, pesos e exemplo prático.',
+    `Validador de CPF Online e Gratuito (${year})`,
+    'Valide CPFs com o algoritmo oficial da Receita Federal. Veja o passo a passo do dígito verificador. Rápido e gratuito.',
     '/documentos/validador-cpf'
   ),
   keywords: [

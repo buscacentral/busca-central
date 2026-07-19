@@ -2,9 +2,10 @@ import type { Metadata } from 'next';
 import ToolPageLayout from '@/components/ToolPageLayout';
 import DecimoTerceiroClient from './DecimoTerceiroClient';
 
+const year = new Date().getFullYear();
 export const metadata: Metadata = {
-  title: 'Calculadora de 13º Salário (Primeira e Segunda Parcela) | BuscaCentral',
-  description: 'Descubra exatamente quanto você vai receber na primeira e na segunda parcela do seu décimo terceiro salário, com descontos de INSS e IRPF aplicados corretamente.',
+  title: `Calculadora 13º Salário ${year}: 1ª e 2ª Parcela`,
+  description: `Calcule o valor exato da 1ª e 2ª parcela do 13º com descontos de INSS e IRPF. Atualizada ${year}, grátis e sem cadastro.`,
   keywords: ['13º salário', 'décimo terceiro', 'calculadora 13', 'primeira parcela 13', 'segunda parcela 13', 'desconto 13'],
   alternates: { canonical: 'https://buscacentral.com.br/financeiro/decimo-terceiro' },
 };

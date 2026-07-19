@@ -2,9 +2,10 @@ import type { Metadata } from 'next';
 import ToolPageLayout, { generateToolMetadata } from '@/components/ToolPageLayout';
 import GeradorCPFClient from './GeradorCPFClient';
 
+const year = new Date().getFullYear();
 export const metadata: Metadata = generateToolMetadata(
-  'Gerador de CPF',
-  'Gere CPFs válidos e formatados para testes e desenvolvimento. CPFs fictícios com algoritmo real de dígito verificador.',
+  `Gerador de CPF Válido Online e Gratuito (${year})`,
+  'Gere CPFs válidos para testes e desenvolvimento. Algoritmo oficial, formatação automática e 100% gratuito. Sem cadastro.',
   '/documentos/gerador-cpf'
 );
 

@@ -2,9 +2,10 @@ import type { Metadata } from 'next';
 import ToolPageLayout, { generateToolMetadata } from '@/components/ToolPageLayout';
 import TabelaFipeClient from './TabelaFipeClient';
 
+const year = new Date().getFullYear();
 export const metadata: Metadata = generateToolMetadata(
-  'Tabela FIPE',
-  'Consulte preços médios de veículos novos e usados pela Tabela FIPE. Carros, motos e caminhonetes.',
+  `Tabela FIPE ${year}: Consulte Preço de Veículos`,
+  `Consulte preços de carros, motos e caminhonetes na Tabela FIPE atualizada ${year}. Grátis e sem cadastro.`,
   '/financeiro/tabela-fipe'
 );
 

@@ -4,16 +4,32 @@ import Script from 'next/script';
 import { useState, useEffect } from 'react';
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || '';
+const CONSENT_KEY = 'buscacentral_privacy_consent';
 
 export default function GoogleAnalytics() {
   const [consent, setConsent] = useState(false);
 
   useEffect(() => {
-    const stored = localStorage.getItem('cookie-consent');
-    if (stored === 'accepted') {
-      const timer = setTimeout(() => setConsent(true), 0);
-      return () => clearTimeout(timer);
-    }
+    const checkConsent = () => {
+      const stored = localStorage.getItem(CONSENT_KEY);
+      if (stored) {
+        try {
+          const parsed = JSON.parse(stored);
+          if (parsed && parsed.accepted === true) {
+            setConsent(true);
+          }
+        } catch {
+          // Silently handle parse errors
+        }
+      }
+    };
+
+    checkConsent();
+
+    window.addEventListener('cookie-consent-updated', checkConsent);
+    return () => {
+      window.removeEventListener('cookie-consent-updated', checkConsent);
+    };
   }, []);
 
   if (!GA_MEASUREMENT_ID || !consent) return null;

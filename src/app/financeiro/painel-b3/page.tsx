@@ -1,9 +1,10 @@
 import { Metadata } from 'next';
 import PainelB3Client, { type StockData } from './PainelB3Client';
 
+const year = new Date().getFullYear();
 export const metadata: Metadata = {
-  title: 'Painel B3 (Ações e FIIs) | Busca Central',
-  description: 'Consulte a cotação em tempo real de ações e fundos imobiliários da bolsa de valores brasileira (B3). Dados providos pela Brapi.',
+  title: `Painel B3: Cotação Ações e FIIs Hoje (${year})`,
+  description: `Cotação em tempo real de ações e FIIs da B3. Acompanhe PETR4, VALE3, ITUB4 e mais. Dados atualizados, grátis.`,
 };
 
 export default async function PainelB3Page() {

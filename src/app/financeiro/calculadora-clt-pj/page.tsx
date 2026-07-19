@@ -6,9 +6,10 @@ import CalculadoraCLTPJClient from './CalculadoraCLTPJClient';
 // SEO METADATA — Otimizado para termos: "calculadora clt x pj", "clt ou pj",
 // "qual vale mais a pena clt ou pj"
 // ---------------------------------------------------------------------------
+const year = new Date().getFullYear();
 export const metadata: Metadata = generateToolMetadata(
-  'Calculadora CLT x PJ: Qual vale mais a pena? Simule online',
-  'Compare CLT e PJ lado a lado. Simule salário líquido real com INSS, IRRF, FGTS, 13º, férias e benefícios vs faturamento PJ com Simples Nacional. Descubra qual proposta coloca mais dinheiro no bolso.',
+  `Calculadora CLT x PJ: Simule Online (${year})`,
+  `Compare salário CLT e faturamento PJ lado a lado. Simule com INSS, IRRF, FGTS, 13º e benefícios. Grátis e atualizada ${year}.`,
   '/financeiro/calculadora-clt-pj'
 );
 

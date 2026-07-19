@@ -2,9 +2,10 @@ import type { Metadata } from 'next';
 import ToolPageLayout from '@/components/ToolPageLayout';
 import CotacaoClient from './CotacaoClient';
 
+const year = new Date().getFullYear();
 export const metadata: Metadata = {
-  title: 'Cotação do Dólar, Euro e Libra Hoje em Tempo Real | BuscaCentral',
-  description: 'Cotação do Dólar Comercial, Euro e Libra Esterlina hoje em tempo real em Reais (BRL). Conversor bidirecional gratuito, tabelas de conversão rápida e dados da AwesomeAPI atualizados a cada minuto.',
+  title: `Cotação Dólar, Euro e Libra Hoje (${year})`,
+  description: `Cotação em tempo real do Dólar, Euro e Libra em Reais. Conversor grátis e dados atualizados a cada minuto.`,
   keywords: [
     'cotação dólar hoje', 'cotação euro hoje', 'cotação libra hoje',
     'dólar comercial tempo real', 'euro real', 'libra esterlina real',
@@ -12,8 +13,8 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: 'https://buscacentral.com.br/financeiro/cotacao' },
   openGraph: {
-    title: 'Cotação do Dólar, Euro e Libra Hoje em Tempo Real | BuscaCentral',
-    description: 'Cotação do Dólar Comercial, Euro e Libra Esterlina hoje em tempo real. Conversor bidirecional gratuito e dados atualizados a cada minuto.',
+    title: `Cotação Dólar, Euro e Libra Hoje (${year}) | BuscaCentral`,
+    description: 'Cotação em tempo real do Dólar, Euro e Libra em Reais. Conversor grátis e dados atualizados a cada minuto.',
     url: 'https://buscacentral.com.br/financeiro/cotacao',
     siteName: 'BuscaCentral',
     locale: 'pt_BR',
@@ -21,8 +22,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Cotação do Dólar, Euro e Libra Hoje em Tempo Real | BuscaCentral',
-    description: 'Cotação do Dólar, Euro e Libra hoje em tempo real. Conversor bidirecional gratuito.',
+    title: `Cotação Dólar, Euro e Libra Hoje (${year}) | BuscaCentral`,
+    description: 'Cotação em tempo real do Dólar, Euro e Libra em Reais. Conversor grátis.',
   },
 };
 

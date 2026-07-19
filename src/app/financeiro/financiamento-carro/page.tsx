@@ -2,9 +2,10 @@ import type { Metadata } from 'next';
 import ToolPageLayout, { generateToolMetadata } from '@/components/ToolPageLayout';
 import FinanciamentoCarroClient from './FinanciamentoCarroClient';
 
+const year = new Date().getFullYear();
 export const metadata: Metadata = generateToolMetadata(
-  'Calculadora de Financiamento de Carro',
-  'Simule o financiamento do seu carro. Calcule parcelas, juros totais e preço final pelo sistema Price ou SAC.',
+  `Simulador Financiamento de Carro (${year})`,
+  `Simule o financiamento do seu carro: parcelas, juros totais e custo final por Price ou SAC. Grátis e atualizado ${year}.`,
   '/financeiro/financiamento-carro'
 );
 

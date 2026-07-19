@@ -2,9 +2,10 @@ import type { Metadata } from 'next';
 import ToolPageLayout, { generateToolMetadata } from '@/components/ToolPageLayout';
 import FinanciamentoImobiliarioClient from './FinanciamentoImobiliarioClient';
 
+const year = new Date().getFullYear();
 export const metadata: Metadata = generateToolMetadata(
-  'Simulador de Financiamento Imobiliário',
-  'Simule o financiamento da sua casa ou apartamento pelos sistemas SAC e Price. Veja parcelas, total de juros e compare qual sai mais barato. Grátis.',
+  `Simulador Financiamento Imobiliário (${year})`,
+  `Simule financiamento da casa própria por SAC e Price. Compare parcelas, juros e custo total. Grátis e atualizado ${year}.`,
   '/financeiro/financiamento-imobiliario'
 );
 

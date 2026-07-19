@@ -1,9 +1,10 @@
 import { Metadata } from 'next';
 import IndicadoresClient from './IndicadoresClient';
 
+const year = new Date().getFullYear();
 export const metadata: Metadata = {
-  title: 'Indicadores Econômicos (Selic, IPCA, CDI) | Busca Central',
-  description: 'Consulte os principais indicadores econômicos brasileiros atualizados, como Taxa Selic, IPCA (Inflação) e CDI. Informações extraídas diretamente do Banco Central.',
+  title: `Indicadores Econômicos ${year}: Selic, IPCA e CDI`,
+  description: `Consulte Selic, IPCA e CDI atualizados ${year} direto do Banco Central. Dados oficiais em tempo real, grátis.`,
 };
 
 export default async function IndicadoresPage() {

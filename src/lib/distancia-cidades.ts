@@ -259,8 +259,14 @@ export function getOtherCapitais(
     .slice(0, limit);
 }
 
-/** Monta a URL canônica (slugs ordenados) de um par. */
+/** Monta a URL canônica (slugs ordenados) de um par de pedágio. */
 export function pairUrl(slugA: string, slugB: string): string {
   const [a, b] = [slugA, slugB].sort();
   return `/localizacao/distancia/${a}/${b}`;
+}
+
+/** Monta a URL canônica (slugs ordenados) de um par de estimativa de pedágio. */
+export function pedagioPairUrl(slugA: string, slugB: string): string {
+  const [a, b] = [slugA, slugB].sort();
+  return `/localizacao/pedagio/${a}/${b}`;
 }

@@ -2,9 +2,10 @@ import type { Metadata } from 'next';
 import ToolPageLayout, { generateToolMetadata } from '@/components/ToolPageLayout';
 import SimuladorInvestimentosClient from './SimuladorInvestimentosClient';
 
+const year = new Date().getFullYear();
 export const metadata: Metadata = generateToolMetadata(
-  'Simulador de Investimentos',
-  'Compare investimentos: CDB, Tesouro Direto, poupança e mais. Simule rendimentos com impostos.',
+  `Simulador de Investimentos Online (${year})`,
+  `Compare CDB, Tesouro Direto e poupança. Simule rendimentos com impostos já descontados. Grátis e atualizado ${year}.`,
   '/financeiro/simulador-investimentos'
 );
 

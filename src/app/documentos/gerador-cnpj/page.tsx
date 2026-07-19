@@ -2,9 +2,10 @@ import type { Metadata } from 'next';
 import ToolPageLayout, { generateToolMetadata } from '@/components/ToolPageLayout';
 import GeradorCNPJClient from './GeradorCNPJClient';
 
+const year = new Date().getFullYear();
 export const metadata: Metadata = generateToolMetadata(
-  'Gerador de CNPJ',
-  'Gere CNPJs válidos e formatados para testes de sistemas e desenvolvimento. CNPJ com dígito verificador correto.',
+  `Gerador de CNPJ Válido Online e Gratuito (${year})`,
+  'Gere CNPJs válidos para testes de sistemas. Dígito verificador correto, formatação automática e 100% gratuito.',
   '/documentos/gerador-cnpj'
 );
 

@@ -2,9 +2,10 @@ import type { Metadata } from 'next';
 import ToolPageLayout, { generateToolMetadata } from '@/components/ToolPageLayout';
 import ConversorCLTPJClient from './ConversorCLTPJClient';
 
+const year = new Date().getFullYear();
 export const metadata: Metadata = generateToolMetadata(
-  'Conversor CLT para PJ',
-  'Descubra quanto faturar como PJ para manter seu salário CLT. Calcule INSS, IRRF, FGTS e benefícios.',
+  `Conversor CLT para PJ: Quanto Faturar (${year})`,
+  `Descubra quanto faturar como PJ para manter seu ganho CLT. Calcula INSS, IRRF, FGTS e benefícios. Atualizado ${year}.`,
   '/financeiro/conversor-clt-pj'
 );
 

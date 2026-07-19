@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import ConsultaProcessosClient from './ConsultaProcessosClient';
 
+const year = new Date().getFullYear();
 export const metadata: Metadata = {
-  title: 'Consulta de Processos pelo Nome | BuscaCentral',
-  description: 'Descubra se você está sendo processado gerando links de busca em bancos de dados públicos como Jusbrasil e Escavador.',
+  title: `Consulta Processos pelo Nome Online (${year})`,
+  description: 'Descubra se há processos no seu nome em bases públicas como Jusbrasil e Escavador. Links diretos, grátis.',
   keywords: ['processo', 'nome', 'jusbrasil', 'escavador', 'tribunal', 'como saber se estou sendo processado'],
 };
 

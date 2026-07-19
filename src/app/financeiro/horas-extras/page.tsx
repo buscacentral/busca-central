@@ -2,9 +2,10 @@ import type { Metadata } from 'next';
 import ToolPageLayout from '@/components/ToolPageLayout';
 import HorasExtrasClient from './HorasExtrasClient';
 
+const year = new Date().getFullYear();
 export const metadata: Metadata = {
-  title: 'Calculadora de Horas Extras com DSR | BuscaCentral',
-  description: 'Calcule o valor exato das suas horas extras (50% e 100%) e o reflexo no DSR. Simples, rápido e de acordo com a CLT.',
+  title: `Calculadora Horas Extras e DSR Online (${year})`,
+  description: `Calcule horas extras a 50% e 100% com reflexo no DSR. Simples, de acordo com a CLT e atualizada ${year}. Grátis.`,
   keywords: ['horas extras', 'calculadora horas extras', 'cálculo hora extra', 'DSR', 'trabalho', 'CLT', '50%', '100%'],
   alternates: { canonical: 'https://buscacentral.com.br/financeiro/horas-extras' },
 };

@@ -2,9 +2,10 @@ import type { Metadata } from 'next';
 import ToolPageLayout from '@/components/ToolPageLayout';
 import GeradorCartaoClient from './GeradorCartaoClient';
 
+const year = new Date().getFullYear();
 export const metadata: Metadata = {
-  title: 'Gerador de Cartão de Crédito Válido para Testes | BuscaCentral',
-  description: 'Gere números de cartão de crédito válidos com CVV e data de validade para usar em testes de software, cadastros de homologação e desenvolvimento web.',
+  title: `Gerador Cartão de Crédito para Testes (${year})`,
+  description: 'Gere números de cartão de crédito válidos com CVV para testes de software e homologação. Algoritmo Luhn, grátis.',
   keywords: ['gerador de cartão de crédito', 'gerador cartão', 'cartão válido teste', 'cc generator', 'luhn algorithm', 'cartão de crédito fake'],
   alternates: { canonical: 'https://buscacentral.com.br/documentos/gerador-cartao-credito' },
 };

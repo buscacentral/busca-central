@@ -2,9 +2,10 @@ import type { Metadata } from 'next';
 import ToolPageLayout from '@/components/ToolPageLayout';
 import FeriasClient from './FeriasClient';
 
+const year = new Date().getFullYear();
 export const metadata: Metadata = {
-  title: 'Calculadora de Férias 2024: Com Venda e 13º | BuscaCentral',
-  description: 'Calcule o valor exato das suas férias, com opções de venda (abono pecuniário) e adiantamento do 13º salário. Descontos de INSS e IRPF atualizados.',
+  title: `Calculadora de Férias ${year}: Venda e Abono`,
+  description: `Calcule suas férias com opção de venda e adiantamento do 13º. Descontos INSS e IRPF de ${year}. Grátis e sem cadastro.`,
   keywords: ['calculadora de férias', 'cálculo de férias', 'abono pecuniário', 'vender férias', '1/3 férias', 'adiantar 13º'],
   alternates: { canonical: 'https://buscacentral.com.br/financeiro/ferias' },
 };

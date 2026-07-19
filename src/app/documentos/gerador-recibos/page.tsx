@@ -3,9 +3,10 @@ import { Metadata } from 'next';
 import GeradorReciboClient from './GeradorReciboClient';
 import AdPlaceholder from '@/components/AdPlaceholder';
 
+const year = new Date().getFullYear();
 export const metadata: Metadata = {
-  title: 'Gerador de Recibos Simples em PDF Grátis | BuscaCentral',
-  description: 'Gere recibos de pagamento simples e profissionais, preencha os dados e imprima ou salve em PDF gratuitamente e sem cadastro.',
+  title: `Gerador de Recibos em PDF Grátis (${year})`,
+  description: 'Gere recibos de pagamento simples e profissionais. Preencha, imprima ou salve em PDF. Grátis e sem cadastro.',
   keywords: 'gerador de recibo, recibo simples, recibo de pagamento, recibo pdf, imprimir recibo, modelo de recibo',
 };
 

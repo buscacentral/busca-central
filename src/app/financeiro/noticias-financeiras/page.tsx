@@ -2,8 +2,8 @@ import { Metadata } from 'next';
 import NoticiasClient from './NoticiasClient';
 
 export const metadata: Metadata = {
-  title: 'Notícias Financeiras e Criptomoedas | Busca Central',
-  description: 'Acompanhe as últimas notícias e atualizações do mercado financeiro, blockchain e criptomoedas em tempo real.',
+  title: 'Notícias Financeiras e Criptomoedas Hoje',
+  description: 'Últimas notícias do mercado financeiro, blockchain e criptomoedas em tempo real. Atualizado automaticamente.',
 };
 
 interface RawArticle {

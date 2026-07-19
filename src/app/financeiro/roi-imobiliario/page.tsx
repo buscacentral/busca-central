@@ -2,9 +2,10 @@ import type { Metadata } from 'next';
 import ToolPageLayout, { generateToolMetadata } from '@/components/ToolPageLayout';
 import ROIImobiliarioClient from './ROIImobiliarioClient';
 
+const year = new Date().getFullYear();
 export const metadata: Metadata = generateToolMetadata(
-  'Calculadora de ROI Imobiliário',
-  'Calcule o Cap Rate e o ROI anual do seu investimento imobiliário. Descubra o retorno real considerando aluguel e valorização do imóvel.',
+  `Calculadora ROI Imobiliário: Cap Rate (${year})`,
+  `Calcule Cap Rate e ROI anual do seu imóvel considerando aluguel e valorização. Grátis e atualizada ${year}.`,
   '/financeiro/roi-imobiliario'
 );
 

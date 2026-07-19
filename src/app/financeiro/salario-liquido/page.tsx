@@ -6,9 +6,11 @@ import { formatarReaisInteiro } from '@/lib/salario-liquido-faixas';
 
 const salariosPopulares = [1412, 1500, 2000, 2500, 3000, 3500, 4000, 5000, 6000, 8000, 10000, 15000];
 
+const year = new Date().getFullYear();
+
 export const metadata: Metadata = {
-  title: 'Calculadora de Salário Líquido 2024 | BuscaCentral',
-  description: 'Calcule seu salário líquido mensal exato com base nas tabelas vigentes de 2024 do INSS e IRPF. Simule descontos de pensão, dependentes e mais.',
+  title: `Calculadora Salário Líquido ${year}: INSS e IRPF`,
+  description: `Calcule seu salário líquido com as tabelas de INSS e IRPF de ${year}. Simule descontos de pensão e dependentes. Grátis.`,
   keywords: ['salário líquido', 'calculadora salário', 'inss', 'irpf', 'descontos salário', 'cálculo trabalhista'],
   alternates: { canonical: 'https://buscacentral.com.br/financeiro/salario-liquido' },
 };

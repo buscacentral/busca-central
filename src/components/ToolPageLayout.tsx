@@ -326,7 +326,9 @@ export function generateToolMetadata(
   description: string,
   path: string
 ): Metadata {
-  const fullTitle = `${title} | BuscaCentral`;
+  // O root layout já aplica o template "%s | BuscaCentral" no <title>.
+  // OG/Twitter são independentes e precisam do sufixo explícito.
+  const ogTitle = `${title} | BuscaCentral`;
   const url = `https://buscacentral.com.br${path}`;
 
   // Usa a imagem Open Graph da categoria (ex.: /documentos/opengraph-image),
@@ -339,20 +341,20 @@ export function generateToolMetadata(
     : 'https://buscacentral.com.br/opengraph-image';
 
   return {
-    title: fullTitle,
+    title,
     description,
     openGraph: {
-      title: fullTitle,
+      title: ogTitle,
       description,
       url,
       siteName: 'BuscaCentral',
       locale: 'pt_BR',
       type: 'website',
-      images: [{ url: ogImage, width: 1200, height: 630, alt: fullTitle }],
+      images: [{ url: ogImage, width: 1200, height: 630, alt: ogTitle }],
     },
     twitter: {
       card: 'summary_large_image',
-      title: fullTitle,
+      title: ogTitle,
       description,
       images: [ogImage],
     },

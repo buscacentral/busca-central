@@ -2,9 +2,10 @@ import type { Metadata } from 'next';
 import ToolPageLayout, { generateToolMetadata } from '@/components/ToolPageLayout';
 import RescisaoTrabalhistaClient from './RescisaoTrabalhistaClient';
 
+const year = new Date().getFullYear();
 export const metadata: Metadata = generateToolMetadata(
-  'Calculadora de Rescisão Trabalhista',
-  'Calcule sua rescisão trabalhista: verbas rescisórias, 13º proporcional, férias, FGTS e multa.',
+  `Calculadora Rescisão Trabalhista (${year})`,
+  `Calcule sua rescisão: verbas, 13º proporcional, férias, FGTS e multa de 40%. Atualizada ${year}, grátis e sem cadastro.`,
   '/financeiro/rescisao-trabalhista'
 );
 

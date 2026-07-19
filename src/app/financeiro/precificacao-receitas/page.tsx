@@ -3,9 +3,10 @@ import { Metadata } from 'next';
 import PrecificacaoClient from './PrecificacaoClient';
 import AdPlaceholder from '@/components/AdPlaceholder';
 
+const year = new Date().getFullYear();
 export const metadata: Metadata = {
-  title: 'Calculadora de Precificação de Receitas | BuscaCentral',
-  description: 'Calcule o custo exato da sua receita, adicione custos invisíveis, embalagem e defina sua margem de lucro para obter o preço sugerido de venda.',
+  title: `Calculadora Precificação de Receitas (${year})`,
+  description: `Calcule o custo real da sua receita, adicione custos invisíveis e embalagem. Defina margem de lucro e preço de venda. Grátis.`,
   keywords: 'precificação de receitas, calcular custo de receita, preço de venda bolo, calcular lucro doce, calculadora confeitaria',
 };
 

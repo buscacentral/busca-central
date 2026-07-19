@@ -3,8 +3,8 @@ import ToolPageLayout, { generateToolMetadata } from '@/components/ToolPageLayou
 import CriptomoedasClient from './CriptomoedasClient';
 
 export const metadata: Metadata = generateToolMetadata(
-  'Criptomoedas',
-  'Top 50 criptomoedas por valor de mercado com cotação em tempo real, gráficos 7 dias, calculadora de lucro e Fear & Greed Index.',
+  'Cotação Criptomoedas Hoje: Top 50 em Tempo Real',
+  'Acompanhe as 50 maiores criptomoedas por valor de mercado. Cotação em tempo real, gráficos 7d e calculadora de lucro.',
   '/financeiro/criptomoedas'
 );
 

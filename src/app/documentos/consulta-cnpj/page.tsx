@@ -2,9 +2,10 @@ import type { Metadata } from 'next';
 import ToolPageLayout, { generateToolMetadata } from '@/components/ToolPageLayout';
 import ConsultaCNPJClient from './ConsultaCNPJClient';
 
+const year = new Date().getFullYear();
 export const metadata: Metadata = generateToolMetadata(
-  'Consulta CNPJ',
-  'Consulte dados de empresas pela Receita Federal: razão social, situação cadastral, endereço e CNAE.',
+  `Consulta CNPJ: Dados da Receita Federal (${year})`,
+  `Consulte CNPJ e veja razão social, situação, endereço e CNAE direto da Receita Federal. Grátis e sem cadastro.`,
   '/documentos/consulta-cnpj'
 );
 

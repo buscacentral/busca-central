@@ -46,10 +46,11 @@ function formatHoras(km: number, velocidade: number): string {
 }
 
 // ---------------------------------------------------------------------------
-// SEO METADATA — Otimizado para CTR (3 dados no title: km, tempo, R$)
+// SEO METADATA — Otimizado para CTR (ano dinâmico + copy acionável)
 // ---------------------------------------------------------------------------
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { origem, destino } = await params;
+  const year = new Date().getFullYear();
   const result = resolvePair(origem, destino);
 
   // Fallback defensivo: usa slugToProperName quando a cidade não existe na base
@@ -57,25 +58,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const originName = slugToProperName(origem);
     const destName = slugToProperName(destino);
     return {
-      title: `Distância de ${originName} a ${destName}: Quantos km e Gasto`,
-      description: `Descubra a distância exata em km entre ${originName} e ${destName}. Veja o tempo estimado de viagem e calcule o gasto real de combustível para esta rota agora.`,
+      title: `Distância ${originName} a ${destName}: km e Tempo (${year})`,
+      description: `Saiba quantos km separam ${originName} de ${destName}. Veja tempo de viagem de carro ou ônibus, melhor rota e dicas para sua viagem rodoviária.`,
     };
   }
 
   const { origin, dest, road } = result;
 
   // ─── Title ────────────────────────────────────────────────────────────────
-  // Formato alinhado com as queries do Search Console:
+  // Formato acionável alinhado com queries do Search Console:
   //   "distancia de [A] a [B]", "quantos km de [A] a [B]"
-  // Mantém-se abaixo de 60 caracteres para cidades com nomes curtos a médios;
-  // cidades com nomes longos (ex: "Campos dos Goytacazes") podem ultrapassar
-  // levemente — o Google trunca com elegância e o padrão semântico prevalece.
-  const title = `Distância de ${origin.n} a ${dest.n}: Quantos km e Gasto`;
+  // Ano dinâmico para sinal de frescor no SERP. ~52 chars na média.
+  const title = `Distância ${origin.n} a ${dest.n}: km e Tempo (${year})`;
 
   // ─── Description ──────────────────────────────────────────────────────────
-  // Copy validado com Search Console: responde às 3 intenções (km, tempo,
-  // custo) e inclui CTA implícito. ~155 chars na média.
-  const description = `Descubra a distância exata em km entre ${origin.n} e ${dest.n}. Veja o tempo estimado de viagem e calcule o gasto real de combustível para esta rota agora.`;
+  // Copy que gatilha curiosidade, menciona meios de transporte e CTA implícito.
+  // ~145 chars na média, abaixo do limite de 155.
+  const description = `Saiba quantos km separam ${origin.n} de ${dest.n}. Veja tempo de viagem de carro ou ônibus, melhor rota e dicas para sua viagem rodoviária.`;
 
   const canonical = `https://buscacentral.com.br${pairUrl(origin.slug, dest.slug)}`;
 
@@ -84,7 +83,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description,
     alternates: { canonical },
     openGraph: {
-      title: `Distância de ${origin.n} a ${dest.n}: Quantos km e Gasto | BuscaCentral`,
+      title: `Distância ${origin.n} a ${dest.n}: km e Tempo (${year}) | BuscaCentral`,
       description,
       url: canonical,
       siteName: 'BuscaCentral',
@@ -93,11 +92,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image',
-      title: `Distância de ${origin.n} a ${dest.n}: Quantos km e Gasto`,
+      title: `Distância ${origin.n} a ${dest.n}: km e Tempo (${year})`,
       description,
     },
   };
 }
+
 
 // ---------------------------------------------------------------------------
 // PAGE COMPONENT

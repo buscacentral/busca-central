@@ -4,9 +4,10 @@ import JurosCompostosClient from './JurosCompostosClient';
 
 export const revalidate = 3600;
 
+const year = new Date().getFullYear();
 export const metadata: Metadata = generateToolMetadata(
-  'Calculadora de Juros Compostos',
-  'Simule investimentos com juros compostos. Calcule o rendimento do seu dinheiro ao longo do tempo.',
+  `Calculadora Juros Compostos Online (${year})`,
+  `Simule investimentos com juros compostos e veja seu dinheiro crescer. Ferramenta grátis, atualizada ${year} e sem cadastro.`,
   '/financeiro/juros-compostos'
 );
 
