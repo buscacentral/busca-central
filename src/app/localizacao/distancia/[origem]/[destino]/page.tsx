@@ -472,7 +472,7 @@ export default async function DistanciaParPage({ params }: Props) {
       <article className="prose prose-gray max-w-none mb-10">
         {isSorocabaPiracicaba && (
           <p>
-            Muitos motoristas e viajantes procuram saber <strong>qual a distância</strong> entre esses importantes municípios paulistas. Se você tem dúvida se <strong>piracicaba é perto de sorocaba</strong>, a resposta é sim! O trajeto tem pouco mais de 80 km de estrada, facilitando o deslocamento. Confira a seguir os detalhes do trajeto, <strong>quantos km de distância</strong> reais separam as duas cidades por rota rodoviária e a estimativa de custos de combustível.
+            Se você quer saber <strong>qual a distância de Piracicaba para Sorocaba</strong> ou está se planejando para viajar pela região, pode estar se perguntando: <strong>Piracicaba é perto de Sorocaba?</strong> A resposta é sim! O trajeto possui pouco mais de 80 km. Saiba a seguir qual o tempo estimado de viagem e <strong>quantos km de distância entre Sorocaba e Piracicaba</strong> por estrada para planejar o consumo de combustível da sua viagem.
           </p>
         )}
 

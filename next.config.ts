@@ -2,6 +2,9 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   trailingSlash: false,
+  experimental: {
+    cpus: 2,
+  },
   async redirects() {
     return [
       {
