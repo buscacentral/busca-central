@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { notFound, redirect } from 'next/navigation';
+import { notFound, redirect, permanentRedirect } from 'next/navigation';
 import ToolPageLayout from '@/components/ToolPageLayout';
 import {
   getCapitalPairs,
@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const destName = slugToProperName(destino);
     return {
       title: `Pedágio ${originName} a ${destName}: Quanto Custa (${year})`,
-      description: `Saiba quanto vai gastar de pedágio entre ${originName} e ${destName}. Veja estimativa de praças, custos de viagem rodoviária e dicas de tags de pedágio.`,
+      description: `Saiba quanto vai gastar de pedágio entre ${originName} e ${destName}. Veja tempo de viagem de carro, melhor rota, pedágios e gasto com combustível atualizado.`,
     };
   }
 
@@ -77,7 +77,7 @@ export default async function PedagioParPage({ params }: Props) {
   // Garante URL canônica única por par (slugs em ordem alfabética)
   const [canonA, canonB] = [origem, destino].sort();
   if (origem !== canonA || destino !== canonB) {
-    redirect(`/localizacao/pedagio/${canonA}/${canonB}`);
+    permanentRedirect(`/localizacao/pedagio/${canonA}/${canonB}`);
   }
 
   const { origin, dest, road, straightLine } = result;

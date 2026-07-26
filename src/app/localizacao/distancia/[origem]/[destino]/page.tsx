@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { notFound, redirect } from 'next/navigation';
+import { notFound, redirect, permanentRedirect } from 'next/navigation';
 import {
   getCapitalPairs,
   resolvePair,
@@ -58,8 +58,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const originName = slugToProperName(origem);
     const destName = slugToProperName(destino);
     return {
-      title: `Distância ${originName} a ${destName}: km e Tempo (${year})`,
-      description: `Saiba quantos km separam ${originName} de ${destName}. Veja tempo de viagem de carro ou ônibus, melhor rota e dicas para sua viagem rodoviária.`,
+      title: `Distância entre ${originName} e ${destName}: Quantos km e Tempo (${year})`,
+      description: `Saiba quantos km separam ${originName} e ${destName}. Veja tempo de viagem de carro, melhor rota, pedágios e gasto com combustível atualizado.`,
     };
   }
 
@@ -68,13 +68,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   // ─── Title ────────────────────────────────────────────────────────────────
   // Formato acionável alinhado com queries do Search Console:
   //   "distancia de [A] a [B]", "quantos km de [A] a [B]"
-  // Ano dinâmico para sinal de frescor no SERP. ~52 chars na média.
-  const title = `Distância ${origin.n} a ${dest.n}: km e Tempo (${year})`;
+  // Ano dinâmico para sinal de frescor no SERP.
+  const isSorocabaPiracicaba =
+    (origin.slug === 'sorocaba-sp' && dest.slug === 'piracicaba-sp') ||
+    (origin.slug === 'piracicaba-sp' && dest.slug === 'sorocaba-sp');
+
+  let title = `Distância entre ${origin.n} e ${dest.n}: Quantos km e Tempo (${year})`;
+
+  if (isSorocabaPiracicaba) {
+    title = `Distância entre Sorocaba e Piracicaba: Quantos km e Tempo (${year})`;
+  } else if (road > 150) {
+    const tempo = formatHoras(road, 80);
+    title = `${origin.n} → ${dest.n}: ${road.toLocaleString('pt-BR')} km e ${tempo} (${year})`;
+  }
 
   // ─── Description ──────────────────────────────────────────────────────────
   // Copy que gatilha curiosidade, menciona meios de transporte e CTA implícito.
   // ~145 chars na média, abaixo do limite de 155.
-  const description = `Saiba quantos km separam ${origin.n} de ${dest.n}. Veja tempo de viagem de carro ou ônibus, melhor rota e dicas para sua viagem rodoviária.`;
+  const description = `${road.toLocaleString('pt-BR')} km separam ${origin.n} e ${dest.n}. Veja tempo de viagem de carro, melhor rota, pedágios e gasto com combustível atualizado.`;
 
   const canonical = `https://buscacentral.com.br${pairUrl(origin.slug, dest.slug)}`;
 
@@ -83,7 +94,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description,
     alternates: { canonical },
     openGraph: {
-      title: `Distância ${origin.n} a ${dest.n}: km e Tempo (${year}) | BuscaCentral`,
+      title: `${title} | BuscaCentral`,
       description,
       url: canonical,
       siteName: 'BuscaCentral',
@@ -92,7 +103,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image',
-      title: `Distância ${origin.n} a ${dest.n}: km e Tempo (${year})`,
+      title,
       description,
     },
   };
@@ -110,10 +121,14 @@ export default async function DistanciaParPage({ params }: Props) {
   // Garante URL canônica única por par (slugs em ordem alfabética)
   const [canonA, canonB] = [origem, destino].sort();
   if (origem !== canonA || destino !== canonB) {
-    redirect(`/localizacao/distancia/${canonA}/${canonB}`);
+    permanentRedirect(`/localizacao/distancia/${canonA}/${canonB}`);
   }
 
   const { origin, dest, road, straightLine } = result;
+
+  const isSorocabaPiracicaba =
+    (origin.slug === 'sorocaba-sp' && dest.slug === 'piracicaba-sp') ||
+    (origin.slug === 'piracicaba-sp' && dest.slug === 'sorocaba-sp');
 
   // Estimativas de combustível (padrão geral da página)
   const consumoPadrao = 10; // km/l
@@ -155,7 +170,7 @@ export default async function DistanciaParPage({ params }: Props) {
     // "Qual a distância de [A] a [B]?" · "distancia de [A] a [B]"
     {
       name: `Qual a distância de ${origin.n} a ${dest.n}?`,
-      text: `A distância total rodoviária entre ${origin.n} e ${dest.n} é de ${road.toLocaleString('pt-BR')} km.`,
+      text: `A distância entre ${origin.n} e ${dest.n} é de aproximadamente ${road.toLocaleString('pt-BR')} km por rodovia, com tempo estimado de ${formatHoras(road, 80)} de carro.`,
     },
     // "Quantos km de [A] a [B] de carro?" · "quantos km de [A] a [B]"
     {
@@ -455,6 +470,12 @@ export default async function DistanciaParPage({ params }: Props) {
 
       {/* Conteúdo SEO */}
       <article className="prose prose-gray max-w-none mb-10">
+        {isSorocabaPiracicaba && (
+          <p>
+            Muitos motoristas e viajantes procuram saber <strong>qual a distância</strong> entre esses importantes municípios paulistas. Se você tem dúvida se <strong>piracicaba é perto de sorocaba</strong>, a resposta é sim! O trajeto tem pouco mais de 80 km de estrada, facilitando o deslocamento. Confira a seguir os detalhes do trajeto, <strong>quantos km de distância</strong> reais separam as duas cidades por rota rodoviária e a estimativa de custos de combustível.
+          </p>
+        )}
+
         <h2>Como calculamos a distância de {origin.n} a {dest.n}</h2>
         <p>
           A distância em linha reta de <strong>{straightLine.toLocaleString('pt-BR')} km</strong> entre {origin.n} e{' '}

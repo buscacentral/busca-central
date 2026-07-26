@@ -17,6 +17,16 @@ export default function GeradorCNPJClient() {
 
   return (
     <>
+      {/* Disclaimer Banner */}
+      <div className="mb-8 p-4 bg-amber-50 border-l-4 border-amber-500 text-amber-900 rounded-r-xl shadow-sm text-sm">
+        <p className="flex items-start gap-2">
+          <span className="text-base select-none leading-none">⚠️</span>
+          <span>
+            <strong>Atenção:</strong> os CNPJs gerados aqui são fictícios e servem apenas para testes de sistemas e QA. Eles não representam empresas reais e não devem ser usados para fins comerciais, fiscais ou de cadastro.
+          </span>
+        </p>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
       <div className="lg:col-span-5 space-y-6">
         <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
