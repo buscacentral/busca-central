@@ -26,7 +26,7 @@ export default function AdBanner({
 
   return (
     <div 
-      className={`my-6 flex justify-center w-full min-h-[90px] overflow-hidden bg-gray-50/50 rounded-lg ${className}`}
+      className={`my-6 flex justify-center w-full min-h-[90px] overflow-hidden ${className}`}
       aria-hidden="true"
     >
       <ins
