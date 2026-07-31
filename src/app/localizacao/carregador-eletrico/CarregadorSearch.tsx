@@ -31,7 +31,7 @@ export default function CarregadorSearch() {
   const [filteredCities, setFilteredCities] = useState<City[]>([]);
   const [search, setSearch] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLFormElement>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -108,7 +108,7 @@ export default function CarregadorSearch() {
   return (
     <form onSubmit={handleSubmit} ref={dropdownRef} className="relative w-full max-w-xl mx-auto">
       <div className="relative">
-        <button type="submit" className="absolute inset-y-0 left-0 pl-3 flex items-center hover:text-sky-600 transition-colors">
+        <button type="submit" aria-label="Buscar cidade" className="absolute inset-y-0 left-0 pl-3 flex items-center hover:text-sky-600 transition-colors">
           <svg
             className="h-5 w-5 text-gray-400"
             xmlns="http://www.w3.org/2000/svg"
