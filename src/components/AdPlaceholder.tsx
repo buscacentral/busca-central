@@ -1,5 +1,7 @@
 'use client';
 
+import AdBanner from './AdBanner';
+
 interface AdPlaceholderProps {
   position?: 'top' | 'middle' | 'bottom';
 }
@@ -36,18 +38,11 @@ export default function AdPlaceholder({ position = 'middle' }: AdPlaceholderProp
         justifyContent: 'center',
       }}
     >
-      {/* 
-        Quando ativar o Google AdSense, substitua este comentário
-        pelo script do AdSense:
-        
-        <ins className="adsbygoogle"
-          style={{ display: 'block' }}
-          data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-          data-ad-slot="XXXXXXXXXX"
-          data-ad-format="auto"
-          data-full-width-responsive="true"
-        />
-      */}
+      <AdBanner 
+        adSlot="auto" 
+        adFormat={position === 'middle' ? 'fluid' : 'auto'} 
+        className="w-full h-full m-0"
+      />
     </div>
   );
 }

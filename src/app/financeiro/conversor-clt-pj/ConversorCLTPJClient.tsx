@@ -10,6 +10,7 @@ import {
 import { formatCurrency } from '@/lib/formatters';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { ResultCard } from '@/components/ui/ResultCard';
+import AdBanner from '@/components/AdBanner';
 
 export default function ConversorCLTPJClient() {
   const [salarioBruto, setSalarioBruto] = useState('5000');
@@ -289,6 +290,10 @@ export default function ConversorCLTPJClient() {
                   * Não considera INSS pró-labore pois o sócio pode optar por não retirar pró-labore em alguns meses.
                 </p>
               </section>
+
+              <div className="mt-6 mb-4">
+                <AdBanner adSlot="auto" adFormat="auto" />
+              </div>
 
               <p className="text-xs text-gray-400 text-center">
                 Valores estimados para planejamento. Consulte um contador para decisões financeiras.

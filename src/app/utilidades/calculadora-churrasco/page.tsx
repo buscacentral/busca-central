@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import CalculadoraChurrascoClient from './CalculadoraChurrascoClient';
+import AdBanner from '@/components/AdBanner';
 
 export const metadata: Metadata = {
   title: 'Calculadora de Churrasco: Quantidade ideal de carne e cerveja',
@@ -25,6 +26,10 @@ export default function CalculadoraChurrascoPage() {
         </header>
 
         <CalculadoraChurrascoClient />
+
+        <div className="mt-8 mb-8">
+          <AdBanner adSlot="auto" adFormat="auto" />
+        </div>
 
         <div className="prose prose-slate max-w-none bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
           <h2>Como fazemos o cálculo para o churrasco perfeito?</h2>
