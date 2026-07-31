@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import ToolPageLayout, { generateToolMetadata } from '@/components/ToolPageLayout';
+import CarregadorSearch from './CarregadorSearch';
 
 const title = 'Localizador de Eletropostos e Carregadores Elétricos';
 const description = 'Encontre estações de recarga para carros elétricos (VEs) nas principais cidades do Brasil. Endereços, mapas e tipos de conectores em tempo real.';
@@ -60,11 +61,11 @@ export default function CarregadorEletricoIndex() {
           ))}
         </div>
 
-        <div className="mt-8 p-4 bg-sky-50 text-sky-800 rounded-lg text-sm leading-relaxed border border-sky-100">
-          <p>
-            <strong>Não encontrou sua cidade?</strong><br/>
-            Você pode acessar qualquer cidade do Brasil digitando a URL diretamente. Exemplo: <code className="bg-white px-1 py-0.5 rounded border border-sky-200">/carregador-eletrico/ribeirao-preto-sp</code>.
-          </p>
+        <div className="mt-8 pt-6 border-t border-slate-200">
+          <h3 className="text-lg font-semibold text-slate-800 mb-4 text-center">
+            Não encontrou sua cidade? Busque aqui:
+          </h3>
+          <CarregadorSearch />
         </div>
       </div>
     </ToolPageLayout>

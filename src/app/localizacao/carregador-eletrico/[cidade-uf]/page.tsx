@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { fetchChargingStations, OCMPointOfInterest } from "@/lib/openchargemap";
 import AdBanner from "@/components/AdBanner";
+import CarregadorSearch from "../CarregadorSearch";
 
 interface PageProps {
   params: Promise<{
@@ -243,10 +244,11 @@ function FallbackCard({ cidade, uf }: { cidade: string, uf: string }) {
       </div>
 
       <div className="mt-8 pt-8 border-t border-gray-100 text-left">
-        <h3 className="font-semibold text-gray-900 mb-2">Procurando recarga na região?</h3>
-        <p className="text-gray-600 text-sm">
+        <h3 className="font-semibold text-gray-900 mb-4 text-center">Procurando recarga em outra cidade?</h3>
+        <p className="text-gray-600 text-sm text-center mb-6">
           Grandes polos regionais e capitais costumam concentrar a infraestrutura de recarga (eletropostos rápidos DC e AC). Considere buscar nas cidades polos mais próximas a {cidade} para planejar sua rota com segurança.
         </p>
+        <CarregadorSearch />
       </div>
     </div>
   );
