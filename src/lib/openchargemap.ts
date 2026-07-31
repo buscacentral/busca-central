@@ -76,13 +76,13 @@ export async function fetchChargingStations(cidade: string, uf: string, lat?: nu
   // We'll pass the city name directly, though OCM can be a bit fuzzy
   const url = new URL("https://api.openchargemap.io/v3/poi/");
   url.searchParams.append("countrycode", "BR");
-  url.searchParams.append("maxresults", "20");
+  url.searchParams.append("maxresults", "50");
   url.searchParams.append("verbose", "false"); // To reduce payload size if possible, but keep false by default
 
   if (lat !== undefined && lon !== undefined) {
     url.searchParams.append("latitude", lat.toString());
     url.searchParams.append("longitude", lon.toString());
-    url.searchParams.append("distance", "50"); // 50km radius
+    url.searchParams.append("distance", "100"); // 100km radius
     url.searchParams.append("distanceunit", "KM");
   } else {
     url.searchParams.append("town", cidade);

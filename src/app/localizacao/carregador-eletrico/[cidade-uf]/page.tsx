@@ -78,11 +78,14 @@ export default async function CarregadorEletricoPage({ params }: PageProps) {
         <header className="mb-8 text-center md:text-left">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3 flex items-center justify-center md:justify-start gap-3">
             <PlugIcon />
-            Eletropostos em {displayLocation}
+            Eletropostos na região de {displayLocation}
           </h1>
-          <p className="text-gray-600 text-lg">
+          <p className="text-gray-600 text-lg mb-6">
             Encontre carregadores para veículos elétricos, verifique a potência, conectores disponíveis e como chegar.
           </p>
+          <div className="max-w-2xl mx-auto md:mx-0">
+            <CarregadorSearch />
+          </div>
         </header>
 
         {stations.length > 0 ? (
