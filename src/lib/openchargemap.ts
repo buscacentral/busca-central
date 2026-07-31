@@ -111,3 +111,41 @@ export async function fetchChargingStations(cidade: string, uf: string, lat?: nu
     return [];
   }
 }
+
+export async function fetchRouteChargers(polyline: string, distanceKm: number = 20): Promise<OCMPointOfInterest[]> {
+  const apiKey = process.env.OPENCHARGEMAP_API_KEY;
+  if (!apiKey) {
+    console.warn("OPENCHARGEMAP_API_KEY is not defined in environment variables.");
+  }
+
+  const url = new URL("https://api.openchargemap.io/v3/poi/");
+  url.searchParams.append("countrycode", "BR");
+  url.searchParams.append("maxresults", "100");
+  url.searchParams.append("verbose", "false");
+  url.searchParams.append("polyline", polyline);
+  url.searchParams.append("distance", distanceKm.toString());
+  url.searchParams.append("distanceunit", "KM");
+
+  try {
+    const response = await fetch(url.toString(), {
+      headers: {
+        "X-API-Key": apiKey || "",
+        "User-Agent": "BuscaCentral/1.0"
+      },
+      next: {
+        revalidate: 86400
+      }
+    });
+
+    if (!response.ok) {
+      console.error(`OpenChargeMap API error: ${response.status} ${response.statusText}`);
+      return [];
+    }
+
+    const data = await response.json();
+    return data as OCMPointOfInterest[];
+  } catch (error) {
+    console.error("Error fetching route chargers from OpenChargeMap:", error);
+    return [];
+  }
+}
