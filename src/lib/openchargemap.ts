@@ -66,7 +66,7 @@ export interface OCMPointOfInterest {
   DateLastVerified?: string;
 }
 
-export async function fetchChargingStations(cidade: string, uf: string): Promise<OCMPointOfInterest[]> {
+export async function fetchChargingStations(cidade: string, uf: string, lat?: number, lon?: number): Promise<OCMPointOfInterest[]> {
   const apiKey = process.env.OPENCHARGEMAP_API_KEY;
   if (!apiKey) {
     console.warn("OPENCHARGEMAP_API_KEY is not defined in environment variables.");
@@ -77,8 +77,16 @@ export async function fetchChargingStations(cidade: string, uf: string): Promise
   const url = new URL("https://api.openchargemap.io/v3/poi/");
   url.searchParams.append("countrycode", "BR");
   url.searchParams.append("maxresults", "20");
-  url.searchParams.append("town", cidade);
   url.searchParams.append("verbose", "false"); // To reduce payload size if possible, but keep false by default
+
+  if (lat !== undefined && lon !== undefined) {
+    url.searchParams.append("latitude", lat.toString());
+    url.searchParams.append("longitude", lon.toString());
+    url.searchParams.append("distance", "50"); // 50km radius
+    url.searchParams.append("distanceunit", "KM");
+  } else {
+    url.searchParams.append("town", cidade);
+  }
 
   try {
     const response = await fetch(url.toString(), {

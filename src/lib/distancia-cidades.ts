@@ -189,6 +189,19 @@ export function getCapitalBySlug(slug: string): CityResolved | undefined {
   return getCapitais().find((c) => c.slug === slug);
 }
 
+/** Busca QUALQUER cidade (dentre as 5570 do IBGE) pelo slug */
+export function getCityBySlug(slug: string): City | undefined {
+  const filePath = path.join(
+    process.cwd(),
+    'public',
+    'localizacao',
+    'distancia-cidades',
+    'cidades.json',
+  );
+  const cities: City[] = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+  return cities.find((c) => citySlug(c.n, c.u) === slug);
+}
+
 /** Distância em linha reta (Haversine) em km. */
 export function haversine(a: City, b: City): number {
   const R = 6371;

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { fetchChargingStations, OCMPointOfInterest } from "@/lib/openchargemap";
 import AdBanner from "@/components/AdBanner";
 import CarregadorSearch from "../CarregadorSearch";
+import { getCityBySlug } from "@/lib/distancia-cidades";
 
 interface PageProps {
   params: Promise<{
@@ -66,8 +67,10 @@ export default async function CarregadorEletricoPage({ params }: PageProps) {
   const { cidade, uf } = parseCidadeUf(slug);
   const displayLocation = uf ? `${cidade} - ${uf}` : cidade;
 
+  const cityData = getCityBySlug(slug);
+
   // We fetch without accents/special chars in town if possible, or directly with the parsed one.
-  const stations = await fetchChargingStations(cidade, uf);
+  const stations = await fetchChargingStations(cidade, uf, cityData?.lat, cityData?.lon);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
