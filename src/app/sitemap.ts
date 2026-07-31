@@ -4,7 +4,7 @@ import path from 'node:path';
 import { artigos } from './artigos/page';
 import { TOP_10 as cryptoIds } from './financeiro/criptomoedas/[id]/page';
 import { SITE_LAST_REVIEWED } from '@/lib/tools';
-import { getCityPairs } from '@/lib/distancia-cidades';
+import { getCityPairs, getCapitais } from '@/lib/distancia-cidades';
 import { SALARIOS_COMUNS } from '@/lib/salario-liquido-faixas';
 
 const baseUrl = 'https://buscacentral.com.br';
@@ -63,6 +63,10 @@ function routeMeta(route: string): {
   // Páginas programáticas de distância entre cidades (alto volume de busca)
   if (route.startsWith('/localizacao/distancia/')) {
     return { priority: 0.7, changeFrequency: 'weekly', lastModified: reviewedDate };
+  }
+  // Páginas programáticas de Eletropostos
+  if (route.startsWith('/localizacao/carregador-eletrico/')) {
+    return { priority: 0.7, changeFrequency: 'weekly', lastModified: new Date() };
   }
   // Páginas programáticas de salário líquido por faixa
   if (route.startsWith('/financeiro/salario-liquido/')) {
@@ -137,6 +141,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const salarioRoutes = SALARIOS_COMUNS.map(
     (v) => `/financeiro/salario-liquido/${v}`,
   );
+  const evRoutes = getCapitais().map(
+    (c) => `/localizacao/carregador-eletrico/${c.slug}`,
+  );
 
   // Rotas que não devem aparecer no sitemap (ex.: resultados de busca, marcados
   // como noindex).
@@ -144,7 +151,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // Remove duplicatas e ordena (mantendo a home em primeiro).
   const allRoutes = Array.from(
-    new Set([...staticRoutes, ...articleRoutes, ...cryptoRoutes, ...distanceRoutes, ...salarioRoutes]),
+    new Set([...staticRoutes, ...articleRoutes, ...cryptoRoutes, ...distanceRoutes, ...salarioRoutes, ...evRoutes]),
   )
     .filter((route) => !excludedRoutes.has(route))
     .sort((a, b) => {
