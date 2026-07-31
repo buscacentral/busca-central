@@ -76,6 +76,13 @@ export default function CarregadorSearch() {
     setShowDropdown(value.length >= 2);
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (filteredCities.length > 0) {
+      selectCity(filteredCities[0]);
+    }
+  };
+
   const selectCity = (city: City) => {
     setShowDropdown(false);
     setSearch(`${city.n} - ${city.u}`);
@@ -99,9 +106,9 @@ export default function CarregadorSearch() {
   };
 
   return (
-    <div ref={dropdownRef} className="relative w-full max-w-xl mx-auto">
+    <form onSubmit={handleSubmit} ref={dropdownRef} className="relative w-full max-w-xl mx-auto">
       <div className="relative">
-        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+        <button type="submit" className="absolute inset-y-0 left-0 pl-3 flex items-center hover:text-sky-600 transition-colors">
           <svg
             className="h-5 w-5 text-gray-400"
             xmlns="http://www.w3.org/2000/svg"
@@ -115,7 +122,7 @@ export default function CarregadorSearch() {
               clipRule="evenodd"
             />
           </svg>
-        </div>
+        </button>
         <input
           type="text"
           value={search}
@@ -147,6 +154,6 @@ export default function CarregadorSearch() {
           ))}
         </div>
       )}
-    </div>
+    </form>
   );
 }
