@@ -33,7 +33,7 @@ const sugestoes = [
 
 export default function DocumentosPage() {
   return (
-    <div className="max-w-7xl mx-auto px-4 py-16">
+    <div className="max-w-5xl mx-auto px-4 py-8 md:py-12">
       <h1 className="text-4xl font-bold text-slate-900 mb-4">Central de Documentos</h1>
       <p className="text-base md:text-lg text-slate-600 max-w-3xl leading-relaxed mb-4">
         Ferramentas para geração e validação de documentos brasileiros.

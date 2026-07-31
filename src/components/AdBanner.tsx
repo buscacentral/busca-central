@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 interface AdBannerProps {
   adSlot: string;
-  adFormat?: "auto" | "fluid" | "rectangle";
+  adFormat?: "auto" | "fluid" | "rectangle" | "horizontal";
   responsive?: boolean;
   className?: string;
 }

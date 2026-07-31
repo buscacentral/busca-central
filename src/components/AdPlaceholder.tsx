@@ -40,7 +40,7 @@ export default function AdPlaceholder({ position = 'middle' }: AdPlaceholderProp
     >
       <AdBanner 
         adSlot="auto" 
-        adFormat={position === 'middle' ? 'fluid' : 'auto'} 
+        adFormat={position === 'middle' ? 'fluid' : 'horizontal'} 
         className="w-full h-full m-0"
       />
     </div>

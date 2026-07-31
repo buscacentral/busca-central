@@ -114,8 +114,8 @@ const subcategorias = [
 
 export default function UtilidadesPage() {
   return (
-    <div className="max-w-7xl mx-auto px-4 py-16">
-      <h1 className="text-4xl font-bold text-slate-900 mb-4">Central de Utilidades</h1>
+    <div className="max-w-5xl mx-auto px-4 py-8 md:py-12">
+      <h1 className="text-4xl font-bold text-slate-900 mb-4">Utilidades</h1>
       <p className="text-base md:text-lg text-slate-600 max-w-3xl leading-relaxed mb-12">
         Ferramentas úteis para o dia a dia organizadas por categoria.
         Gere senhas, QR Codes, converta textos e muito mais — tudo gratuito e sem cadastro.
