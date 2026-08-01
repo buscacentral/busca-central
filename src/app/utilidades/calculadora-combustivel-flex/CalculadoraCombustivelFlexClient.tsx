@@ -5,7 +5,7 @@ import { useState } from 'react';
 export default function CalculadoraCombustivelFlexClient() {
   const [etanolStr, setEtanolStr] = useState<string>('4.19');
   const [gasolinaStr, setGasolinaStr] = useState<string>('6.09');
-  const [capacidadeTanque, setCapacidadeTanque] = useState<number>(50);
+  const [capacidadeTanque] = useState<number>(50);
 
   const etanol = parseFloat(etanolStr) || 0;
   const gasolina = parseFloat(gasolinaStr) || 0;

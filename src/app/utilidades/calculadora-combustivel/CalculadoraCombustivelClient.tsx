@@ -56,9 +56,11 @@ function CalculadoraForm() {
 
     if (d) {
       const formatted = d.replace('.', ',');
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setDistancia(formatted);
     }
     if (origem && destino) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setRotaContexto({ origem: decodeURIComponent(origem), destino: decodeURIComponent(destino) });
     }
   }, [searchParams]);

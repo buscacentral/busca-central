@@ -17,6 +17,7 @@ export default function AdBanner({
 }: AdBannerProps) {
   useEffect(() => {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const adsbygoogle = (window as any).adsbygoogle || [];
       adsbygoogle.push({});
     } catch (err) {

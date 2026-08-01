@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { notFound, redirect, permanentRedirect } from 'next/navigation';
+import { notFound, permanentRedirect } from 'next/navigation';
 import ToolPageLayout from '@/components/ToolPageLayout';
 import {
   getCapitalPairs,
@@ -80,7 +80,7 @@ export default async function PedagioParPage({ params }: Props) {
     permanentRedirect(`/localizacao/pedagio/${canonA}/${canonB}`);
   }
 
-  const { origin, dest, road, straightLine } = result;
+  const { origin, dest, road } = result;
   const year = new Date().getFullYear();
 
   // Algoritmo de estimativa de pedágios

@@ -1,6 +1,5 @@
 import { Metadata } from "next";
-import Link from "next/link";
-import { fetchChargingStations, OCMPointOfInterest } from "@/lib/openchargemap";
+import { fetchChargingStations } from "@/lib/openchargemap";
 import AdBanner from "@/components/AdBanner";
 import CarregadorSearch from "../CarregadorSearch";
 import { getCityBySlug } from "@/lib/distancia-cidades";
