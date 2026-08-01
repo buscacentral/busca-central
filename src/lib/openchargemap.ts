@@ -89,7 +89,11 @@ export async function fetchChargingStations(cidade: string, uf: string, lat?: nu
   }
 
   try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 seconds timeout
+
     const response = await fetch(url.toString(), {
+      signal: controller.signal,
       headers: {
         "X-API-Key": apiKey || "",
         "User-Agent": "BuscaCentral/1.0"
@@ -98,6 +102,8 @@ export async function fetchChargingStations(cidade: string, uf: string, lat?: nu
         revalidate: 86400 // Cache for 24 hours to avoid hitting API limits
       }
     });
+
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       console.error(`OpenChargeMap API error: ${response.status} ${response.statusText}`);
@@ -127,7 +133,11 @@ export async function fetchRouteChargers(polyline: string, distanceKm: number = 
   url.searchParams.append("distanceunit", "KM");
 
   try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
+
     const response = await fetch(url.toString(), {
+      signal: controller.signal,
       headers: {
         "X-API-Key": apiKey || "",
         "User-Agent": "BuscaCentral/1.0"
@@ -136,6 +146,8 @@ export async function fetchRouteChargers(polyline: string, distanceKm: number = 
         revalidate: 86400
       }
     });
+
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       console.error(`OpenChargeMap API error: ${response.status} ${response.statusText}`);

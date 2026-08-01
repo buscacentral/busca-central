@@ -31,20 +31,26 @@ export default function CarregadorSearch() {
   const [filteredCities, setFilteredCities] = useState<City[]>([]);
   const [search, setSearch] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
   const dropdownRef = useRef<HTMLFormElement>(null);
+  const listboxRef = useRef<HTMLUListElement>(null);
   const router = useRouter();
 
-  useEffect(() => {
-    fetch('/localizacao/distancia-cidades/cidades.json')
-      .then((res) => res.json())
-      .then((data: City[]) => setCities(data))
-      .catch((err) => console.error('Erro ao carregar cidades', err));
-  }, []);
+  // Lazy loading cities
+  const loadCities = useCallback(() => {
+    if (cities.length === 0) {
+      fetch('/localizacao/distancia-cidades/cidades.json')
+        .then((res) => res.json())
+        .then((data: City[]) => setCities(data))
+        .catch((err) => console.error('Erro ao carregar cidades', err));
+    }
+  }, [cities.length]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         setShowDropdown(false);
+        setSelectedIndex(-1);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -74,14 +80,45 @@ export default function CarregadorSearch() {
     setSearch(value);
     setFilteredCities(filterCities(value));
     setShowDropdown(value.length >= 2);
+    setSelectedIndex(-1);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (filteredCities.length > 0) {
+    if (selectedIndex >= 0 && filteredCities[selectedIndex]) {
+      selectCity(filteredCities[selectedIndex]);
+    } else if (filteredCities.length > 0) {
       selectCity(filteredCities[0]);
     }
   };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!showDropdown || filteredCities.length === 0) return;
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setSelectedIndex((prev) => (prev < filteredCities.length - 1 ? prev + 1 : prev));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setSelectedIndex((prev) => (prev > 0 ? prev - 1 : prev));
+    } else if (e.key === 'Enter' && selectedIndex >= 0) {
+      e.preventDefault();
+      selectCity(filteredCities[selectedIndex]);
+    } else if (e.key === 'Escape') {
+      setShowDropdown(false);
+      setSelectedIndex(-1);
+    }
+  };
+
+  // Scroll active item into view
+  useEffect(() => {
+    if (selectedIndex >= 0 && listboxRef.current) {
+      const activeElement = listboxRef.current.children[selectedIndex] as HTMLElement;
+      if (activeElement) {
+        activeElement.scrollIntoView({ block: 'nearest' });
+      }
+    }
+  }, [selectedIndex]);
 
   const selectCity = (city: City) => {
     setShowDropdown(false);
@@ -106,9 +143,9 @@ export default function CarregadorSearch() {
   };
 
   return (
-    <form onSubmit={handleSubmit} ref={dropdownRef} className="relative w-full max-w-xl mx-auto">
+    <form onSubmit={handleSubmit} ref={dropdownRef} className="relative w-full max-w-xl mx-auto" role="search">
       <div className="relative">
-        <button type="submit" aria-label="Buscar cidade" className="absolute inset-y-0 left-0 pl-3 flex items-center hover:text-sky-600 transition-colors">
+        <button type="submit" aria-label="Buscar eletropostos na cidade" className="absolute inset-y-0 left-0 pl-3 flex items-center hover:text-sky-600 transition-colors">
           <svg
             className="h-5 w-5 text-gray-400"
             xmlns="http://www.w3.org/2000/svg"
@@ -127,32 +164,52 @@ export default function CarregadorSearch() {
           type="text"
           value={search}
           onChange={(e) => handleSearchChange(e.target.value)}
-          onFocus={() => search.length >= 2 && setShowDropdown(true)}
+          onFocus={() => {
+            loadCities();
+            search.length >= 2 && setShowDropdown(true);
+          }}
+          onKeyDown={handleKeyDown}
           placeholder="Digite sua cidade... (Ex: Ribeirão Preto)"
           className="block w-full pl-10 pr-3 py-3 border border-sky-200 rounded-lg leading-5 bg-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 sm:text-sm transition-all shadow-sm"
+          role="combobox"
+          aria-expanded={showDropdown}
+          aria-controls="city-listbox"
+          aria-activedescendant={selectedIndex >= 0 ? `city-option-${selectedIndex}` : undefined}
+          aria-autocomplete="list"
         />
       </div>
 
       {showDropdown && filteredCities.length > 0 && (
-        <div className="absolute z-50 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl max-h-64 overflow-y-auto">
-          {filteredCities.map((city, idx) => (
-            <button
-              key={`${city.n}-${city.u}-${idx}`}
-              onClick={() => selectCity(city)}
-              className="w-full text-left px-4 py-3 hover:bg-sky-50 transition-colors border-b border-slate-50 last:border-0 flex items-center justify-between group"
-            >
-              <span>
-                <span className="font-medium text-slate-800 group-hover:text-sky-700">
-                  {highlightMatch(city.n, search)}
+        <ul
+          id="city-listbox"
+          ref={listboxRef}
+          role="listbox"
+          className="absolute z-50 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl max-h-64 overflow-y-auto"
+        >
+          {filteredCities.map((city, idx) => {
+            const isActive = idx === selectedIndex;
+            return (
+              <li
+                key={`${city.n}-${city.u}-${idx}`}
+                id={`city-option-${idx}`}
+                role="option"
+                aria-selected={isActive}
+                onClick={() => selectCity(city)}
+                className={`w-full text-left px-4 py-3 cursor-pointer transition-colors border-b border-slate-50 last:border-0 flex items-center justify-between group ${isActive ? 'bg-sky-100' : 'hover:bg-sky-50'}`}
+              >
+                <span>
+                  <span className={`font-medium ${isActive ? 'text-sky-800' : 'text-slate-800 group-hover:text-sky-700'}`}>
+                    {highlightMatch(city.n, search)}
+                  </span>
+                  <span className="text-slate-400 ml-1 text-sm">- {city.u}</span>
                 </span>
-                <span className="text-slate-400 ml-1 text-sm">- {city.u}</span>
-              </span>
-              <span className="text-xs text-slate-500 bg-slate-100 px-2 py-0.5 rounded group-hover:bg-sky-100 group-hover:text-sky-700 transition-colors">
-                {city.u}
-              </span>
-            </button>
-          ))}
-        </div>
+                <span className={`text-xs px-2 py-0.5 rounded transition-colors ${isActive ? 'bg-sky-200 text-sky-800' : 'text-slate-500 bg-slate-100 group-hover:bg-sky-100 group-hover:text-sky-700'}`}>
+                  {city.u}
+                </span>
+              </li>
+            );
+          })}
+        </ul>
       )}
     </form>
   );

@@ -28,6 +28,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `Carregadores Elétricos em ${displayLocation}: Eletropostos e Recarga (2026)`,
     description: `Encontre pontos de recarga e eletropostos para carros elétricos em ${displayLocation}. Veja endereços, conectores, potência em kW e como chegar.`,
+    openGraph: {
+      title: `Carregadores Elétricos em ${displayLocation}`,
+      description: `Encontre pontos de recarga para carros elétricos em ${displayLocation}. Veja endereços, conectores e potência.`,
+      url: `https://buscacentral.com.br/localizacao/carregador-eletrico/${slug}`,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `Carregadores Elétricos em ${displayLocation}`,
+      description: `Encontre eletropostos e pontos de recarga para carros elétricos em ${displayLocation}.`,
+    },
   };
 }
 
