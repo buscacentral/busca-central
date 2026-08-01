@@ -118,6 +118,11 @@ export default function SearchBar({ variant = 'hero', placeholder, onNavigate }:
         onFocus={() => setIsOpen(true)}
         onKeyDown={handleKeyDown}
         className={inputClassName}
+        role="combobox"
+        aria-expanded={isOpen && filtered.length > 0}
+        aria-controls="search-results-listbox"
+        aria-autocomplete="list"
+        aria-activedescendant={activeIndex >= 0 ? `search-option-${activeIndex}` : undefined}
       />
       <span className={iconClassName}>
         🔍
@@ -125,6 +130,7 @@ export default function SearchBar({ variant = 'hero', placeholder, onNavigate }:
 
       {isOpen && filtered.length > 0 && (
         <div
+          id="search-results-listbox"
           ref={resultsRef}
           className="absolute w-full bg-white border border-slate-200 rounded-2xl text-left block z-50 shadow-xl mt-3 max-h-[400px] overflow-y-auto divide-y divide-slate-100"
           role="listbox"
@@ -132,6 +138,7 @@ export default function SearchBar({ variant = 'hero', placeholder, onNavigate }:
           {filtered.map((tool, index) => (
             <Link
               key={tool.path}
+              id={`search-option-${index}`}
               href={tool.path}
               onClick={close}
               className={`flex items-center px-4 py-3 transition-colors text-slate-800 ${activeIndex === index ? 'bg-blue-50' : 'hover:bg-slate-50'}`}

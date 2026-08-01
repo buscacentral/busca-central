@@ -17,19 +17,19 @@ export default function Header() {
           </Link>
 
           <nav className="hidden md:flex items-center space-x-6 lg:space-x-8 shrink-0">
-            <Link href="/documentos" className="text-gray-700 hover:text-blue-700 font-extrabold text-lg lg:text-xl transition-colors">
+            <Link href="/documentos" className="text-gray-700 hover:text-blue-700 font-extrabold text-lg lg:text-xl transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-md">
               Documentos
             </Link>
-            <Link href="/localizacao" className="text-gray-700 hover:text-blue-700 font-extrabold text-lg lg:text-xl transition-colors">
+            <Link href="/localizacao" className="text-gray-700 hover:text-blue-700 font-extrabold text-lg lg:text-xl transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-md">
               Localização
             </Link>
-            <Link href="/financeiro" className="text-gray-700 hover:text-blue-700 font-extrabold text-lg lg:text-xl transition-colors">
+            <Link href="/financeiro" className="text-gray-700 hover:text-blue-700 font-extrabold text-lg lg:text-xl transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-md">
               Financeiro
             </Link>
-            <Link href="/utilidades" className="text-gray-700 hover:text-blue-700 font-extrabold text-lg lg:text-xl transition-colors">
+            <Link href="/utilidades" className="text-gray-700 hover:text-blue-700 font-extrabold text-lg lg:text-xl transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-md">
               Utilidades
             </Link>
-            <Link href="/artigos" className="text-blue-600 hover:text-blue-800 font-extrabold text-lg lg:text-xl transition-colors">
+            <Link href="/artigos" className="text-blue-600 hover:text-blue-800 font-extrabold text-lg lg:text-xl transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-md">
               Artigos
             </Link>
           </nav>

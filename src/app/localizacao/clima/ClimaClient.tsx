@@ -216,6 +216,10 @@ export default function ClimaClient() {
                 onFocus={() => resultados.length > 0 && setDropdownAberto(true)}
                 placeholder="Digite o nome da sua cidade…"
                 className="w-full py-3 px-4 bg-slate-50 border border-slate-300 rounded-xl text-base md:text-lg focus:ring-2 focus:ring-sky-500 outline-none transition"
+                role="combobox"
+                aria-expanded={dropdownAberto && resultados.length > 0}
+                aria-controls="clima-results-listbox"
+                aria-autocomplete="list"
               />
               {buscandoCidade && (
                 <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm" aria-live="polite">
@@ -224,7 +228,7 @@ export default function ClimaClient() {
               )}
 
               {dropdownAberto && resultados.length > 0 && (
-                <ul className="absolute z-50 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-xl max-h-64 overflow-y-auto" role="listbox">
+                <ul id="clima-results-listbox" className="absolute z-50 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-xl max-h-64 overflow-y-auto" role="listbox">
                   {resultados.map((c, idx) => (
                     <li key={`${c.nome}-${c.lat}-${idx}`}>
                       <button
@@ -245,7 +249,8 @@ export default function ClimaClient() {
             <button
               onClick={obterLocalAtual}
               title="Usar minha localização atual"
-              className="flex items-center justify-center bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl px-4 transition-colors border border-slate-200"
+              aria-label="Usar minha localização atual"
+              className="flex items-center justify-center bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl px-4 transition-colors border border-slate-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
             >
               📍
             </button>
