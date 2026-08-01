@@ -53,39 +53,37 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const year = new Date().getFullYear();
   const result = resolvePair(origem, destino);
 
+  const getTitle = (n1: string, n2: string) => {
+    let t = `De ${n1} para ${n2} de Carro: Tempo de Viagem e Distância (${year})`;
+    if (t.length > 71) {
+      t = `De ${n1} a ${n2} de Carro: Tempo e Distância (${year})`;
+    }
+    return t;
+  };
+
+  const getDescription = (n1: string, n2: string) => {
+    return `Confira quanto tempo leva de viagem de carro entre ${n1} e ${n2}, a distância exata em km, consumo de combustível e opções de rotas atualizadas para ${year}.`;
+  };
+
   // Fallback defensivo: usa slugToProperName quando a cidade não existe na base
   if (!result) {
     const originName = slugToProperName(origem);
     const destName = slugToProperName(destino);
     return {
-      title: `Distância entre ${originName} e ${destName}: Quantos km e Tempo (${year})`,
-      description: `Saiba quantos km separam ${originName} e ${destName}. Veja tempo de viagem de carro, melhor rota, pedágios e gasto com combustível atualizado.`,
+      title: getTitle(originName, destName),
+      description: getDescription(originName, destName),
     };
   }
 
-  const { origin, dest, road } = result;
+  const { origin, dest } = result;
 
   // ─── Title ────────────────────────────────────────────────────────────────
-  // Formato acionável alinhado com queries do Search Console:
-  //   "distancia de [A] a [B]", "quantos km de [A] a [B]"
-  // Ano dinâmico para sinal de frescor no SERP.
-  const isSorocabaPiracicaba =
-    (origin.slug === 'sorocaba-sp' && dest.slug === 'piracicaba-sp') ||
-    (origin.slug === 'piracicaba-sp' && dest.slug === 'sorocaba-sp');
-
-  let title = `Distância entre ${origin.n} e ${dest.n}: Quantos km e Tempo (${year})`;
-
-  if (isSorocabaPiracicaba) {
-    title = `Distância entre Sorocaba e Piracicaba: Quantos km e Tempo (${year})`;
-  } else if (road > 150) {
-    const tempo = formatHoras(road, 80);
-    title = `${origin.n} → ${dest.n}: ${road.toLocaleString('pt-BR')} km e ${tempo} (${year})`;
-  }
+  // Formato acionável alinhado com queries do Search Console.
+  // Focado na intenção "tempo de viagem [cidade1] [cidade2] de carro"
+  const title = getTitle(origin.n, dest.n);
 
   // ─── Description ──────────────────────────────────────────────────────────
-  // Copy que gatilha curiosidade, menciona meios de transporte e CTA implícito.
-  // ~145 chars na média, abaixo do limite de 155.
-  const description = `${road.toLocaleString('pt-BR')} km separam ${origin.n} e ${dest.n}. Veja tempo de viagem de carro, melhor rota, pedágios e gasto com combustível atualizado.`;
+  const description = getDescription(origin.n, dest.n);
 
   const canonical = `https://buscacentral.com.br${pairUrl(origin.slug, dest.slug)}`;
 
