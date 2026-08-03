@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound, permanentRedirect } from 'next/navigation';
+import AdBanner from '@/components/AdBanner';
 import {
   getCapitalPairs,
   resolvePair,
@@ -54,15 +55,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const result = resolvePair(origem, destino);
 
   const getTitle = (n1: string, n2: string) => {
-    let t = `De ${n1} para ${n2} de Carro: Tempo de Viagem e Distância (${year})`;
-    if (t.length > 71) {
-      t = `De ${n1} a ${n2} de Carro: Tempo e Distância (${year})`;
-    }
-    return t;
+    return `${n1} a ${n2}: Distância, Pedágio e Tempo de Viagem (${year})`;
   };
 
   const getDescription = (n1: string, n2: string) => {
-    return `Confira quanto tempo leva de viagem de carro entre ${n1} e ${n2}, a distância exata em km, consumo de combustível e opções de rotas atualizadas para ${year}.`;
+    return `Veja a distância exata entre ${n1} e ${n2}, tempo estimado de viagem de carro, valor estimado de combustível e locais de pedágio em ${year}.`;
   };
 
   // Fallback defensivo: usa slugToProperName quando a cidade não existe na base
@@ -319,6 +316,11 @@ export default async function DistanciaParPage({ params }: Props) {
       <p className="text-sm text-gray-500 mb-8 text-center">
         Linha reta: {straightLine.toLocaleString('pt-BR')} km · Ônibus (~60 km/h): {formatHoras(road, 60)} · Consumo base: {consumoPadrao} km/l a R$ {precoPadrao.toFixed(2).replace('.', ',')}
       </p>
+
+      {/* AdSense Placement: Mid-Content */}
+      <div className="w-full mb-8 min-h-[100px] flex justify-center">
+        <AdBanner adSlot="auto" adFormat="auto" />
+      </div>
 
       {/* ================================================================= */}
       {/* BLOCO ESTIMATIVA INTELIGENTE — Viagens > 150 km                    */}

@@ -82,7 +82,7 @@ export default async function CarregadorEletricoPage({ params }: PageProps) {
         )}
 
         {/* AdSense Placement: Mid-Content / Above SEO Footer */}
-        <div className="mt-8">
+        <div className="mt-8 w-full min-h-[100px] flex justify-center">
           <AdBanner adSlot="auto" adFormat="auto" />
         </div>
 
