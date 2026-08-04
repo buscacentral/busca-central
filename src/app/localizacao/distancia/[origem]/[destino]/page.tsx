@@ -59,7 +59,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 
   const getDescription = (n1: string, n2: string) => {
-    return `Veja a distância exata entre ${n1} e ${n2}, tempo estimado de viagem de carro, valor estimado de combustível e locais de pedágio em ${year}.`;
+    return `Confira a distância exata de ${n1} a ${n2}, tempo estimado de viagem de carro, estimativa de combustível e locais de pedágio em ${year}.`;
   };
 
   // Fallback defensivo: usa slugToProperName quando a cidade não existe na base
@@ -263,7 +263,7 @@ export default async function DistanciaParPage({ params }: Props) {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-10">
+    <div className="max-w-5xl mx-auto px-4 md:px-8 py-10">
       {/* Structured Data */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
