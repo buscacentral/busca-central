@@ -283,3 +283,46 @@ export function pedagioPairUrl(slugA: string, slugB: string): string {
   const [a, b] = [slugA, slugB].sort();
   return `/localizacao/pedagio/${a}/${b}`;
 }
+
+export const CIDADES_INTERNACIONAIS: City[] = [
+  { n: 'Buenos Aires', u: 'Argentina', lat: -34.6037, lon: -58.3816 },
+  { n: 'Montevideo', u: 'Uruguai', lat: -34.9011, lon: -56.1645 },
+  { n: 'Santiago', u: 'Chile', lat: -33.4489, lon: -70.6693 },
+  { n: 'Asunción', u: 'Paraguai', lat: -25.2637, lon: -57.5759 },
+  { n: 'Punta del Este', u: 'Uruguai', lat: -34.9411, lon: -54.9333 },
+  { n: 'Lisboa', u: 'Portugal', lat: 38.7223, lon: -9.1393 },
+  { n: 'Porto', u: 'Portugal', lat: 41.1579, lon: -8.6291 },
+  { n: 'Miami', u: 'EUA', lat: 25.7617, lon: -80.1918 },
+  { n: 'Orlando', u: 'EUA', lat: 28.5383, lon: -81.3792 },
+  { n: 'Madrid', u: 'Espanha', lat: 40.4168, lon: -3.7038 },
+];
+
+export function getInternationalCities(): CityResolved[] {
+  return CIDADES_INTERNACIONAIS.map(c => ({
+    ...c,
+    slug: citySlug(c.n, c.u)
+  }));
+}
+
+let _allCitiesCache: CityResolved[] | null = null;
+/** Retorna TODAS as cidades do Brasil formatadas com slug */
+export function getAllCities(): CityResolved[] {
+  if (_allCitiesCache) return _allCitiesCache;
+
+  const filePath = path.join(
+    process.cwd(),
+    'public',
+    'localizacao',
+    'distancia-cidades',
+    'cidades.json',
+  );
+  const cities: City[] = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+  
+  const resolved = cities.map(c => ({
+    ...c,
+    slug: citySlug(c.n, c.u)
+  }));
+  
+  _allCitiesCache = resolved;
+  return resolved;
+}

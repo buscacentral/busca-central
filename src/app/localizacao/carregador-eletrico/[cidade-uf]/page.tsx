@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { fetchChargingStations } from "@/lib/openchargemap";
 import AdBanner from "@/components/AdBanner";
 import CarregadorSearch from "../CarregadorSearch";
-import { getCityBySlug } from "@/lib/distancia-cidades";
+import { getCityBySlug, getInternationalCities } from "@/lib/distancia-cidades";
 
 interface PageProps {
   params: Promise<{
@@ -10,33 +10,66 @@ interface PageProps {
   }>;
 }
 
-function parseCidadeUf(slug: string) {
+function parseCidadeUfSlug(slug: string) {
   const parts = slug.split("-");
-  const uf = parts.length > 1 ? parts.pop()?.toUpperCase() || "" : "";
+  const lastPart = parts.length > 1 ? parts.pop() || "" : "";
+  const isCountry = lastPart.length > 2;
+  const uf = isCountry 
+    ? lastPart.replace(/\b\w/g, (char) => char.toUpperCase()) 
+    : lastPart.toUpperCase();
   const cidadeStr = parts.join(" ");
   // Capitalize each word for display
-  const cidade = cidadeStr.replace(/\b\w/g, (char) => char.toUpperCase());
-  return { cidade, uf };
+  const cityName = cidadeStr.replace(/\b\w/g, (char) => char.toUpperCase());
+  return { cityName, uf, isCountry };
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const resolvedParams = await params;
   const slug = resolvedParams["cidade-uf"];
-  const { cidade, uf } = parseCidadeUf(slug);
-  const displayLocation = uf ? `${cidade}-${uf}` : cidade;
+  
+  const cityData = getCityBySlug(slug);
+  const intlData = getInternationalCities().find(c => c.slug === slug);
+  
+  let cityName = "";
+  let uf = "";
+  let isCountry = false;
+  
+  if (cityData) {
+    cityName = cityData.n;
+    uf = cityData.u;
+  } else if (intlData) {
+    cityName = intlData.n;
+    uf = intlData.u;
+    isCountry = true;
+  } else {
+    const parsed = parseCidadeUfSlug(slug);
+    cityName = parsed.cityName;
+    uf = parsed.uf;
+    isCountry = parsed.isCountry;
+  }
+  const displayLocation = isCountry ? `${cityName} (${uf})` : (uf ? `${cityName} - ${uf}` : cityName);
+  const year = new Date().getFullYear();
+
+  const title = `Carregadores Elétricos em ${displayLocation}: Eletropostos Onde Carregar (${year}) | BuscaCentral`;
+  const description = isCountry 
+    ? `Encontre pontos de recarga e eletropostos para carros elétricos em ${displayLocation}. Veja endereços, conectores, potência e mapas de viagem atualizados para ${year}.`
+    : `Encontre pontos de recarga e eletropostos para carros elétricos em ${displayLocation}. Veja endereços, conectores, potência (kW) e rotas atualizadas em ${year}.`;
 
   return {
-    title: `Carregadores Elétricos em ${displayLocation}: Eletropostos e Recarga (2026)`,
-    description: `Encontre pontos de recarga e eletropostos para carros elétricos em ${displayLocation}. Veja endereços, conectores, potência em kW e como chegar.`,
+    title,
+    description,
+    alternates: {
+      canonical: `https://buscacentral.com.br/carregador-eletrico/${slug}`
+    },
     openGraph: {
       title: `Carregadores Elétricos em ${displayLocation}`,
-      description: `Encontre pontos de recarga para carros elétricos em ${displayLocation}. Veja endereços, conectores e potência.`,
-      url: `https://buscacentral.com.br/localizacao/carregador-eletrico/${slug}`,
+      description,
+      url: `https://buscacentral.com.br/carregador-eletrico/${slug}`,
     },
     twitter: {
       card: "summary_large_image",
       title: `Carregadores Elétricos em ${displayLocation}`,
-      description: `Encontre eletropostos e pontos de recarga para carros elétricos em ${displayLocation}.`,
+      description,
     },
   };
 }
@@ -47,13 +80,31 @@ import StationCard from "@/components/ev/StationCard";
 export default async function CarregadorEletricoPage({ params }: PageProps) {
   const resolvedParams = await params;
   const slug = resolvedParams["cidade-uf"];
-  const { cidade, uf } = parseCidadeUf(slug);
-  const displayLocation = uf ? `${cidade} - ${uf}` : cidade;
-
+  
   const cityData = getCityBySlug(slug);
+  const intlData = getInternationalCities().find(c => c.slug === slug);
+  
+  let cidade = "";
+  let uf = "";
+  let isCountry = false;
+  
+  if (cityData) {
+    cidade = cityData.n;
+    uf = cityData.u;
+  } else if (intlData) {
+    cidade = intlData.n;
+    uf = intlData.u;
+    isCountry = true;
+  } else {
+    const parsed = parseCidadeUfSlug(slug);
+    cidade = parsed.cityName;
+    uf = parsed.uf;
+    isCountry = parsed.isCountry;
+  }
+  const displayLocation = isCountry ? `${cidade} (${uf})` : (uf ? `${cidade} - ${uf}` : cidade);
 
   // We fetch without accents/special chars in town if possible, or directly with the parsed one.
-  const stations = await fetchChargingStations(cidade, uf, cityData?.lat, cityData?.lon);
+  const stations = await fetchChargingStations(cidade, uf, cityData?.lat || intlData?.lat, cityData?.lon || intlData?.lon);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">

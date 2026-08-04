@@ -4,7 +4,7 @@ import path from 'node:path';
 import { artigos } from './artigos/page';
 import { TOP_10 as cryptoIds } from './financeiro/criptomoedas/[id]/page';
 import { SITE_LAST_REVIEWED } from '@/lib/tools';
-import { getCityPairs, getCapitais } from '@/lib/distancia-cidades';
+import { getCityPairs, getCapitais, getAllCities, getInternationalCities } from '@/lib/distancia-cidades';
 import { SALARIOS_COMUNS } from '@/lib/salario-liquido-faixas';
 
 const baseUrl = 'https://buscacentral.com.br';
@@ -65,8 +65,11 @@ function routeMeta(route: string): {
     return { priority: 0.7, changeFrequency: 'weekly', lastModified: reviewedDate };
   }
   // Páginas programáticas de Eletropostos
+  if (route.startsWith('/carregador-eletrico/')) {
+    return { priority: 0.8, changeFrequency: 'weekly', lastModified: new Date() };
+  }
   if (route.startsWith('/localizacao/carregador-eletrico/')) {
-    return { priority: 0.7, changeFrequency: 'weekly', lastModified: new Date() };
+    return { priority: 0.8, changeFrequency: 'weekly', lastModified: new Date() };
   }
   // Páginas programáticas de salário líquido por faixa
   if (route.startsWith('/financeiro/salario-liquido/')) {
@@ -141,8 +144,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const salarioRoutes = SALARIOS_COMUNS.map(
     (v) => `/financeiro/salario-liquido/${v}`,
   );
-  const evRoutes = getCapitais().map(
-    (c) => `/localizacao/carregador-eletrico/${c.slug}`,
+  const evRoutes = [
+    ...getAllCities(),
+    ...getInternationalCities()
+  ].map(
+    (c) => `/carregador-eletrico/${c.slug}`,
   );
 
   // Rotas que não devem aparecer no sitemap (ex.: resultados de busca, marcados
