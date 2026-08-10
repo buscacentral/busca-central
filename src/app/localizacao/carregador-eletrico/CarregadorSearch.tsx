@@ -73,18 +73,24 @@ export default function CarregadorSearch() {
   const filterCities = useCallback(
     (searchValue: string) => {
       if (searchValue.length < 2) return [];
-      const lower = searchValue.toLowerCase();
+      const norm = normalize(searchValue);
       return cities
         .filter(
           (c) =>
-            c.n.toLowerCase().includes(lower) || c.u.toLowerCase() === lower
+            normalize(c.n).includes(norm) || normalize(c.u).includes(norm)
         )
         .sort((a, b) => {
-          const aStarts = a.n.toLowerCase().startsWith(lower) ? 0 : 1;
-          const bStarts = b.n.toLowerCase().startsWith(lower) ? 0 : 1;
-          return aStarts - bStarts;
+          const aExact = normalize(a.n) === norm ? 0 : 1;
+          const bExact = normalize(b.n) === norm ? 0 : 1;
+          if (aExact !== bExact) return aExact - bExact;
+          const aStarts = normalize(a.n).startsWith(norm) ? 0 : 1;
+          const bStarts = normalize(b.n).startsWith(norm) ? 0 : 1;
+          if (aStarts !== bStarts) return aStarts - bStarts;
+          const aIsIntl = CIDADES_INTERNACIONAIS.some((i) => i.n === a.n && i.u === a.u) ? 0 : 1;
+          const bIsIntl = CIDADES_INTERNACIONAIS.some((i) => i.n === b.n && i.u === b.u) ? 0 : 1;
+          return aIsIntl - bIsIntl;
         })
-        .slice(0, 8);
+        .slice(0, 10);
     },
     [cities]
   );

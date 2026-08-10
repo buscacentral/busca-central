@@ -252,12 +252,10 @@ function FallbackCard({ cidade, uf }: { cidade: string, uf: string }) {
         </a>
       </div>
 
-      <div className="mt-8 pt-8 border-t border-gray-100 text-left">
-        <h3 className="font-semibold text-gray-900 mb-4 text-center">Procurando recarga em outra cidade?</h3>
-        <p className="text-gray-600 text-sm text-center mb-6">
-          Grandes polos regionais e capitais costumam concentrar a infraestrutura de recarga (eletropostos rápidos DC e AC). Considere buscar nas cidades polos mais próximas a {cidade} para planejar sua rota com segurança.
+      <div className="mt-8 pt-6 border-t border-gray-100 text-center">
+        <p className="text-gray-600 text-sm">
+          Grandes polos regionais e capitais costumam concentrar a infraestrutura de recarga. Considere buscar nas cidades polos mais próximas a {cidade} utilizando a barra de busca acima.
         </p>
-        <CarregadorSearch />
       </div>
     </div>
   );
