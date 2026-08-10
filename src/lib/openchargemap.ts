@@ -267,9 +267,7 @@ export async function fetchChargingStations(
         "X-API-Key": apiKey,
         "User-Agent": "BuscaCentral/1.0"
       },
-      next: {
-        revalidate: 86400 // Cache for 24 hours to avoid hitting API limits
-      }
+      cache: "no-store",
     });
 
     clearTimeout(timeoutId);
