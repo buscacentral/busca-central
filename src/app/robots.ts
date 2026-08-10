@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/_next/', '/api/', '/admin/'],
+        disallow: ['/api/'],
       },
     ],
     sitemap: 'https://buscacentral.com.br/sitemap.xml',
