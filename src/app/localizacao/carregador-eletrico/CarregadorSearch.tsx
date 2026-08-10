@@ -95,9 +95,16 @@ export default function CarregadorSearch() {
     [cities]
   );
 
+  useEffect(() => {
+    if (search.length >= 2) {
+      setFilteredCities(filterCities(search));
+    } else {
+      setFilteredCities([]);
+    }
+  }, [search, cities, filterCities]);
+
   const handleSearchChange = (value: string) => {
     setSearch(value);
-    setFilteredCities(filterCities(value));
     setShowDropdown(value.length >= 2);
     setSelectedIndex(-1);
   };
