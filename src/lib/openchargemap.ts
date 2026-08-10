@@ -28,9 +28,9 @@ export interface OCMAddressInfo {
   AddressLine1: string;
   AddressLine2?: string;
   Town: string;
-  StateOrProvince: string;
-  Postcode: string;
-  CountryID: number;
+  StateOrProvince?: string;
+  Postcode?: string;
+  CountryID?: number;
   Latitude: number;
   Longitude: number;
   ContactTelephone1?: string;
