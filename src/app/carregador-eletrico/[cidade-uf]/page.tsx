@@ -3,6 +3,8 @@ import { fetchChargingStations } from "@/lib/openchargemap";
 import AdBanner from "@/components/AdBanner";
 import CarregadorSearch from "../CarregadorSearch";
 import { getCityBySlug, getInternationalCities } from "@/lib/distancia-cidades";
+import { PlugIcon, NavigationIcon } from "@/components/ev/Icons";
+import StationCard from "@/components/ev/StationCard";
 
 interface PageProps {
   params: Promise<{
@@ -74,9 +76,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-import { PlugIcon, NavigationIcon } from "@/components/ev/Icons";
-import StationCard from "@/components/ev/StationCard";
-
 export default async function CarregadorEletricoPage({ params }: PageProps) {
   const resolvedParams = await params;
   const slug = resolvedParams["cidade-uf"];
@@ -103,7 +102,7 @@ export default async function CarregadorEletricoPage({ params }: PageProps) {
   }
   const displayLocation = isCountry ? `${cidade} (${uf})` : (uf ? `${cidade} - ${uf}` : cidade);
 
-  // We fetch without accents/special chars in town if possible, or directly with the parsed one.
+  // Fetch charging stations; fallback smoothly if empty
   const stations = await fetchChargingStations(cidade, uf, cityData?.lat || intlData?.lat, cityData?.lon || intlData?.lon);
 
   return (
@@ -170,8 +169,6 @@ export default async function CarregadorEletricoPage({ params }: PageProps) {
     </div>
   );
 }
-
-
 
 function FallbackCard({ cidade, uf }: { cidade: string, uf: string }) {
   const searchQuery = `eletropostos carregador eletrico em ${cidade} ${uf}`;

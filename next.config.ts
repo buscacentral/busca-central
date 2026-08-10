@@ -12,6 +12,16 @@ const nextConfig: NextConfig = {
         destination: "/utilidades/whatsapp-link",
         permanent: true,
       },
+      {
+        source: "/localizacao/carregador-eletrico",
+        destination: "/carregador-eletrico",
+        permanent: true,
+      },
+      {
+        source: "/localizacao/carregador-eletrico/:path*",
+        destination: "/carregador-eletrico/:path*",
+        permanent: true,
+      },
     ];
   },
   async headers() {

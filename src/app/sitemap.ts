@@ -68,9 +68,6 @@ function routeMeta(route: string): {
   if (route.startsWith('/carregador-eletrico/')) {
     return { priority: 0.8, changeFrequency: 'weekly', lastModified: new Date() };
   }
-  if (route.startsWith('/localizacao/carregador-eletrico/')) {
-    return { priority: 0.8, changeFrequency: 'weekly', lastModified: new Date() };
-  }
   // Páginas programáticas de salário líquido por faixa
   if (route.startsWith('/financeiro/salario-liquido/')) {
     return { priority: 0.6, changeFrequency: 'monthly', lastModified: reviewedDate };

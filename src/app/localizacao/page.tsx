@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 const tools = [
   { title: 'Busca de CEP', description: 'Consulte endereços completos por CEP ou busque CEPs por nome de rua. Dados do ViaCEP em tempo real.', href: '/localizacao/busca-cep', icon: '📍', color: 'bg-blue-50 border-blue-200' },
   { title: 'Distância entre Cidades', description: 'Calcule a distância entre cidades brasileiras, tempo de viagem e custo de combustível.', href: '/localizacao/distancia-cidades', icon: '🗺️', color: 'bg-green-50 border-green-200' },
-  { title: 'Localizador de Eletropostos', description: 'Encontre estações de recarga para carros elétricos (VEs) nas principais cidades do Brasil.', href: '/localizacao/carregador-eletrico', icon: '⚡', color: 'bg-purple-50 border-purple-200' },
+  { title: 'Localizador de Eletropostos', description: 'Encontre estações de recarga para carros elétricos (VEs) nas principais cidades do Brasil.', href: '/carregador-eletrico', icon: '⚡', color: 'bg-purple-50 border-purple-200' },
   { title: 'Clima e Previsão do Tempo', description: 'Consulte a temperatura, umidade e condições climáticas atuais de qualquer região do Brasil.', href: '/localizacao/clima', icon: '🌤️', color: 'bg-sky-50 border-sky-200' },
 ];
 

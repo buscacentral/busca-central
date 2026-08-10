@@ -5,7 +5,7 @@ import CarregadorSearch from './CarregadorSearch';
 
 const title = 'Localizador de Eletropostos e Carregadores Elétricos';
 const description = 'Encontre estações de recarga para carros elétricos (VEs) nas principais cidades do Brasil. Endereços, mapas e tipos de conectores em tempo real.';
-const path = '/localizacao/carregador-eletrico';
+const path = '/carregador-eletrico';
 
 export const metadata: Metadata = generateToolMetadata(title, description, path);
 
@@ -48,7 +48,7 @@ export default function CarregadorEletricoIndex() {
           {capitais.map((cidade) => (
             <Link
               key={cidade.slug}
-              href={`/localizacao/carregador-eletrico/${cidade.slug}`}
+              href={`/carregador-eletrico/${cidade.slug}`}
               className="flex items-center justify-between p-4 rounded-lg border border-slate-200 hover:border-sky-500 hover:shadow-sm transition-all group bg-slate-50 hover:bg-white"
             >
               <span className="font-medium text-slate-700 group-hover:text-sky-600">

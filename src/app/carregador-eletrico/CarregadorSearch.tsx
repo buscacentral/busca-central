@@ -124,7 +124,7 @@ export default function CarregadorSearch() {
     setShowDropdown(false);
     setSearch(`${city.n} - ${city.u}`);
     const slug = generateCitySlug(city.n, city.u);
-    router.push(`/localizacao/carregador-eletrico/${slug}`);
+    router.push(`/carregador-eletrico/${slug}`);
   };
 
   const highlightMatch = (text: string, searchStr: string) => {
