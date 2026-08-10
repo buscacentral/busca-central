@@ -51,6 +51,8 @@ export interface OCMOperatorInfo {
 export interface OCMPointOfInterest {
   ID: number;
   UUID: string;
+  Title?: string;
+  UsageCost?: string;
   AddressInfo: OCMAddressInfo;
   Connections: OCMConnection[];
   OperatorInfo?: OCMOperatorInfo;
