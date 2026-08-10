@@ -99,9 +99,10 @@ export async function fetchChargingStations(
     console.warn("OPENCHARGEMAP_API_KEY is not defined in environment variables.");
   }
 
-  // OpenChargeMap API query construction
   const url = new URL("https://api.openchargemap.io/v3/poi/");
-  url.searchParams.append("maxresults", "50");
+  url.searchParams.append("output", "json");
+  url.searchParams.append("maxresults", "100");
+  url.searchParams.append("compact", "true");
   url.searchParams.append("verbose", "false");
 
   if (lat !== undefined && lon !== undefined) {
@@ -109,9 +110,6 @@ export async function fetchChargingStations(
     url.searchParams.append("longitude", lon.toString());
     url.searchParams.append("distance", radiusKm.toString());
     url.searchParams.append("distanceunit", "KM");
-    if (countryCode) {
-      url.searchParams.append("countrycode", countryCode);
-    }
   } else {
     url.searchParams.append("countrycode", countryCode || "BR");
     url.searchParams.append("town", cidade);

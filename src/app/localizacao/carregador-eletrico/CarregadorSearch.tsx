@@ -26,8 +26,21 @@ function generateCitySlug(nome: string, uf: string): string {
   return `${base}-${uf.toLowerCase()}`;
 }
 
+const CIDADES_INTERNACIONAIS: City[] = [
+  { n: 'Buenos Aires', u: 'Argentina', lat: -34.6037, lon: -58.3816 },
+  { n: 'Montevideo', u: 'Uruguai', lat: -34.9011, lon: -56.1645 },
+  { n: 'Santiago', u: 'Chile', lat: -33.4489, lon: -70.6693 },
+  { n: 'Asunción', u: 'Paraguai', lat: -25.2637, lon: -57.5759 },
+  { n: 'Punta del Este', u: 'Uruguai', lat: -34.9411, lon: -54.9333 },
+  { n: 'Lisboa', u: 'Portugal', lat: 38.7223, lon: -9.1393 },
+  { n: 'Porto', u: 'Portugal', lat: 41.1579, lon: -8.6291 },
+  { n: 'Miami', u: 'EUA', lat: 25.7617, lon: -80.1918 },
+  { n: 'Orlando', u: 'EUA', lat: 28.5383, lon: -81.3792 },
+  { n: 'Madrid', u: 'Espanha', lat: 40.4168, lon: -3.7038 },
+];
+
 export default function CarregadorSearch() {
-  const [cities, setCities] = useState<City[]>([]);
+  const [cities, setCities] = useState<City[]>(CIDADES_INTERNACIONAIS);
   const [filteredCities, setFilteredCities] = useState<City[]>([]);
   const [search, setSearch] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
@@ -38,10 +51,10 @@ export default function CarregadorSearch() {
 
   // Lazy loading cities
   const loadCities = useCallback(() => {
-    if (cities.length === 0) {
+    if (cities.length === CIDADES_INTERNACIONAIS.length) {
       fetch('/localizacao/distancia-cidades/cidades.json')
         .then((res) => res.json())
-        .then((data: City[]) => setCities(data))
+        .then((data: City[]) => setCities([...CIDADES_INTERNACIONAIS, ...data]))
         .catch((err) => console.error('Erro ao carregar cidades', err));
     }
   }, [cities.length]);
