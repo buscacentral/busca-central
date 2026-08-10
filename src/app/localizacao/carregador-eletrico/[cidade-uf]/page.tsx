@@ -6,6 +6,9 @@ import { getCityBySlug, getInternationalCities } from "@/lib/distancia-cidades";
 import { PlugIcon, NavigationIcon } from "@/components/ev/Icons";
 import StationCard from "@/components/ev/StationCard";
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 interface PageProps {
   params: Promise<{
     "cidade-uf": string;
@@ -27,11 +30,13 @@ function parseCidadeUfSlug(slug: string) {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const resolvedParams = await params;
-  const slug = resolvedParams["cidade-uf"];
+  const rawSlug = resolvedParams["cidade-uf"] || "";
+  const normalizedSlug = rawSlug.toLowerCase().trim();
   
-  const intlConfig = INTERNATIONAL_CITY_COORDS[slug];
-  const cityData = getCityBySlug(slug);
-  const intlData = getInternationalCities().find(c => c.slug === slug);
+  const intlConfig = INTERNATIONAL_CITY_COORDS[normalizedSlug] ||
+    (normalizedSlug.includes("buenos-aires") ? INTERNATIONAL_CITY_COORDS["buenos-aires-argentina"] : undefined);
+  const cityData = getCityBySlug(normalizedSlug);
+  const intlData = getInternationalCities().find(c => c.slug === normalizedSlug);
   
   let cityName = "";
   let uf = "";
@@ -45,7 +50,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     uf = intlData.u;
     isCountry = true;
   } else {
-    const parsed = parseCidadeUfSlug(slug);
+    const parsed = parseCidadeUfSlug(normalizedSlug);
     cityName = parsed.cityName;
     uf = parsed.uf;
     isCountry = parsed.isCountry;
@@ -62,12 +67,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title,
     description,
     alternates: {
-      canonical: `https://buscacentral.com.br/localizacao/carregador-eletrico/${slug}`
+      canonical: `https://buscacentral.com.br/localizacao/carregador-eletrico/${normalizedSlug}`
     },
     openGraph: {
       title: `Carregadores Elétricos em ${displayLocation}`,
       description,
-      url: `https://buscacentral.com.br/localizacao/carregador-eletrico/${slug}`,
+      url: `https://buscacentral.com.br/localizacao/carregador-eletrico/${normalizedSlug}`,
     },
     twitter: {
       card: "summary_large_image",
@@ -79,11 +84,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function CarregadorEletricoPage({ params }: PageProps) {
   const resolvedParams = await params;
-  const slug = resolvedParams["cidade-uf"];
+  const rawSlug = resolvedParams["cidade-uf"] || "";
+  const normalizedSlug = rawSlug.toLowerCase().trim();
   
-  const intlConfig = INTERNATIONAL_CITY_COORDS[slug];
-  const cityData = getCityBySlug(slug);
-  const intlData = getInternationalCities().find(c => c.slug === slug);
+  const intlConfig = INTERNATIONAL_CITY_COORDS[normalizedSlug] ||
+    (normalizedSlug.includes("buenos-aires") ? INTERNATIONAL_CITY_COORDS["buenos-aires-argentina"] : undefined);
+  const cityData = getCityBySlug(normalizedSlug);
+  const intlData = getInternationalCities().find(c => c.slug === normalizedSlug);
   
   let cidade = "";
   let uf = "";
@@ -103,7 +110,7 @@ export default async function CarregadorEletricoPage({ params }: PageProps) {
       uf = intlData.u;
       isCountry = true;
     } else {
-      const parsed = parseCidadeUfSlug(slug);
+      const parsed = parseCidadeUfSlug(normalizedSlug);
       cidade = parsed.cityName;
       uf = parsed.uf;
       isCountry = parsed.isCountry;
@@ -121,11 +128,23 @@ export default async function CarregadorEletricoPage({ params }: PageProps) {
     lon = intlData.lon;
     isCountry = true;
   } else {
-    const parsed = parseCidadeUfSlug(slug);
+    const parsed = parseCidadeUfSlug(normalizedSlug);
     cidade = parsed.cityName;
     uf = parsed.uf;
     isCountry = parsed.isCountry;
   }
+
+  // Fail-safe direct coordinates for Buenos Aires if lat/lon were missed
+  if (normalizedSlug.includes("buenos-aires") && (lat === undefined || lon === undefined)) {
+    lat = -34.6037;
+    lon = -58.3816;
+    countryCode = "AR";
+    radiusKm = 30;
+    cidade = "Buenos Aires";
+    uf = "Argentina";
+    isCountry = true;
+  }
+
   const displayLocation = isCountry ? `${cidade} (${uf})` : (uf ? `${cidade} - ${uf}` : cidade);
 
   // Fetch charging stations with options object
@@ -137,6 +156,8 @@ export default async function CarregadorEletricoPage({ params }: PageProps) {
     countryCode,
     distance: radiusKm,
   });
+
+  console.log('[EV Page] Slug:', normalizedSlug, 'Coords:', { lat, lon, countryCode, radiusKm }, 'Stations count:', stations?.length);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
