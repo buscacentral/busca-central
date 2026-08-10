@@ -86,18 +86,36 @@ export const INTERNATIONAL_CITY_COORDS: Record<string, CityCoordConfig> = {
   "punta-del-este-uruguai": { lat: -34.9411, lng: -54.9333, countryCode: "UY", radiusKm: 30 },
 };
 
+export interface FetchStationsOptions {
+  cityName?: string;
+  uf?: string;
+  latitude?: number;
+  longitude?: number;
+  countryCode?: string;
+  distance?: number;
+}
+
 export async function fetchChargingStations(
-  cidade: string,
-  uf: string,
+  optionsOrCidade: FetchStationsOptions | string,
+  uf?: string,
   lat?: number,
   lon?: number,
   countryCode?: string,
   radiusKm: number = 30
 ): Promise<OCMPointOfInterest[]> {
-  const apiKey = process.env.OPENCHARGEMAP_API_KEY;
-  if (!apiKey) {
-    console.warn("OPENCHARGEMAP_API_KEY is not defined in environment variables.");
-  }
+  const options: FetchStationsOptions =
+    typeof optionsOrCidade === "object"
+      ? optionsOrCidade
+      : {
+          cityName: optionsOrCidade,
+          uf,
+          latitude: lat,
+          longitude: lon,
+          countryCode,
+          distance: radiusKm,
+        };
+
+  const apiKey = process.env.OPENCHARGEMAP_API_KEY || "4b24e852-2e41-4daf-83da-38e409a87cee";
 
   const url = new URL("https://api.openchargemap.io/v3/poi/");
   url.searchParams.append("output", "json");
@@ -105,24 +123,26 @@ export async function fetchChargingStations(
   url.searchParams.append("compact", "true");
   url.searchParams.append("verbose", "false");
 
-  if (lat !== undefined && lon !== undefined) {
-    url.searchParams.append("latitude", lat.toString());
-    url.searchParams.append("longitude", lon.toString());
-    url.searchParams.append("distance", radiusKm.toString());
+  if (options.latitude !== undefined && options.longitude !== undefined) {
+    url.searchParams.append("latitude", options.latitude.toString());
+    url.searchParams.append("longitude", options.longitude.toString());
+    url.searchParams.append("distance", (options.distance || 30).toString());
     url.searchParams.append("distanceunit", "KM");
   } else {
-    url.searchParams.append("countrycode", countryCode || "BR");
-    url.searchParams.append("town", cidade);
+    url.searchParams.append("countrycode", options.countryCode || "BR");
+    if (options.cityName) {
+      url.searchParams.append("town", options.cityName);
+    }
   }
 
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 seconds timeout
+    const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 seconds timeout
 
     const response = await fetch(url.toString(), {
       signal: controller.signal,
       headers: {
-        "X-API-Key": apiKey || "",
+        "X-API-Key": apiKey,
         "User-Agent": "BuscaCentral/1.0"
       },
       next: {
@@ -133,14 +153,18 @@ export async function fetchChargingStations(
     clearTimeout(timeoutId);
 
     if (!response.ok) {
-      console.error(`OpenChargeMap API error: ${response.status} ${response.statusText}`);
+      console.error(`OpenChargeMap API error (${url.toString()}): ${response.status} ${response.statusText}`);
       return [];
     }
 
     const data = await response.json();
+    if (!Array.isArray(data)) {
+      console.error(`OpenChargeMap API returned invalid non-array response (${url.toString()}):`, data);
+      return [];
+    }
     return data as OCMPointOfInterest[];
   } catch (error) {
-    console.error("Error fetching charging stations from OpenChargeMap:", error);
+    console.error(`Error fetching charging stations from OpenChargeMap (${url.toString()}):`, error);
     return [];
   }
 }

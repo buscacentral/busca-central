@@ -128,8 +128,15 @@ export default async function CarregadorEletricoPage({ params }: PageProps) {
   }
   const displayLocation = isCountry ? `${cidade} (${uf})` : (uf ? `${cidade} - ${uf}` : cidade);
 
-  // Fetch charging stations with explicit coordinates, country code, and radius
-  const stations = await fetchChargingStations(cidade, uf, lat, lon, countryCode, radiusKm);
+  // Fetch charging stations with options object
+  const stations = await fetchChargingStations({
+    cityName: cidade,
+    uf,
+    latitude: lat,
+    longitude: lon,
+    countryCode,
+    distance: radiusKm,
+  });
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
