@@ -13,13 +13,13 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: "/localizacao/carregador-eletrico",
-        destination: "/carregador-eletrico",
+        source: "/carregador-eletrico",
+        destination: "/localizacao/carregador-eletrico",
         permanent: true,
       },
       {
-        source: "/localizacao/carregador-eletrico/:path*",
-        destination: "/carregador-eletrico/:path*",
+        source: "/carregador-eletrico/:path*",
+        destination: "/localizacao/carregador-eletrico/:path*",
         permanent: true,
       },
     ];

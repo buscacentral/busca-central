@@ -61,12 +61,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title,
     description,
     alternates: {
-      canonical: `https://buscacentral.com.br/carregador-eletrico/${slug}`
+      canonical: `https://buscacentral.com.br/localizacao/carregador-eletrico/${slug}`
     },
     openGraph: {
       title: `Carregadores Elétricos em ${displayLocation}`,
       description,
-      url: `https://buscacentral.com.br/carregador-eletrico/${slug}`,
+      url: `https://buscacentral.com.br/localizacao/carregador-eletrico/${slug}`,
     },
     twitter: {
       card: "summary_large_image",
@@ -161,7 +161,7 @@ export default async function CarregadorEletricoPage({ params }: PageProps) {
             <p className="text-gray-700 leading-relaxed">
               Viajar de carro elétrico exige planejamento, especialmente se {cidade} for uma de suas paradas. 
               Sempre mapeie a rota com antecedência identificando carregadores DC pelo caminho. Tenha planos de contingência (um carregador secundário) caso o ponto principal esteja inoperante ou ocupado. 
-              É altamente recomendável ter os aplicativos das principais redes de recarga já instalados e configurados no seu celular. Mantenha a bateria entre 20% e 80% para otimizar o tempo de recarga rápida nas estradas.
+              É highly recomendável ter os aplicativos das principais redes de recarga já instalados e configurados no seu celular. Mantenha a bateria entre 20% e 80% para otimizar o tempo de recarga rápida nas estradas.
             </p>
           </div>
         </section>

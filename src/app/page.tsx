@@ -29,7 +29,7 @@ const siteSchema = [
 const mainTools = [
   { title: 'Gerador de CPF', description: 'Gere CPFs válidos para testes e desenvolvimento.', href: '/documentos/gerador-cpf', icon: '📄', color: 'blue' as const },
   { title: 'Busca de CEP', description: 'Consulte endereços completos por CEP em tempo real.', href: '/localizacao/busca-cep', icon: '📍', color: 'green' as const },
-  { title: 'Localizador de Eletropostos', description: 'Encontre estações de recarga para carros elétricos (VEs).', href: '/carregador-eletrico', icon: '⚡', color: 'purple' as const },
+  { title: 'Localizador de Eletropostos', description: 'Encontre estações de recarga para carros elétricos (VEs).', href: '/localizacao/carregador-eletrico', icon: '⚡', color: 'purple' as const },
   { title: 'Cotação de Moedas', description: 'USD, EUR, GBP, BTC em tempo real pela AwesomeAPI.', href: '/financeiro/cotacao', icon: '💱', color: 'purple' as const },
   { title: 'Tabela FIPE', description: 'Preços médios de veículos novos e usados no Brasil.', href: '/financeiro/tabela-fipe', icon: '🚗', color: 'orange' as const },
   { title: 'Conversor CLT → PJ', description: 'Descubra quanto faturar como PJ para manter seu salário.', href: '/financeiro/conversor-clt-pj', icon: '💰', color: 'blue' as const },

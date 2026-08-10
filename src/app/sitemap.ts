@@ -65,7 +65,7 @@ function routeMeta(route: string): {
     return { priority: 0.7, changeFrequency: 'weekly', lastModified: reviewedDate };
   }
   // Páginas programáticas de Eletropostos
-  if (route.startsWith('/carregador-eletrico/')) {
+  if (route.startsWith('/localizacao/carregador-eletrico/')) {
     return { priority: 0.8, changeFrequency: 'weekly', lastModified: new Date() };
   }
   // Páginas programáticas de salário líquido por faixa
@@ -145,7 +145,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...getAllCities(),
     ...getInternationalCities()
   ].map(
-    (c) => `/carregador-eletrico/${c.slug}`,
+    (c) => `/localizacao/carregador-eletrico/${c.slug}`,
   );
 
   // Rotas que não devem aparecer no sitemap (ex.: resultados de busca, marcados
