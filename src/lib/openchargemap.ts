@@ -1,5 +1,5 @@
 export interface OCMConnectionType {
-  ID: number;
+  ID?: number;
   Title: string;
 }
 
