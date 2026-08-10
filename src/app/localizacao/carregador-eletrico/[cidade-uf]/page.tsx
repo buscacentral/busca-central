@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { fetchChargingStations } from "@/lib/openchargemap";
+import { fetchChargingStations, INTERNATIONAL_CITY_COORDS } from "@/lib/openchargemap";
 import AdBanner from "@/components/AdBanner";
 import CarregadorSearch from "../CarregadorSearch";
 import { getCityBySlug, getInternationalCities } from "@/lib/distancia-cidades";
@@ -29,6 +29,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const resolvedParams = await params;
   const slug = resolvedParams["cidade-uf"];
   
+  const intlConfig = INTERNATIONAL_CITY_COORDS[slug];
   const cityData = getCityBySlug(slug);
   const intlData = getInternationalCities().find(c => c.slug === slug);
   
@@ -80,19 +81,44 @@ export default async function CarregadorEletricoPage({ params }: PageProps) {
   const resolvedParams = await params;
   const slug = resolvedParams["cidade-uf"];
   
+  const intlConfig = INTERNATIONAL_CITY_COORDS[slug];
   const cityData = getCityBySlug(slug);
   const intlData = getInternationalCities().find(c => c.slug === slug);
   
   let cidade = "";
   let uf = "";
   let isCountry = false;
+  let lat: number | undefined = undefined;
+  let lon: number | undefined = undefined;
+  let countryCode: string | undefined = undefined;
+  let radiusKm = 30;
   
-  if (cityData) {
+  if (intlConfig) {
+    lat = intlConfig.lat;
+    lon = intlConfig.lng;
+    countryCode = intlConfig.countryCode;
+    radiusKm = intlConfig.radiusKm;
+    if (intlData) {
+      cidade = intlData.n;
+      uf = intlData.u;
+      isCountry = true;
+    } else {
+      const parsed = parseCidadeUfSlug(slug);
+      cidade = parsed.cityName;
+      uf = parsed.uf;
+      isCountry = parsed.isCountry;
+    }
+  } else if (cityData) {
     cidade = cityData.n;
     uf = cityData.u;
+    lat = cityData.lat;
+    lon = cityData.lon;
+    countryCode = "BR";
   } else if (intlData) {
     cidade = intlData.n;
     uf = intlData.u;
+    lat = intlData.lat;
+    lon = intlData.lon;
     isCountry = true;
   } else {
     const parsed = parseCidadeUfSlug(slug);
@@ -102,8 +128,8 @@ export default async function CarregadorEletricoPage({ params }: PageProps) {
   }
   const displayLocation = isCountry ? `${cidade} (${uf})` : (uf ? `${cidade} - ${uf}` : cidade);
 
-  // Fetch charging stations; fallback smoothly if empty
-  const stations = await fetchChargingStations(cidade, uf, cityData?.lat || intlData?.lat, cityData?.lon || intlData?.lon);
+  // Fetch charging stations with explicit coordinates, country code, and radius
+  const stations = await fetchChargingStations(cidade, uf, lat, lon, countryCode, radiusKm);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">

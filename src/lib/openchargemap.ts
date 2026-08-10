@@ -66,25 +66,54 @@ export interface OCMPointOfInterest {
   DateLastVerified?: string;
 }
 
-export async function fetchChargingStations(cidade: string, uf: string, lat?: number, lon?: number): Promise<OCMPointOfInterest[]> {
+export interface CityCoordConfig {
+  lat: number;
+  lng: number;
+  countryCode: string;
+  radiusKm: number;
+}
+
+export const INTERNATIONAL_CITY_COORDS: Record<string, CityCoordConfig> = {
+  "buenos-aires-argentina": { lat: -34.6037, lng: -58.3816, countryCode: "AR", radiusKm: 30 },
+  "montevideo-uruguai": { lat: -34.9011, lng: -56.1645, countryCode: "UY", radiusKm: 30 },
+  "santiago-chile": { lat: -33.4489, lng: -70.6693, countryCode: "CL", radiusKm: 30 },
+  "lisboa-portugal": { lat: 38.7223, lng: -9.1393, countryCode: "PT", radiusKm: 30 },
+  "miami-eua": { lat: 25.7617, lng: -80.1918, countryCode: "US", radiusKm: 30 },
+  "orlando-eua": { lat: 28.5383, lng: -81.3792, countryCode: "US", radiusKm: 30 },
+  "madrid-espanha": { lat: 40.4168, lng: -3.7038, countryCode: "ES", radiusKm: 30 },
+  "porto-portugal": { lat: 41.1579, lng: -8.6291, countryCode: "PT", radiusKm: 30 },
+  "asuncion-paraguai": { lat: -25.2637, lng: -57.5759, countryCode: "PY", radiusKm: 30 },
+  "punta-del-este-uruguai": { lat: -34.9411, lng: -54.9333, countryCode: "UY", radiusKm: 30 },
+};
+
+export async function fetchChargingStations(
+  cidade: string,
+  uf: string,
+  lat?: number,
+  lon?: number,
+  countryCode?: string,
+  radiusKm: number = 30
+): Promise<OCMPointOfInterest[]> {
   const apiKey = process.env.OPENCHARGEMAP_API_KEY;
   if (!apiKey) {
     console.warn("OPENCHARGEMAP_API_KEY is not defined in environment variables.");
   }
 
-  // OpenChargeMap API expects city names in the 'town' parameter
-  // We'll pass the city name directly, though OCM can be a bit fuzzy
+  // OpenChargeMap API query construction
   const url = new URL("https://api.openchargemap.io/v3/poi/");
-  url.searchParams.append("countrycode", "BR");
   url.searchParams.append("maxresults", "50");
-  url.searchParams.append("verbose", "false"); // To reduce payload size if possible, but keep false by default
+  url.searchParams.append("verbose", "false");
 
   if (lat !== undefined && lon !== undefined) {
     url.searchParams.append("latitude", lat.toString());
     url.searchParams.append("longitude", lon.toString());
-    url.searchParams.append("distance", "100"); // 100km radius
+    url.searchParams.append("distance", radiusKm.toString());
     url.searchParams.append("distanceunit", "KM");
+    if (countryCode) {
+      url.searchParams.append("countrycode", countryCode);
+    }
   } else {
+    url.searchParams.append("countrycode", countryCode || "BR");
     url.searchParams.append("town", cidade);
   }
 
