@@ -59,10 +59,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const displayLocation = isCountry ? `${cityName} (${uf})` : (uf ? `${cityName} - ${uf}` : cityName);
   const year = new Date().getFullYear();
 
-  const title = `Carregadores Elétricos em ${displayLocation}: Eletropostos Onde Carregar (${year}) | BuscaCentral`;
-  const description = isCountry 
-    ? `Encontre pontos de recarga e eletropostos para carros elétricos em ${displayLocation}. Veja endereços, conectores, potência e mapas de viagem atualizados para ${year}.`
-    : `Encontre pontos de recarga e eletropostos para carros elétricos em ${displayLocation}. Veja endereços, conectores, potência (kW) e rotas atualizadas em ${year}.`;
+  const title = `Carregador Elétrico em ${displayLocation} | Eletropostos Próximos`;
+  const description = `Encontre postos de recarga para carros elétricos em ${displayLocation}. Veja conectores disponíveis, potência, localização e como chegar. Atualizado!`;
 
   return {
     title,
@@ -71,13 +69,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       canonical: `https://buscacentral.com.br/localizacao/carregador-eletrico/${normalizedSlug}`
     },
     openGraph: {
-      title: `Carregadores Elétricos em ${displayLocation}`,
+      title,
       description,
       url: `https://buscacentral.com.br/localizacao/carregador-eletrico/${normalizedSlug}`,
     },
     twitter: {
       card: "summary_large_image",
-      title: `Carregadores Elétricos em ${displayLocation}`,
+      title,
       description,
     },
   };

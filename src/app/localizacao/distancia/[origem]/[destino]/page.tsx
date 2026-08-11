@@ -55,11 +55,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const result = resolvePair(origem, destino);
 
   const getTitle = (n1: string, n2: string) => {
-    return `${n1} a ${n2}: Distância, Pedágio e Tempo de Viagem (${year})`;
+    return `Distância de ${n1} a ${n2} | Tempo de Viagem e Pedágios`;
   };
 
   const getDescription = (n1: string, n2: string) => {
-    return `Confira a distância exata de ${n1} a ${n2}, tempo estimado de viagem de carro, estimativa de combustível e locais de pedágio em ${year}.`;
+    return `Calcule a distância exata, tempo estimado de viagem e rotas entre ${n1} e ${n2}. Veja o mapa completo e pedágios.`;
   };
 
   // Fallback defensivo: usa slugToProperName quando a cidade não existe na base
