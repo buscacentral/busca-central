@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { fetchChargingStations, INTERNATIONAL_CITY_COORDS } from "@/lib/openchargemap";
 import AdBanner from "@/components/AdBanner";
 import CarregadorSearch from "../CarregadorSearch";
@@ -34,6 +35,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const resolvedParams = await params;
   const rawSlug = resolvedParams["cidade-uf"] || "";
   const normalizedSlug = rawSlug.toLowerCase().trim();
+
+  if (normalizedSlug === "perto-de-mim") {
+    return {
+      title: "Eletropostos Perto de Mim | Postos de Recarga Próximos",
+      description: "Encontre os eletropostos e postos de recarga para carros elétricos mais próximos de você.",
+    };
+  }
   
   const intlConfig = INTERNATIONAL_CITY_COORDS[normalizedSlug] ||
     (normalizedSlug.includes("buenos-aires") ? INTERNATIONAL_CITY_COORDS["buenos-aires-argentina"] : undefined);
@@ -88,6 +96,10 @@ export default async function CarregadorEletricoPage({ params }: PageProps) {
   const resolvedParams = await params;
   const rawSlug = resolvedParams["cidade-uf"] || "";
   const normalizedSlug = rawSlug.toLowerCase().trim();
+
+  if (normalizedSlug === "perto-de-mim") {
+    redirect("/localizacao/carregador-eletrico/perto-de-mim");
+  }
   
   const intlConfig = INTERNATIONAL_CITY_COORDS[normalizedSlug] ||
     (normalizedSlug.includes("buenos-aires") ? INTERNATIONAL_CITY_COORDS["buenos-aires-argentina"] : undefined);
