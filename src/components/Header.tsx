@@ -16,7 +16,7 @@ export default function Header() {
             <Image src="/logo.png" alt="BuscaCentral" width={220} height={48} priority />
           </Link>
 
-          <nav className="hidden md:flex items-center space-x-6 lg:space-x-8 shrink-0">
+          <nav className="hidden md:flex items-center space-x-5 lg:space-x-7 shrink-0">
             <Link href="/documentos" className="text-gray-700 hover:text-blue-700 font-extrabold text-lg lg:text-xl transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-md">
               Documentos
             </Link>
@@ -32,10 +32,17 @@ export default function Header() {
             <Link href="/artigos" className="text-blue-600 hover:text-blue-800 font-extrabold text-lg lg:text-xl transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-md">
               Artigos
             </Link>
+            <Link
+              href="/localizacao/carregador-eletrico/perto-de-mim"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 font-extrabold text-sm border border-blue-200 rounded-full transition-all hover:scale-105"
+            >
+              <span>Perto de mim</span>
+              <span>📍</span>
+            </Link>
           </nav>
 
           {/* Busca no cabeçalho (desktop) */}
-          <div className="hidden lg:block w-56 xl:w-72">
+          <div className="hidden lg:block w-48 xl:w-64">
             <SearchBar variant="compact" placeholder="Buscar ferramenta..." />
           </div>
 
@@ -70,6 +77,14 @@ export default function Header() {
                 onNavigate={() => setMenuOpen(false)}
               />
             </div>
+            <Link
+              href="/localizacao/carregador-eletrico/perto-de-mim"
+              onClick={() => setMenuOpen(false)}
+              className="flex items-center justify-between py-3 px-4 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded-lg font-bold text-base mb-3 border border-blue-200"
+            >
+              <span>Eletropostos Perto de Mim</span>
+              <span>📍</span>
+            </Link>
             <Link
               href="/documentos"
               onClick={() => setMenuOpen(false)}

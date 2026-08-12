@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import SearchBar from '@/components/SearchBar';
 import ToolCard from '@/components/ToolCard';
 import AdPlaceholder from '@/components/AdPlaceholder';
@@ -27,6 +28,7 @@ const siteSchema = [
 ];
 
 const mainTools = [
+  { title: 'Eletropostos Perto de Mim', description: 'Encontre postos de recarga para carros elétricos próximos via GPS em tempo real.', href: '/localizacao/carregador-eletrico/perto-de-mim', icon: '📍', color: 'blue' as const },
   { title: 'Gerador de CPF', description: 'Gere CPFs válidos para testes e desenvolvimento.', href: '/documentos/gerador-cpf', icon: '📄', color: 'blue' as const },
   { title: 'Busca de CEP', description: 'Consulte endereços completos por CEP em tempo real.', href: '/localizacao/busca-cep', icon: '📍', color: 'green' as const },
   { title: 'Localizador de Eletropostos', description: 'Encontre estações de recarga para carros elétricos (VEs).', href: '/localizacao/carregador-eletrico', icon: '⚡', color: 'purple' as const },
@@ -53,7 +55,7 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(siteSchema) }}
       />
-      <section className="text-center mx-auto mt-10 mb-12 max-w-4xl px-4 sm:px-6">
+      <section className="text-center mx-auto mt-10 mb-10 max-w-4xl px-4 sm:px-6">
         <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-4 leading-tight tracking-tight">
           O que você deseja buscar ou gerar?
         </h1>
@@ -61,10 +63,33 @@ export default function Home() {
           Ferramentas gratuitas essenciais em um só lugar, rápidas e sem cadastro.
         </p>
         <p className="bg-blue-50 text-blue-600 inline-block px-5 py-1.5 rounded-full text-sm font-bold mb-8 shadow-sm border border-blue-100">
-          67 ferramentas gratuitas
+          68 ferramentas gratuitas
         </p>
         
         <SearchBar />
+      </section>
+
+      {/* Banner de Destaque: Eletropostos Perto de Mim */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+        <div className="bg-gradient-to-r from-blue-900 via-sky-900 to-indigo-950 rounded-2xl p-6 md:p-8 text-white shadow-lg flex flex-col md:flex-row items-center justify-between gap-6 border border-blue-800/40">
+          <div className="space-y-2 text-center md:text-left">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-sky-500/20 border border-sky-400/30 rounded-full text-xs font-semibold text-sky-300">
+              ⚡ Mobilidade Elétrica
+            </div>
+            <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-white">
+              Procurando Eletropostos Perto de Você?
+            </h2>
+            <p className="text-slate-300 text-sm md:text-base max-w-xl">
+              Encontre estações de recarga para carros elétricos (BYD, GWM, Volvo, BMW, EZVolt) mais próximas da sua localização via GPS em tempo real.
+            </p>
+          </div>
+          <Link
+            href="/localizacao/carregador-eletrico/perto-de-mim"
+            className="shrink-0 inline-flex items-center justify-center px-6 py-3.5 bg-sky-500 hover:bg-sky-400 text-white font-extrabold rounded-xl shadow-md transition-all hover:scale-105 text-base"
+          >
+            Eletropostos Perto de Mim 📍
+          </Link>
+        </div>
       </section>
 
       <h2 className="text-center text-2xl md:text-3xl font-extrabold text-slate-900 mb-8 tracking-tight">

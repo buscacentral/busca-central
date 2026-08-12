@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Link from "next/link";
 import { fetchChargingStations, INTERNATIONAL_CITY_COORDS } from "@/lib/openchargemap";
 import AdBanner from "@/components/AdBanner";
 import CarregadorSearch from "../CarregadorSearch";
@@ -60,11 +61,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const year = new Date().getFullYear();
 
   const title = `Carregador Elétrico em ${displayLocation} | Eletropostos Próximos`;
-  const description = `Encontre postos de recarga para carros elétricos em ${displayLocation}. Veja conectores disponíveis, potência, localização e como chegar. Atualizado!`;
+  const description = `Encontre eletropostos e postos de recarga em ${displayLocation}. Compatível com BYD (Dolphin/Seal), GWM, EZVolt, Volvo e mais. Veja conectores, potência e rotas.`;
+  const keywords = `carregador eletrico ${cityName}, eletroposto ${cityName}, recarga BYD ${cityName}, EZVolt ${cityName}, postos de recarga ${uf || cityName}`;
 
   return {
     title,
     description,
+    keywords,
     alternates: {
       canonical: `https://buscacentral.com.br/localizacao/carregador-eletrico/${normalizedSlug}`
     },
@@ -158,17 +161,38 @@ export default async function CarregadorEletricoPage({ params }: PageProps) {
 
   console.log('[EV Page] Slug:', normalizedSlug, 'Coords:', { lat, lon, countryCode, radiusKm }, 'Stations count:', stations?.length);
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CivicStructure",
+    "name": `Eletropostos em ${displayLocation}`,
+    "description": `Estações de recarga para carros elétricos em ${displayLocation}, compatíveis com BYD, GWM, EZVolt e principais redes de recarga.`,
+    "url": `https://buscacentral.com.br/localizacao/carregador-eletrico/${normalizedSlug}`,
+    "keywords": `carregador eletrico ${cidade}, eletroposto ${cidade}, recarga BYD ${cidade}, EZVolt ${cidade}, postos de recarga ${uf || cidade}`,
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <main className="flex-grow container mx-auto px-4 py-8 max-w-4xl">
         <header className="mb-8 text-center md:text-left">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3 flex items-center justify-center md:justify-start gap-3">
             <PlugIcon />
             Eletropostos na região de {displayLocation}
           </h1>
-          <p className="text-gray-600 text-lg mb-6">
+          <p className="text-gray-600 text-lg mb-4">
             Encontre carregadores para veículos elétricos, verifique a potência, conectores disponíveis e como chegar.
           </p>
+          <div className="bg-blue-50 border border-blue-100 rounded-lg p-3.5 mb-6 text-sm text-blue-900 flex items-start sm:items-center gap-2.5 shadow-sm">
+            <span className="inline-block p-1 bg-blue-100 rounded text-blue-700 font-semibold text-xs shrink-0 mt-0.5 sm:mt-0">
+              Compatibilidade
+            </span>
+            <span className="leading-relaxed">
+              Compatível com conectores <strong>Type 2 / CCS2</strong> — Ideal para modelos <strong>BYD (Dolphin, Seal, King)</strong>, <strong>GWM (Ora 5)</strong>, Volvo, BMW e redes públicas (<strong>EZVolt</strong>, Shell Recharge, Enel X).
+            </span>
+          </div>
           <div className="max-w-2xl mx-auto md:mx-0">
             <CarregadorSearch />
           </div>
@@ -183,6 +207,24 @@ export default async function CarregadorEletricoPage({ params }: PageProps) {
         ) : (
           <FallbackCard cidade={cidade} uf={uf} />
         )}
+
+        {/* Callout Box: Eletropostos Perto de Mim */}
+        <div className="my-8 bg-gradient-to-r from-sky-50 to-blue-50 border border-sky-200 rounded-xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+          <div>
+            <h3 className="text-lg font-bold text-gray-900 mb-1">
+              Procurando postos na sua localização atual?
+            </h3>
+            <p className="text-gray-600 text-sm">
+              Acesse Eletropostos Perto de Mim e encontre recargas pelo GPS em tempo real.
+            </p>
+          </div>
+          <Link
+            href="/localizacao/carregador-eletrico/perto-de-mim"
+            className="shrink-0 inline-flex items-center justify-center py-2.5 px-5 border border-transparent rounded-lg shadow-sm text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-colors"
+          >
+            Eletropostos Perto de Mim 📍
+          </Link>
+        </div>
 
         {/* AdSense Placement: Mid-Content / Above SEO Footer */}
         <div className="mt-8 w-full min-h-[100px] flex justify-center">

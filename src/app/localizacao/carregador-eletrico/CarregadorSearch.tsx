@@ -39,6 +39,8 @@ const CIDADES_INTERNACIONAIS: City[] = [
   { n: 'Madrid', u: 'Espanha', lat: 40.4168, lon: -3.7038 },
 ];
 
+import LocationButton from '@/components/ev/LocationButton';
+
 export default function CarregadorSearch() {
   const [cities, setCities] = useState<City[]>(CIDADES_INTERNACIONAIS);
   const [filteredCities, setFilteredCities] = useState<City[]>([]);
@@ -170,8 +172,8 @@ export default function CarregadorSearch() {
 
   return (
     <form onSubmit={handleSubmit} ref={dropdownRef} className="relative w-full max-w-xl mx-auto" role="search">
-      <div className="relative">
-        <button type="submit" aria-label="Buscar eletropostos na cidade" className="absolute inset-y-0 left-0 pl-3 flex items-center hover:text-sky-600 transition-colors">
+      <div className="relative flex items-center">
+        <button type="submit" aria-label="Buscar eletropostos na cidade" className="absolute inset-y-0 left-0 pl-3 flex items-center hover:text-sky-600 transition-colors z-10">
           <svg
             className="h-5 w-5 text-gray-400"
             xmlns="http://www.w3.org/2000/svg"
@@ -196,13 +198,16 @@ export default function CarregadorSearch() {
           }}
           onKeyDown={handleKeyDown}
           placeholder="Digite sua cidade... (Ex: Ribeirão Preto)"
-          className="block w-full pl-10 pr-3 py-3 border border-sky-200 rounded-lg leading-5 bg-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 sm:text-sm transition-all shadow-sm"
+          className="block w-full pl-10 pr-12 py-3 border border-sky-200 rounded-lg leading-5 bg-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 sm:text-sm transition-all shadow-sm"
           role="combobox"
           aria-expanded={showDropdown}
           aria-controls="city-listbox"
           aria-activedescendant={selectedIndex >= 0 ? `city-option-${selectedIndex}` : undefined}
           aria-autocomplete="list"
         />
+        <div className="absolute inset-y-0 right-0 pr-1.5 flex items-center z-10">
+          <LocationButton variant="button" />
+        </div>
       </div>
 
       {showDropdown && filteredCities.length > 0 && (

@@ -28,6 +28,7 @@ export default function Footer() {
             <div>
               <h3 className="text-white font-semibold mb-6 text-lg">Ferramentas</h3>
               <ul className="space-y-4">
+                <li><Link href="/localizacao/carregador-eletrico/perto-de-mim" className="text-sm md:text-base text-sky-400 font-semibold hover:text-white transition-colors block">Eletropostos Perto de Mim 📍</Link></li>
                 <li><Link href="/localizacao/busca-cep" className="text-sm md:text-base text-slate-400 hover:text-white transition-colors block">Busca de CEP</Link></li>
                 <li><Link href="/financeiro/cotacao" className="text-sm md:text-base text-slate-400 hover:text-white transition-colors block">Cotação de Moedas</Link></li>
                 <li><Link href="/financeiro/tabela-fipe" className="text-sm md:text-base text-slate-400 hover:text-white transition-colors block">Tabela FIPE</Link></li>
