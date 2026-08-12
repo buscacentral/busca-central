@@ -113,6 +113,12 @@ export default function CarregadorSearch() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const norm = normalize(search);
+    if (norm.includes('perto') || norm.includes('mim')) {
+      setShowDropdown(false);
+      router.push('/localizacao/carregador-eletrico/perto-de-mim');
+      return;
+    }
     if (selectedIndex >= 0 && filteredCities[selectedIndex]) {
       selectCity(filteredCities[selectedIndex]);
     } else if (filteredCities.length > 0) {
@@ -152,6 +158,10 @@ export default function CarregadorSearch() {
     setShowDropdown(false);
     setSearch(`${city.n} - ${city.u}`);
     const slug = generateCitySlug(city.n, city.u);
+    if (slug === 'perto-de-mim' || slug.includes('perto')) {
+      router.push('/localizacao/carregador-eletrico/perto-de-mim');
+      return;
+    }
     router.push(`/localizacao/carregador-eletrico/${slug}`);
   };
 

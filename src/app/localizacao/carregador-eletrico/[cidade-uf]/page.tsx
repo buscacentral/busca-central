@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const normalizedSlug = rawSlug.toLowerCase().trim();
 
   if (normalizedSlug === "perto-de-mim") {
-    notFound();
+    return notFound();
   }
   
   const intlConfig = INTERNATIONAL_CITY_COORDS[normalizedSlug] ||
@@ -95,7 +95,7 @@ export default async function CarregadorEletricoPage({ params }: PageProps) {
   const normalizedSlug = rawSlug.toLowerCase().trim();
 
   if (normalizedSlug === "perto-de-mim") {
-    notFound();
+    return notFound();
   }
   
   const intlConfig = INTERNATIONAL_CITY_COORDS[normalizedSlug] ||
