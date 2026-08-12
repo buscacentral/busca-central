@@ -15,9 +15,9 @@ interface PageProps {
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: 'Eletropostos Perto de Mim | Postos de Recarga Próximos',
+    title: 'Eletropostos Perto de Mim: Encontre Postos de Recarga por GPS | BuscaCentral',
     description:
-      'Encontre os eletropostos e postos de recarga para carros elétricos mais próximos de você. Veja localização, conectores, potência e rota no mapa.',
+      'Localize eletropostos e estações de recarga para veículos elétricos (BYD, GWM, Volvo) próximos de você via GPS em tempo real. Veja conectores e potência em kW.',
     keywords:
       'eletroposto perto de mim, eletroposto perto, carregador eletrico perto de mim, posto de recarga perto, recarga BYD perto',
     alternates: {
@@ -25,16 +25,16 @@ export async function generateMetadata(): Promise<Metadata> {
         'https://buscacentral.com.br/localizacao/carregador-eletrico/perto-de-mim',
     },
     openGraph: {
-      title: 'Eletropostos Perto de Mim | Postos de Recarga Próximos',
+      title: 'Eletropostos Perto de Mim: Encontre Postos de Recarga por GPS',
       description:
-        'Encontre os eletropostos e postos de recarga para carros elétricos mais próximos de você.',
+        'Localize eletropostos e estações de recarga para veículos elétricos (BYD, GWM, Volvo) próximos de você via GPS em tempo real. Veja conectores e potência em kW.',
       url: 'https://buscacentral.com.br/localizacao/carregador-eletrico/perto-de-mim',
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'Eletropostos Perto de Mim | Postos de Recarga Próximos',
+      title: 'Eletropostos Perto de Mim: Encontre Postos de Recarga por GPS',
       description:
-        'Encontre os eletropostos e postos de recarga para carros elétricos mais próximos de você.',
+        'Localize eletropostos e estações de recarga para veículos elétricos (BYD, GWM, Volvo) próximos de você via GPS em tempo real. Veja conectores e potência em kW.',
     },
   };
 }

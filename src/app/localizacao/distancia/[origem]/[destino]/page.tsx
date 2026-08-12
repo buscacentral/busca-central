@@ -55,11 +55,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const result = resolvePair(origem, destino);
 
   const getTitle = (n1: string, n2: string) => {
-    return `Distância de ${n1} a ${n2} | Tempo de Viagem e Pedágios`;
+    return `Distância e Tempo de Viagem de ${n1} a ${n2} de Carro | BuscaCentral`;
   };
 
   const getDescription = (n1: string, n2: string) => {
-    return `Calcule a distância exata, tempo estimado de viagem e rotas entre ${n1} e ${n2}. Veja o mapa completo e pedágios.`;
+    return `Veja a distância rodoviária exata em km e o tempo estimado de viagem de carro entre ${n1} e ${n2}. Trace sua rota e veja postos no caminho.`;
   };
 
   // Fallback defensivo: usa slugToProperName quando a cidade não existe na base
@@ -89,7 +89,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description,
     alternates: { canonical },
     openGraph: {
-      title: `${title} | BuscaCentral`,
+      title,
       description,
       url: canonical,
       siteName: 'BuscaCentral',

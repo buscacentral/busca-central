@@ -95,7 +95,11 @@ describe('validarInputCLT', () => {
     mesesTrabalhados: 12,
     valeRefeicao: 1000,
     planoSaude: 500,
+    planoOdontologico: 0,
+    valeTransporte: 0,
+    receberVT: false,
     gympass: 100,
+    outrosBeneficios: 0,
     plrAnual: 0,
   };
 

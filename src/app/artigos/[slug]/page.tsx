@@ -1336,7 +1336,7 @@ export default async function ArticlePage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-      <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <article className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Trilha de navegação (breadcrumbs) */}
         <nav aria-label="Trilha de navegação" className="mb-8">
           <ol className="flex flex-wrap items-center gap-1.5 text-sm text-slate-500">
