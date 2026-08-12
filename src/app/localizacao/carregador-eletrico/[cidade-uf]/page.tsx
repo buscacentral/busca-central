@@ -1,12 +1,13 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { redirect, notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 import { fetchChargingStations, INTERNATIONAL_CITY_COORDS } from "@/lib/openchargemap";
 import AdBanner from "@/components/AdBanner";
 import CarregadorSearch from "../CarregadorSearch";
 import { getCityBySlug, getInternationalCities } from "@/lib/distancia-cidades";
 import { PlugIcon, NavigationIcon } from "@/components/ev/Icons";
 import StationCard from "@/components/ev/StationCard";
+import PertoDeMimClient from "../perto-de-mim/PertoDeMimClient";
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -17,6 +18,21 @@ interface PageProps {
     "cidade-uf": string;
   }>;
 }
+
+const TOP_CITIES_FALLBACK = [
+  { nome: 'São Paulo (SP)', slug: 'sao-paulo-sp' },
+  { nome: 'Rio de Janeiro (RJ)', slug: 'rio-de-janeiro-rj' },
+  { nome: 'Belo Horizonte (MG)', slug: 'belo-horizonte-mg' },
+  { nome: 'Curitiba (PR)', slug: 'curitiba-pr' },
+  { nome: 'Brasília (DF)', slug: 'brasilia-df' },
+  { nome: 'Porto Alegre (RS)', slug: 'porto-alegre-rs' },
+  { nome: 'Campinas (SP)', slug: 'campinas-sp' },
+  { nome: 'Salvador (BA)', slug: 'salvador-ba' },
+  { nome: 'Fortaleza (CE)', slug: 'fortaleza-ce' },
+  { nome: 'Recife (PE)', slug: 'recife-pe' },
+  { nome: 'Goiânia (GO)', slug: 'goiania-go' },
+  { nome: 'Florianópolis (SC)', slug: 'florianopolis-sc' },
+];
 
 function parseCidadeUfSlug(slug: string) {
   const parts = slug.split("-");
@@ -37,7 +53,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const normalizedSlug = rawSlug.toLowerCase().trim();
 
   if (normalizedSlug === "perto-de-mim") {
-    return notFound();
+    return {
+      title: 'Eletropostos Perto de Mim | Postos de Recarga Próximos',
+      description: 'Encontre os eletropostos e postos de recarga para carros elétricos mais próximos de você. Veja localização, conectores, potência e rota no mapa.',
+      keywords: 'eletroposto perto de mim, eletroposto perto, carregador eletrico perto de mim, posto de recarga perto, recarga BYD perto',
+      alternates: {
+        canonical: 'https://buscacentral.com.br/localizacao/carregador-eletrico/perto-de-mim',
+      },
+    };
   }
   
   const intlConfig = INTERNATIONAL_CITY_COORDS[normalizedSlug] ||
@@ -95,7 +118,13 @@ export default async function CarregadorEletricoPage({ params }: PageProps) {
   const normalizedSlug = rawSlug.toLowerCase().trim();
 
   if (normalizedSlug === "perto-de-mim") {
-    return notFound();
+    return (
+      <PertoDeMimClient
+        initialStations={[]}
+        hasCoords={false}
+        topCities={TOP_CITIES_FALLBACK}
+      />
+    );
   }
   
   const intlConfig = INTERNATIONAL_CITY_COORDS[normalizedSlug] ||
