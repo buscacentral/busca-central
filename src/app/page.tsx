@@ -55,7 +55,7 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(siteSchema) }}
       />
-      <section className="text-center mx-auto mt-10 mb-10 max-w-4xl px-4 sm:px-6">
+      <section className="text-center mx-auto mt-10 mb-10 max-w-4xl px-6 md:px-12">
         <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-4 leading-tight tracking-tight">
           O que você deseja buscar ou gerar?
         </h1>
@@ -70,7 +70,7 @@ export default function Home() {
       </section>
 
       {/* Banner de Destaque: Eletropostos Perto de Mim */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+      <section className="max-w-5xl mx-auto px-6 md:px-12 mb-12">
         <div className="bg-gradient-to-r from-blue-900 via-sky-900 to-indigo-950 rounded-2xl p-6 md:p-8 text-white shadow-lg flex flex-col md:flex-row items-center justify-between gap-6 border border-blue-800/40">
           <div className="space-y-2 text-center md:text-left">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-sky-500/20 border border-sky-400/30 rounded-full text-xs font-semibold text-sky-300">
@@ -96,7 +96,7 @@ export default function Home() {
         Ferramentas Populares
       </h2>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+      <div className="max-w-5xl mx-auto px-6 md:px-12 pb-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {mainTools.map((tool) => (
           <ToolCard key={tool.href} {...tool} />
         ))}
@@ -104,7 +104,7 @@ export default function Home() {
 
       <AdPlaceholder position="middle" />
 
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+      <section className="max-w-5xl mx-auto px-6 md:px-12 pb-16">
         <div className="bg-gradient-to-br from-blue-50 via-white to-blue-50 rounded-3xl p-6 md:p-10 border border-blue-100 shadow-sm">
           <h2 className="text-2xl font-extrabold text-slate-900 text-center mb-2">
             Explore por Categoria
@@ -136,7 +136,7 @@ export default function Home() {
       </section>
 
       {/* SEO Content Block para AdSense e Google Search */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+      <section className="max-w-4xl mx-auto px-6 md:px-12 pb-16">
         <div className="prose prose-slate max-w-none text-slate-600">
           <h2 className="text-2xl font-bold text-slate-900 mb-4">Por que usar o BuscaCentral?</h2>
           <p className="mb-4 leading-relaxed">
