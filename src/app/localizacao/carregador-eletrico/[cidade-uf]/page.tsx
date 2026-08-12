@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { redirect, notFound } from "next/navigation";
 import { fetchChargingStations, INTERNATIONAL_CITY_COORDS } from "@/lib/openchargemap";
 import AdBanner from "@/components/AdBanner";
 import CarregadorSearch from "../CarregadorSearch";
@@ -37,10 +37,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const normalizedSlug = rawSlug.toLowerCase().trim();
 
   if (normalizedSlug === "perto-de-mim") {
-    return {
-      title: "Eletropostos Perto de Mim | Postos de Recarga Próximos",
-      description: "Encontre os eletropostos e postos de recarga para carros elétricos mais próximos de você.",
-    };
+    notFound();
   }
   
   const intlConfig = INTERNATIONAL_CITY_COORDS[normalizedSlug] ||
@@ -98,7 +95,7 @@ export default async function CarregadorEletricoPage({ params }: PageProps) {
   const normalizedSlug = rawSlug.toLowerCase().trim();
 
   if (normalizedSlug === "perto-de-mim") {
-    redirect("/localizacao/carregador-eletrico/perto-de-mim");
+    notFound();
   }
   
   const intlConfig = INTERNATIONAL_CITY_COORDS[normalizedSlug] ||
