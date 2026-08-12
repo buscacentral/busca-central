@@ -287,6 +287,27 @@ export const artigos = [
     date: '01 de Julho, 2026',
     category: 'Diversão',
     excerpt: 'Uma viagem pela nostalgia dos testes de nomes da adolescência e como algoritmos modernos transformam palavras em números mágicos.',
+  },
+  {
+    slug: 'potencia-eletropostos-kw-tempo-de-recarga',
+    title: 'Potência de Eletropostos (kW): Quanto Tempo Demora para Carregar um Veículo Elétrico?',
+    date: '12 de Agosto, 2026',
+    category: 'Veículos Elétricos',
+    excerpt: 'Descubra quanto tempo demora para carregar um carro elétrico, entenda a potência dos eletropostos (kW) e veja estimativas para BYD Dolphin, Haval H6 e Volvo EX30.',
+  },
+  {
+    slug: 'eletropostos-minas-gerais-rodovias-onde-carregar',
+    title: 'Eletropostos em Minas Gerais e Principais Rodovias: Onde Recarregar com Segurança',
+    date: '12 de Agosto, 2026',
+    category: 'Veículos Elétricos',
+    excerpt: 'Descubra os principais eletropostos em Minas Gerais (MG), no Triângulo Mineiro (Uberaba/Uberlândia) e nas rodovias. Saiba onde carregar no caminho!',
+  },
+  {
+    slug: 'como-carregar-carro-eletrico-conectores-byd-gwm-volvo',
+    title: 'Como Carregar Carro Elétrico (BYD, GWM e Volvo): Tipos de Conectores e Onde Encontrar Postos',
+    date: '12 de Agosto, 2026',
+    category: 'Veículos Elétricos',
+    excerpt: 'Neste guia, explicamos os tipos de conectores, as diferenças entre carga lenta e rápida e como usar o GPS para encontrar o eletroposto mais próximo da sua localização atual.',
   }
 ];
 

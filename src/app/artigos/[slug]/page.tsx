@@ -939,8 +939,301 @@ const articlesData: Record<string, { title: string; content: React.ReactNode; da
         </div>
       </>
     )
+  },
+  'como-carregar-carro-eletrico-conectores-byd-gwm-volvo': {
+    title: 'Como Carregar Carro Elétrico (BYD, GWM e Volvo): Tipos de Conectores e Onde Encontrar Postos',
+    date: '12 de Agosto, 2026',
+    isoDate: '2026-08-12T12:00:00.000Z',
+    category: 'Mobilidade Elétrica',
+    description: 'Guia completo para donos de BYD Dolphin, GWM Ora 5 e Volvo: entenda a diferença entre carga AC (Tipo 2) e DC (CCS2), como escolher a potência certa e onde encontrar eletropostos próximos via GPS.',
+    content: (
+      <>
+        <p>O Brasil está vivendo uma revolução silenciosa nas ruas. Em 2024, as vendas de carros elétricos e híbridos plug-in cresceram mais de 90% no país, impulsionadas por marcas como <strong>BYD</strong> (Dolphin, Seal, King), <strong>GWM</strong> (Ora 5), <strong>Volvo</strong>, <strong>BMW</strong> e redes de recarga como <strong>EZVolt</strong> e <strong>Shell Recharge</strong>. Se você é dono de um veículo elétrico ou está pensando em comprar um, entender <em>como carregar carro elétrico</em> de forma eficiente é tão importante quanto saber abastecer — mas envolve mais variáveis.</p>
+
+        <p>Neste guia, explicamos os tipos de conectores, as diferenças entre carga lenta e rápida e como usar o GPS para encontrar o eletroposto mais próximo da sua localização atual.</p>
+
+        <h2 className="text-2xl font-bold mt-8 mb-4">Seção 1: Carga Lenta (AC) x Carga Rápida (DC) — Qual a diferença?</h2>
+        <p>A primeira coisa que todo motorista elétrico precisa entender é que existem dois grandes grupos de carregamento: <strong>Corrente Alternada (AC)</strong> e <strong>Corrente Contínua (DC)</strong>. A distinção entre eles muda completamente o tempo de recarga e o tipo de conector usado.</p>
+
+        <h3 className="text-xl font-bold mt-6 mb-3">Carga AC — Carregador Tipo 2 (o mais comum no Brasil)</h3>
+        <p>O <strong>Carregador Tipo 2</strong> (também chamado de <em>T2</em> ou <em>IEC 62196</em>) é o padrão europeu adotado oficialmente no Brasil. Ele é usado para carga AC, que pode variar entre <strong>7 kW e 22 kW</strong> dependendo da tomada e do carregador embarcado do veículo.</p>
+        <ul>
+          <li><strong>Velocidade:</strong> Em uma tomada doméstica de 7 kW, o BYD Dolphin com bateria de 44,9 kWh leva cerca de 6–7 horas para ir de 20% a 100%.</li>
+          <li><strong>Onde usar:</strong> Condomínios, estacionamentos de shopping, empresas e wall boxes residenciais.</li>
+          <li><strong>Ideal para:</strong> Cargas noturnas e paradas longas de 4+ horas.</li>
+        </ul>
+
+        <h3 className="text-xl font-bold mt-6 mb-3">Carga DC — Conector CCS2 (carga rápida)</h3>
+        <p>O <strong>conector CCS2</strong> (Combined Charging System 2) é o padrão europeu de carga rápida em corrente contínua. Diferente do Tipo 2, o CCS2 carrega a bateria diretamente com DC, eliminando a conversão interna do veículo e permitindo potências muito maiores: de <strong>50 kW a mais de 350 kW</strong>.</p>
+        <ul>
+          <li><strong>Velocidade:</strong> Um BYD Seal suportando até 150 kW DC pode recuperar 100 km de autonomia em menos de 15 minutos.</li>
+          <li><strong>Onde usar:</strong> Eletropostos dedicados de redes como EZVolt, Shell Recharge e Tupinambá.</li>
+          <li><strong>Ideal para:</strong> Viagens longas, paradas rápidas de 20–40 minutos durante a viagem.</li>
+        </ul>
+
+        <div className="overflow-x-auto my-6">
+          <table className="w-full text-left border-collapse text-sm">
+            <thead>
+              <tr className="border-b-2 border-slate-200 bg-slate-50">
+                <th className="py-2 pr-4 font-bold text-slate-700">Característica</th>
+                <th className="py-2 pr-4 font-bold text-slate-700">Tipo 2 (AC)</th>
+                <th className="py-2 font-bold text-slate-700">CCS2 (DC)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-slate-100">
+                <td className="py-2 pr-4 font-medium">Potência típica</td>
+                <td className="py-2 pr-4">7 kW – 22 kW</td>
+                <td className="py-2">50 kW – 350 kW</td>
+              </tr>
+              <tr className="border-b border-slate-100">
+                <td className="py-2 pr-4 font-medium">Tempo para 80%</td>
+                <td className="py-2 pr-4">4 – 8 horas</td>
+                <td className="py-2">20 – 45 minutos</td>
+              </tr>
+              <tr className="border-b border-slate-100">
+                <td className="py-2 pr-4 font-medium">Custo instalação</td>
+                <td className="py-2 pr-4">Baixo (wall box)</td>
+                <td className="py-2">Alto (infra dedicada)</td>
+              </tr>
+              <tr className="border-b border-slate-100">
+                <td className="py-2 pr-4 font-medium">Onde encontrar</td>
+                <td className="py-2 pr-4">Shoppings, condomínios</td>
+                <td className="py-2">Postos dedicados, rodovias</td>
+              </tr>
+              <tr>
+                <td className="py-2 pr-4 font-medium">Modelos compatíveis</td>
+                <td className="py-2 pr-4">Todos os EVs modernos</td>
+                <td className="py-2">BYD Dolphin/Seal/King, GWM Ora 5, Volvo, BMW</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 className="text-2xl font-bold mt-8 mb-4">Seção 2: Como saber a potência ideal para o seu modelo?</h2>
+        <p>Nem todo carro elétrico aceita a mesma potência de carga. A velocidade de recarga real depende de dois fatores: a potência máxima que o carregador oferece <em>e</em> a potência máxima que o carregador embarcado (OBC) do seu veículo suporta. O carregamento ocorrerá sempre na potência mais baixa entre os dois.</p>
+
+        <h3 className="text-xl font-bold mt-6 mb-3">BYD Dolphin — carregar BYD Dolphin</h3>
+        <p>O <strong>BYD Dolphin</strong> aceita carga AC de até <strong>7 kW</strong> (via Tipo 2) e carga DC de até <strong>60 kW</strong> (via CCS2). Com uma wall box de 7 kW em casa, vai de 10% a 100% em aproximadamente 7 horas. Em um eletroposto de 50 kW DC, a recarga de 20% a 80% leva cerca de 40 minutos.</p>
+
+        <h3 className="text-xl font-bold mt-6 mb-3">BYD Seal e BYD King</h3>
+        <p>Os modelos premium da BYD suportam carga AC de até <strong>11 kW</strong> e DC de até <strong>150 kW</strong> (CCS2). Em um fast charger de 150 kW, é possível recuperar autonomia para mais de 200 km em menos de 20 minutos.</p>
+
+        <h3 className="text-xl font-bold mt-6 mb-3">GWM Ora 5</h3>
+        <p>O <strong>GWM Ora 5</strong> suporta carga AC de até <strong>6,6 kW</strong> e DC de até <strong>80 kW</strong>. Em um carregador doméstico, a bateria de 63 kWh vai de vazia a cheia em cerca de 10 horas. Em um eletroposto de 80 kW DC, o tempo de 20% a 80% é de aproximadamente 35 minutos.</p>
+
+        <h3 className="text-xl font-bold mt-6 mb-3">Volvo EX30 e XC40 Recharge</h3>
+        <p>Os modelos elétricos da Volvo suportam carga AC de até <strong>11 kW</strong> (XC40) e DC de até <strong>150 kW</strong> (EX30). A Volvo também oferece carregamento doméstico com o kit de instalação da rede EV (incluso em alguns pacotes de compra).</p>
+
+        <div className="bg-amber-50 border-l-4 border-amber-500 p-6 rounded-r-lg my-8">
+          <h3 className="font-bold text-lg text-amber-900 mb-2">⚡ Dica Prática: Não use sempre 100% em DC</h3>
+          <p className="text-amber-800">As baterias de lítio duram mais quando a carga é mantida entre <strong>20% e 80%</strong>. Carga DC frequente até 100% pode acelerar a degradação da bateria em 2–3× se comparada a cargas AC regulares. Use carga rápida DC para viagens — para o dia a dia, prefira o Tipo 2 em casa ou no trabalho.</p>
+        </div>
+
+        <h2 className="text-2xl font-bold mt-8 mb-4">Seção 3: Como encontrar estações de recarga pelo GPS</h2>
+        <p>Com a expansão do mercado de elétricos no Brasil, a rede de <em>eletropostos</em> também cresceu significativamente. As principais redes em operação incluem:</p>
+        <ul>
+          <li><strong>EZVolt:</strong> A maior rede independente do Brasil, com postos em shoppings, supermercados e postos de combustível. Oferece carregadores AC (Tipo 2) e DC (CCS2).</li>
+          <li><strong>Shell Recharge:</strong> Integrada a postos Shell selecionados, com foco em carregadores DC de alta potência para rodovias e avenidas de grande fluxo.</li>
+          <li><strong>Tupinambá:</strong> Rede focada no interior do Brasil, especialmente no estado de São Paulo.</li>
+          <li><strong>Enel X Way:</strong> Atuante em regiões da Celpe e Coelba (Nordeste), com wall boxes e fast chargers.</li>
+          <li><strong>BYD Charging Network:</strong> Rede própria da BYD em concessionárias e parceiros estratégicos.</li>
+        </ul>
+
+        <p>Para encontrar qualquer um desses postos de recarga em tempo real, a forma mais prática é usar a <strong>geolocalização GPS do seu smartphone</strong>. A base de dados global <strong>OpenChargeMap</strong> concentra mais de 70.000 pontos de recarga ao redor do mundo, incluindo todos os estados brasileiros.</p>
+
+        <div className="bg-green-50 border border-green-200 rounded-2xl p-6 my-8">
+          <div className="flex items-start gap-4">
+            <div className="text-3xl shrink-0">📍</div>
+            <div>
+              <h3 className="font-bold text-lg text-green-900 mb-2">Encontre Eletropostos Perto de Você Agora</h3>
+              <p className="text-green-800 mb-4 text-sm leading-relaxed">
+                Use o localizador de eletropostos do BuscaCentral para encontrar postos de recarga compatíveis com BYD, GWM, Volvo e BMW no raio de <strong>35 km</strong> da sua posição atual. Basta ativar o GPS e a ferramenta consulta o OpenChargeMap em tempo real, exibindo endereço, potência (kW), conectores disponíveis e rota pelo Google Maps.
+              </p>
+              <Link
+                href="/localizacao/carregador-eletrico/perto-de-mim"
+                className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition-colors"
+              >
+                <span>📡</span>
+                Eletropostos Perto de Mim
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        <h3 className="text-xl font-bold mt-6 mb-3">Dicas para usar o localizador com eficiência</h3>
+        <ul>
+          <li><strong>Filtre por conector:</strong> Busque especificamente por CCS2 se precisar de carga rápida. Tipo 2 é adequado para paradas de 2+ horas.</li>
+          <li><strong>Verifique o status em tempo real:</strong> Alguns postos exibem se o carregador está livre ou ocupado. Confira antes de se deslocar.</li>
+          <li><strong>Tenha um plano B:</strong> Em regiões com cobertura mais esparsa, identifique dois postos no trajeto caso o primeiro esteja fora de serviço.</li>
+          <li><strong>Use o Google Maps offline:</strong> Antes de uma viagem longa, baixe o mapa da região para não depender de sinal de dados.</li>
+        </ul>
+
+        <h2 className="text-2xl font-bold mt-8 mb-4">Conclusão: Carregar elétrico é simples — quando você sabe o que está fazendo</h2>
+        <p>A transição para mobilidade elétrica no Brasil está em plena aceleração. Os desafios de recarga que existiam há dois ou três anos — como falta de infraestrutura e conectores incompatíveis — reduziram significativamente com a padronização do <strong>Tipo 2 AC</strong> e do <strong>CCS2 DC</strong> como padrões nacionais.</p>
+        <p>Com as informações certas sobre o seu modelo (BYD Dolphin, GWM Ora 5, Volvo ou qualquer outro), a programação da recarga se torna tão natural quanto qualquer outra parte da rotina. Use a carga AC lenta no dia a dia, reserve a DC rápida para viagens, e mantenha a bateria entre 20% e 80% para maximizar a vida útil das células.</p>
+
+        <div className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-lg my-8">
+          <h3 className="font-bold text-lg text-blue-900 mb-2">Planeje sua próxima recarga</h3>
+          <p className="text-blue-800">
+            Antes de sair de casa, encontre os{' '}
+            <Link href="/localizacao/carregador-eletrico/perto-de-mim" className="underline font-semibold hover:text-blue-900">
+              Eletropostos Perto de Mim
+            </Link>{' '}
+            com GPS ativo — ou pesquise por cidade em nossa página de{' '}
+            <Link href="/localizacao/carregador-eletrico" className="underline font-semibold hover:text-blue-900">
+              Carregadores Elétricos
+            </Link>. Para viagens longas, use o{' '}
+            <Link href="/localizacao/planejador-viagem-ev" className="underline font-semibold hover:text-blue-900">
+              Planejador de Viagem EV
+            </Link>{' '}
+            para mapear os postos de recarga em toda a rota.
+          </p>
+        </div>
+      </>
+    )
+  },
+  'potencia-eletropostos-kw-tempo-de-recarga': {
+    title: 'Potência de Eletropostos (kW): Quanto Tempo Demora para Carregar um Veículo Elétrico?',
+    date: '12 de Agosto, 2026',
+    isoDate: '2026-08-12T10:00:00.000Z',
+    category: 'Veículos Elétricos',
+    description: 'Descubra quanto tempo demora para carregar um carro elétrico, entenda a potência dos eletropostos (kW) e veja estimativas para BYD Dolphin, Haval H6 e Volvo EX30.',
+    content: (
+      <>
+        <p>Com o crescimento da frota de veículos elétricos (VEs) no Brasil, uma das dúvidas mais comuns entre novos e futuros proprietários é o <strong>tempo de carga do carro elétrico</strong>. Diferente do abastecimento por combustão, a velocidade de recarga de um VE depende diretamente da <strong>potência de recarga do veículo elétrico</strong> suportada pelo carro e, principalmente, da potência do carregador utilizado.</p>
+        <p>Compreender a diferença entre os tipos de carregadores e a capacidade de entrega de energia em kW (quilowatts) é essencial antes de planejar sua próxima viagem ou decidir em qual estação parar. Um carregador incompatível ou de baixa potência pode transformar uma parada de 30 minutos em uma espera de horas.</p>
+        <p>Neste artigo, detalhamos como a potência dos eletropostos afeta o tempo de recarga e apresentamos dados práticos para os modelos mais vendidos no mercado.</p>
+
+        <h2 className="text-2xl font-bold mt-8 mb-4">Entendendo Potência (kW): Carga Lenta (7kW - 22kW) vs Carga Rápida (40kW - 150kW+)</h2>
+        <p>A potência do carregador define a quantidade de energia transferida para a bateria do seu veículo a cada hora. Os eletropostos são divididos basicamente em duas categorias em termos de corrente: Corrente Alternada (AC) para carga lenta/semirrápida e Corrente Contínua (DC) para carga rápida e ultrarrápida.</p>
+
+        <h3 className="text-xl font-bold mt-6 mb-3">Carga Lenta e Semirrápida (AC: 7kW a 22kW)</h3>
+        <p>Geralmente encontrados em shoppings, supermercados e wallboxes residenciais, os carregadores AC utilizam o inversor interno do veículo para converter a energia.</p>
+        <ul className="list-disc pl-6 mb-4">
+          <li className="mb-2"><strong>7kW:</strong> Adiciona cerca de 30 a 40 km de autonomia por hora. Ideal para recargas noturnas em casa.</li>
+          <li><strong>11kW a 22kW:</strong> Carregadores semirrápidos. No entanto, o tempo real de carga depende do limite do inversor <em>on-board</em> do veículo (muitos carros limitam a entrada AC a 7kW ou 11kW).</li>
+        </ul>
+
+        <h3 className="text-xl font-bold mt-6 mb-3">Carga Rápida e Ultrarrápida (DC: 40kW a 150kW+)</h3>
+        <p>Os carregadores de Corrente Contínua (DC) injetam energia diretamente na bateria, contornando o inversor do veículo. São a escolha ideal para rodovias e viagens longas.</p>
+        <ul className="list-disc pl-6 mb-4">
+          <li className="mb-2"><strong>Eletroposto rápido 40kW a 50kW:</strong> Padrão comum nas estradas. Capaz de carregar a maioria das baterias de 20% a 80% em 40 a 60 minutos.</li>
+          <li><strong>Carregador 80kW a 150kW+:</strong> Estações ultrarrápidas que podem elevar o nível da bateria de 20% a 80% em 20 a 30 minutos, dependendo da curva de carga do veículo e da gestão térmica da bateria.</li>
+        </ul>
+
+        <h2 className="text-2xl font-bold mt-8 mb-4">Estimativa Prática de Tempo de Recarga (20% a 80%)</h2>
+        <p>Para ilustrar o impacto da potência no tempo de espera, elaboramos uma tabela com a estimativa de tempo de recarga (de 20% a 80%) para três dos modelos mais populares no mercado atual, utilizando diferentes potências de carregamento:</p>
+
+        <div className="overflow-x-auto my-6">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="border-b-2 border-slate-200">
+                <th className="py-2 pr-4 font-bold text-slate-700">Modelo</th>
+                <th className="py-2 pr-4 font-bold text-slate-700">Capacidade da Bateria</th>
+                <th className="py-2 pr-4 font-bold text-slate-700">Carga AC (7kW)</th>
+                <th className="py-2 pr-4 font-bold text-slate-700">Carga Rápida DC (50kW)</th>
+                <th className="py-2 font-bold text-slate-700">Carregador DC (80kW / 150kW)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-slate-100">
+                <td className="py-2 pr-4 font-semibold">BYD Dolphin (GS)</td>
+                <td className="py-2 pr-4">44,9 kWh</td>
+                <td className="py-2 pr-4">~4 horas</td>
+                <td className="py-2 pr-4">~40 minutos</td>
+                <td className="py-2">~30 minutos (Limitado a 60kW DC)</td>
+              </tr>
+              <tr className="border-b border-slate-100">
+                <td className="py-2 pr-4 font-semibold">GWM Haval H6 (PHEV)</td>
+                <td className="py-2 pr-4">34,0 kWh</td>
+                <td className="py-2 pr-4">~3 horas</td>
+                <td className="py-2 pr-4">~30 minutos</td>
+                <td className="py-2">~25 minutos (Limitado a 33kW DC)</td>
+              </tr>
+              <tr className="border-b border-slate-100">
+                <td className="py-2 pr-4 font-semibold">Volvo EX30 (Extended)</td>
+                <td className="py-2 pr-4">69,0 kWh</td>
+                <td className="py-2 pr-4">~6 horas</td>
+                <td className="py-2 pr-4">~55 minutos</td>
+                <td className="py-2">~26 minutos (Suporta até 153kW DC)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p className="text-sm text-slate-500 mb-6">Nota: O tempo exato pode variar de acordo com a temperatura ambiente, gestão térmica da bateria e a curva de carregamento específica do veículo (a velocidade diminui significativamente após 80% para proteger a vida útil da bateria).</p>
+
+        <div className="bg-blue-50 border-l-4 border-blue-500 p-6 my-8 rounded-r-lg shadow-sm">
+          <h3 className="text-xl font-semibold text-blue-900 mb-2">Precisa carregar o seu carro agora?</h3>
+          <p className="text-blue-800 text-lg">
+            Encontre as estações compatíveis com a potência ideal para o seu veículo no nosso mapa em tempo real.<br/>
+            👉 <Link href="/localizacao/carregador-eletrico/perto-de-mim" className="font-bold underline text-blue-600 hover:text-blue-900 transition-colors">Carregadores Elétricos Próximos</Link>
+          </p>
+        </div>
+
+        <h2 className="text-2xl font-bold mt-8 mb-4">Como verificar a potência do posto antes de sair de casa</h2>
+        <p>Para evitar contratempos, como chegar com a bateria baixa e descobrir que a estação oferece apenas 7kW (o que atrasaria a sua viagem em várias horas), o planejamento é fundamental. Siga estes passos antes de iniciar o trajeto:</p>
+
+        <ol className="list-decimal pl-6 space-y-3 mb-6">
+          <li><strong>Utilize Aplicativos de Mapeamento:</strong> Ferramentas digitais são vitais. Ao buscar por <strong>eletropostos perto de mim</strong>, certifique-se de usar filtros de potência. Selecione opções acima de 50kW para paradas rápidas em rodovias.</li>
+          <li><strong>Verifique o Tipo de Conector e Status:</strong> Confirme se o posto possui o conector compatível (geralmente Tipo 2 para AC e CCS2 para DC) e se a estação está online, operacional e disponível.</li>
+          <li><strong>Conheça o Limite do Seu Carro:</strong> Não adianta parar em um <strong>carregador 80kW</strong> ou 150kW se o seu carro for limitado a 50kW em DC. Ele carregará na velocidade máxima permitida pelo próprio veículo.</li>
+          <li><strong>Considere a Rotação de Cabine (Power Sharing):</strong> Em algumas estações, se dois veículos conectarem simultaneamente, a potência total pode ser dividida. Um carregador de 80kW, por exemplo, pode enviar 40kW para cada carro, aumentando o tempo de espera de ambos.</li>
+        </ol>
+
+        <p>Entender a potência de recarga não apenas otimiza o seu tempo, mas também melhora a sua experiência com a mobilidade elétrica, tornando as viagens mais previsíveis e confortáveis.</p>
+      </>
+    )
+  },
+  'eletropostos-minas-gerais-rodovias-onde-carregar': {
+    title: 'Eletropostos em Minas Gerais e Principais Rodovias: Onde Recarregar com Segurança',
+    date: '12 de Agosto, 2026',
+    isoDate: '2026-08-12T11:00:00.000Z',
+    category: 'Veículos Elétricos',
+    description: 'Descubra os principais eletropostos em Minas Gerais (MG), no Triângulo Mineiro (Uberaba/Uberlândia) e nas rodovias. Saiba onde carregar no caminho!',
+    content: (
+      <>
+        <p>A infraestrutura para veículos elétricos (VEs) está em franca expansão no Brasil, e quem viaja ou reside na região Sudeste já sente a diferença. Encontrar <strong>eletropostos em MG</strong> deixou de ser um desafio, graças aos crescentes investimentos nos principais corredores federais e estaduais, bem como em cidades-polo estratégicas.</p>
+        <p>A região do Triângulo Mineiro, destacando-se cidades como Uberlândia e Uberaba, tornou-se um <em>hub</em> vital de conexão entre o interior de São Paulo, Belo Horizonte e o Centro-Oeste do país. Planejar <strong>onde carregar no caminho</strong> é fundamental para garantir uma viagem tranquila, sem surpresas e com total segurança energética.</p>
+        <p>Neste artigo, mapeamos os corredores elétricos de Minas Gerais e apresentamos dicas valiosas para você planejar a sua próxima aventura de carro elétrico.</p>
+
+        <h2 className="text-2xl font-bold mt-8 mb-4">Principais Corredores Elétricos nas Rodovias Federais e Estaduais</h2>
+        <p>A conectividade rodoviária é o ponto forte de Minas Gerais. O avanço na instalação de <strong>eletropostos em rodovias</strong> permite realizar viagens de longa distância com tranquilidade, utilizando estações de recarga rápida (DC).</p>
+
+        <ul className="list-disc pl-6 space-y-2 mb-6">
+          <li><strong>BR-050 e Triângulo Mineiro:</strong> Um dos eixos mais bem servidos do Brasil. Se você procura um <strong>posto de recarga no Triângulo Mineiro</strong>, encontrará excelentes opções rápidas conectando Uberlândia e um <strong>carregador elétrico em Uberaba</strong>. Esta rota liga o interior paulista direto a Brasília, passando pelo coração de Minas.</li>
+          <li><strong>Rodovia Anhanguera (SP-330):</strong> Fundamental para quem sai de São Paulo em direção a Minas Gerais. Conta com diversos eletropostos de alta potência (acima de 50kW), garantindo uma recarga ultrarrápida antes mesmo de cruzar a fronteira estadual.</li>
+          <li><strong>BR-262 e BR-153:</strong> Conectam a região do Triângulo a Belo Horizonte e ao Centro-Oeste. Esses trechos vêm recebendo novas instalações de eletropostos rápidos e semirrápidos, facilitando paradas estratégicas para almoço e descanso enquanto o carro recarrega.</li>
+          <li><strong>Corredores rumo a Belo Horizonte (BR-381 e BR-040):</strong> A capital mineira e sua região metropolitana possuem uma rede robusta, sendo destinos frequentes e oferecendo bases de recarga para quem segue para o Rio de Janeiro ou Espírito Santo.</li>
+        </ul>
+
+        <h2 className="text-2xl font-bold mt-8 mb-4">Dicas Práticas para Planejar Viagens Longas de Carro Elétrico Sem Sufoco</h2>
+        <p>Viajar de carro elétrico é sinônimo de economia e conforto, desde que você siga a regra de ouro: <strong>planejamento prévio</strong>.</p>
+
+        <ol className="list-decimal pl-6 space-y-3 mb-6">
+          <li><strong>Conheça a sua Autonomia Relativa:</strong> A autonomia informada pelo Inmetro (PBEV) ou pelo ciclo WLTP é uma média. Em rodovias, o consumo de bateria é maior devido à ausência de frenagem regenerativa e às velocidades elevadas. Calcule sua viagem considerando pelo menos 20% a 30% a menos da autonomia nominal, dependendo da topografia (trechos de serra exigem mais energia).</li>
+          <li><strong>Mantenha uma Margem de Segurança (20%):</strong> A &quot;ansiedade de autonomia&quot; é combatida com a margem de segurança. Nunca planeje chegar a um carregador com menos de 15% ou 20% de bateria. Caso a estação esteja ocupada, em manutenção ou inoperante, essa reserva garantirá que você possa seguir para a próxima estação (plano B).</li>
+          <li><strong>Verifique a Potência (kW) e o Status da Parada:</strong> Antes de desligar o carro em um posto, certifique-se da potência da estação. Parar em um carregador de 7kW (AC) no meio da rodovia significará horas de espera. Busque sempre por carregadores rápidos ou ultrarrápidos (DC de 40kW a 150kW) e valide se estão operacionais através dos aplicativos das redes responsáveis.</li>
+        </ol>
+
+        <h2 className="text-2xl font-bold mt-8 mb-4">Como Localizar Postos em Tempo Real Durante a Viagem Pelo Celular</h2>
+        <p>Hoje, a tecnologia é a melhor aliada do motorista de VE. Encontrar o ponto ideal e verificar a sua disponibilidade em tempo real é a diferença entre uma parada de 30 minutos e um atraso na viagem.</p>
+        <p>Para localizar <strong>eletropostos em MG</strong> ou em qualquer lugar do Brasil, evite depender apenas do sistema nativo do veículo se ele não estiver com o mapa atualizado. Utilize ferramentas via celular (conectadas ao Apple CarPlay ou Android Auto) para mapear o status atual do carregador.</p>
+
+        <div className="bg-green-50 border-l-4 border-green-500 p-6 my-8 rounded-r-lg shadow-sm">
+          <h3 className="text-xl font-semibold text-green-900 mb-2">Vai pegar a estrada?</h3>
+          <p className="text-green-800 text-lg">
+            Está na estrada ou em deslocamento regional? Encontre postos de recarga rápida e conectores compatíveis na sua posição exata através da nossa ferramenta de Eletropostos por GPS em Tempo Real.<br/>
+            👉 <Link href="/localizacao/carregador-eletrico/perto-de-mim" className="font-bold underline text-green-600 hover:text-green-900 transition-colors">Carregadores Elétricos Próximos</Link>
+          </p>
+        </div>
+
+        <p>Com estas dicas e utilizando as ferramentas certas, rodar pelo interior de Minas Gerais, pelo Triângulo Mineiro e pelas principais rodovias nacionais passa a ser uma experiência moderna, econômica e, acima de tudo, segura. Boa viagem!</p>
+      </>
+    )
   }
 };
+
 
 type Props = {
   params: Promise<{ slug: string }>
