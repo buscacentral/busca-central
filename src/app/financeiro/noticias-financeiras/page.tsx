@@ -18,42 +18,42 @@ export default async function NoticiasFinanceirasPage() {
   let initialNews = [];
   let cryptoNews = [];
 
-  try {
-    if (!apiKey) throw new Error('NEWSAPI_KEY não configurada.');
-    // Usando endpoint 'everything' para garantir resultados diários no Brasil
-    const res = await fetch(`https://newsapi.org/v2/everything?q=economia OR "mercado financeiro"&language=pt&sortBy=publishedAt&apiKey=${apiKey}`, {
-      next: { revalidate: 3600 } // Faz o cache por 1 hora
-    });
-    
-    if (res.ok) {
-      const data = await res.json();
-      if (data && data.articles) {
-        initialNews = data.articles
-          .filter((a: RawArticle) => a.title && a.title !== '[Removed]' && a.urlToImage)
-          .slice(0, 30);
+  if (apiKey) {
+    try {
+      // Usando endpoint 'everything' para garantir resultados diários no Brasil
+      const res = await fetch(`https://newsapi.org/v2/everything?q=economia OR "mercado financeiro"&language=pt&sortBy=publishedAt&apiKey=${apiKey}`, {
+        next: { revalidate: 3600 } // Faz o cache por 1 hora
+      });
+      
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.articles) {
+          initialNews = data.articles
+            .filter((a: RawArticle) => a.title && a.title !== '[Removed]' && a.urlToImage)
+            .slice(0, 30);
+        }
       }
+    } catch (error) {
+      console.error("Erro ao buscar notícias no servidor:", error);
     }
-  } catch (error) {
-    console.error("Erro ao buscar notícias no servidor:", error);
-  }
 
-  try {
-    if (!apiKey) throw new Error('NEWSAPI_KEY não configurada.');
-    // Buscando criptomoedas no servidor também para evitar bloqueio de CORS do NewsAPI no cliente
-    const resCrypto = await fetch(`https://newsapi.org/v2/everything?q=criptomoedas OR bitcoin OR ethereum&language=pt&sortBy=publishedAt&apiKey=${apiKey}`, {
-      next: { revalidate: 3600 }
-    });
-    
-    if (resCrypto.ok) {
-      const dataCrypto = await resCrypto.json();
-      if (dataCrypto && dataCrypto.articles) {
-        cryptoNews = dataCrypto.articles
-          .filter((a: RawArticle) => a.title && a.title !== '[Removed]' && a.urlToImage)
-          .slice(0, 30);
+    try {
+      // Buscando criptomoedas no servidor também para evitar bloqueio de CORS do NewsAPI no cliente
+      const resCrypto = await fetch(`https://newsapi.org/v2/everything?q=criptomoedas OR bitcoin OR ethereum&language=pt&sortBy=publishedAt&apiKey=${apiKey}`, {
+        next: { revalidate: 3600 }
+      });
+      
+      if (resCrypto.ok) {
+        const dataCrypto = await resCrypto.json();
+        if (dataCrypto && dataCrypto.articles) {
+          cryptoNews = dataCrypto.articles
+            .filter((a: RawArticle) => a.title && a.title !== '[Removed]' && a.urlToImage)
+            .slice(0, 30);
+        }
       }
+    } catch (error) {
+      console.error("Erro ao buscar cripto no servidor:", error);
     }
-  } catch (error) {
-    console.error("Erro ao buscar cripto no servidor:", error);
   }
 
   // Schema Markup (JSON-LD) para SEO (NewsArticle e WebPage)
