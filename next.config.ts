@@ -7,6 +7,12 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // Garante que a rota perto-de-mim seja sempre canônica (sem trailing slash)
+      {
+        source: "/localizacao/carregador-eletrico/perto-de-mim/",
+        destination: "/localizacao/carregador-eletrico/perto-de-mim",
+        permanent: false,
+      },
       {
         source: "/localizacao/whatsapp-link",
         destination: "/utilidades/whatsapp-link",
