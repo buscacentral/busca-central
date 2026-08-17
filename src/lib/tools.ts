@@ -105,7 +105,7 @@ export function searchTools(query: string): Tool[] {
  * específica, passe a prop `lastUpdated="AAAA-MM-DD"` diretamente no
  * `<ToolPageLayout>` daquela página (a prop sobrescreve este valor).
  */
-export const SITE_LAST_REVIEWED = '2026-06-19';
+export const SITE_LAST_REVIEWED = '2026-08-16';
 
 /**
  * Retorna a data de última atualização (ISO) para exibir numa página de

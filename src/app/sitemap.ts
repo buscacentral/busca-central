@@ -4,7 +4,7 @@ import path from 'node:path';
 import { artigos } from './artigos/page';
 import { TOP_10 as cryptoIds } from './financeiro/criptomoedas/[id]/page';
 import { SITE_LAST_REVIEWED } from '@/lib/tools';
-import { getCityPairs, getCapitais, getAllCities, getInternationalCities } from '@/lib/distancia-cidades';
+import { getCityPairs, getAllCities, getInternationalCities } from '@/lib/distancia-cidades';
 import { SALARIOS_COMUNS } from '@/lib/salario-liquido-faixas';
 
 const baseUrl = 'https://buscacentral.com.br';
@@ -58,7 +58,7 @@ function routeMeta(route: string): {
   }
   // Páginas de criptomoeda (preços mudam diariamente)
   if (route.startsWith('/financeiro/criptomoedas/')) {
-    return { priority: 0.6, changeFrequency: 'daily', lastModified: new Date() };
+    return { priority: 0.6, changeFrequency: 'daily', lastModified: reviewedDate };
   }
   // Páginas programáticas de distância entre cidades (alto volume de busca)
   if (route.startsWith('/localizacao/distancia/')) {
@@ -66,7 +66,11 @@ function routeMeta(route: string): {
   }
   // Páginas programáticas de Eletropostos
   if (route.startsWith('/localizacao/carregador-eletrico/')) {
-    return { priority: 0.8, changeFrequency: 'weekly', lastModified: new Date() };
+    return { priority: 0.8, changeFrequency: 'weekly', lastModified: reviewedDate };
+  }
+  // Páginas programáticas de Planejador de Viagens EV
+  if (route.startsWith('/localizacao/planejador-viagem-ev/')) {
+    return { priority: 0.7, changeFrequency: 'weekly', lastModified: reviewedDate };
   }
   // Páginas programáticas de salário líquido por faixa
   if (route.startsWith('/financeiro/salario-liquido/')) {
@@ -84,7 +88,7 @@ function routeMeta(route: string): {
     return { priority: 0.4, changeFrequency: 'yearly', lastModified: reviewedDate };
   }
 
-  // Páginas de ferramenta (ex.: /financeiro/tabela-fipe)
+  // Páginas de ferramenta (ex.: /financeiro/tabela-fipe, /documentos/gerador-recibos)
   return { priority: 0.8, changeFrequency: 'monthly', lastModified: reviewedDate };
 }
 
@@ -138,6 +142,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const distanceRoutes = getCityPairs().map(
     ({ origem, destino }) => `/localizacao/distancia/${origem}/${destino}`,
   );
+  const evTripRoutes = getCityPairs().map(
+    ({ origem, destino }) => `/localizacao/planejador-viagem-ev/${origem}/${destino}`,
+  );
   const salarioRoutes = SALARIOS_COMUNS.map(
     (v) => `/financeiro/salario-liquido/${v}`,
   );
@@ -154,7 +161,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // Remove duplicatas e ordena (mantendo a home em primeiro).
   const allRoutes = Array.from(
-    new Set([...staticRoutes, ...articleRoutes, ...cryptoRoutes, ...distanceRoutes, ...salarioRoutes, ...evRoutes]),
+    new Set([
+      ...staticRoutes,
+      ...articleRoutes,
+      ...cryptoRoutes,
+      ...distanceRoutes,
+      ...evTripRoutes,
+      ...salarioRoutes,
+      ...evRoutes
+    ]),
   )
     .filter((route) => !excludedRoutes.has(route))
     .sort((a, b) => {
