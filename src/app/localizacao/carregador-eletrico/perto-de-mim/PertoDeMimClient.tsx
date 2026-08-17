@@ -78,17 +78,17 @@ export default function PertoDeMimClient({
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <main className="flex-grow container mx-auto px-4 py-8 max-w-4xl">
+      <div className="w-full">
         <header className="mb-8 text-center">
-          <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-3 flex items-center justify-center gap-3">
+          <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-3 flex items-center justify-center gap-3">
             <PlugIcon />
             {h1Title}
-          </h1>
+          </h2>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto mb-6">
             Localize postos de recarga para carros elétricos (BYD, GWM, Volvo, BMW, EZVolt) mais próximos da sua posição atual.
           </p>
@@ -206,7 +206,7 @@ export default function PertoDeMimClient({
             Ao utilizar o recurso de <strong>geolocalização por GPS</strong>, o BuscaCentral consulta em tempo real a API OpenChargeMap para filtrar apenas as estações ativas num raio aproximado de 35 km de onde você se encontra, exibindo conectores (Tipo 2, CCS2), potência (kW) e rota direta no Google Maps.
           </p>
         </section>
-      </main>
+      </div>
     </div>
   );
 }
