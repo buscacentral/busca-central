@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { usePersistentState } from '@/hooks/usePersistentState';
+import ShareWhatsAppButton from '@/components/ui/ShareWhatsAppButton';
 
 export default function CalculadoraChurrascoClient() {
-  const [homens, setHomens] = useState(0);
-  const [mulheres, setMulheres] = useState(0);
-  const [criancas, setCriancas] = useState(0);
-  const [comBebidaAlcoolica, setComBebidaAlcoolica] = useState(true);
+  const [homens, setHomens] = usePersistentState<number>('calc_churrasco_homens', 0);
+  const [mulheres, setMulheres] = usePersistentState<number>('calc_churrasco_mulheres', 0);
+  const [criancas, setCriancas] = usePersistentState<number>('calc_churrasco_criancas', 0);
+  const [comBebidaAlcoolica, setComBebidaAlcoolica] = usePersistentState<boolean>('calc_churrasco_bebida', true);
 
   // Regras de cálculo
   // Homens: 500g carne, 4 latas cerveja, 500ml refri/água, 150g acompanhamentos
@@ -41,6 +42,22 @@ export default function CalculadoraChurrascoClient() {
 
   const resultado = calcular();
 
+  const mensagemWhatsApp = resultado
+    ? `🥩 *Lista de Compras do Churrasco!*
+👥 *Convidados:* ${homens} homens, ${mulheres} mulheres, ${criancas} crianças
+
+🍗 *Carnes & Acompanhamentos:*
+• Carne Bovina: ${resultado.carne} kg
+• Linguiça: ${resultado.linguica} kg
+• Frango / Coração: ${resultado.frango} kg
+• Pão de Alho: ${resultado.paoAlho} un.
+
+🍻 *Bebidas & Suprimentos:*
+${comBebidaAlcoolica ? `• Cerveja (350ml): ${resultado.cerveja} latas\n` : ''}• Refri / Água / Suco: ${resultado.refriAgua} L
+• Carvão: ${resultado.carvao} kg
+• Gelo (5kg): ${resultado.gelo} saco${resultado.gelo > 1 ? 's' : ''}`
+    : '';
+
   return (
     <div className="bg-white rounded-3xl shadow-sm border border-slate-200 p-8 md:p-12 mb-10">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -61,9 +78,9 @@ export default function CalculadoraChurrascoClient() {
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <button onClick={() => setHomens(Math.max(0, homens - 1))} className="w-10 h-10 rounded-full bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 font-bold text-lg">-</button>
+                <button onClick={() => setHomens(Math.max(0, homens - 1))} className="w-10 h-10 rounded-full bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 font-bold text-lg cursor-pointer">-</button>
                 <span className="w-8 text-center font-bold text-xl">{homens}</span>
-                <button onClick={() => setHomens(homens + 1)} className="w-10 h-10 rounded-full bg-blue-600 text-white hover:bg-blue-700 font-bold text-lg">+</button>
+                <button onClick={() => setHomens(homens + 1)} className="w-10 h-10 rounded-full bg-blue-600 text-white hover:bg-blue-700 font-bold text-lg cursor-pointer">+</button>
               </div>
             </div>
 
@@ -76,9 +93,9 @@ export default function CalculadoraChurrascoClient() {
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <button onClick={() => setMulheres(Math.max(0, mulheres - 1))} className="w-10 h-10 rounded-full bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 font-bold text-lg">-</button>
+                <button onClick={() => setMulheres(Math.max(0, mulheres - 1))} className="w-10 h-10 rounded-full bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 font-bold text-lg cursor-pointer">-</button>
                 <span className="w-8 text-center font-bold text-xl">{mulheres}</span>
-                <button onClick={() => setMulheres(mulheres + 1)} className="w-10 h-10 rounded-full bg-blue-600 text-white hover:bg-blue-700 font-bold text-lg">+</button>
+                <button onClick={() => setMulheres(mulheres + 1)} className="w-10 h-10 rounded-full bg-blue-600 text-white hover:bg-blue-700 font-bold text-lg cursor-pointer">+</button>
               </div>
             </div>
 
@@ -91,9 +108,9 @@ export default function CalculadoraChurrascoClient() {
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <button onClick={() => setCriancas(Math.max(0, criancas - 1))} className="w-10 h-10 rounded-full bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 font-bold text-lg">-</button>
+                <button onClick={() => setCriancas(Math.max(0, criancas - 1))} className="w-10 h-10 rounded-full bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 font-bold text-lg cursor-pointer">-</button>
                 <span className="w-8 text-center font-bold text-xl">{criancas}</span>
-                <button onClick={() => setCriancas(criancas + 1)} className="w-10 h-10 rounded-full bg-blue-600 text-white hover:bg-blue-700 font-bold text-lg">+</button>
+                <button onClick={() => setCriancas(criancas + 1)} className="w-10 h-10 rounded-full bg-blue-600 text-white hover:bg-blue-700 font-bold text-lg cursor-pointer">+</button>
               </div>
             </div>
             
@@ -103,9 +120,9 @@ export default function CalculadoraChurrascoClient() {
                 type="checkbox"
                 checked={comBebidaAlcoolica}
                 onChange={(e) => setComBebidaAlcoolica(e.target.checked)}
-                className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 cursor-pointer"
               />
-              <label htmlFor="bebidaAlcoolica" className="ml-3 text-slate-700 font-medium">
+              <label htmlFor="bebidaAlcoolica" className="ml-3 text-slate-700 font-medium cursor-pointer">
                 Incluir bebidas alcoólicas (cerveja)
               </label>
             </div>
@@ -126,47 +143,59 @@ export default function CalculadoraChurrascoClient() {
                 <p>Adicione convidados para ver a quantidade recomendada.</p>
               </div>
             ) : (
-              <div className="space-y-6 flex-1">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-slate-800 p-4 rounded-2xl border border-slate-700">
-                    <div className="text-slate-400 text-sm mb-1">Carne (Picanha, Alcatra)</div>
-                    <div className="text-2xl font-bold text-amber-400">{resultado.carne} kg</div>
+              <div className="space-y-6 flex-1 flex flex-col justify-between">
+                <div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-slate-800 p-4 rounded-2xl border border-slate-700">
+                      <div className="text-slate-400 text-sm mb-1">Carne (Picanha, Alcatra)</div>
+                      <div className="text-2xl font-bold text-amber-400">{resultado.carne} kg</div>
+                    </div>
+                    <div className="bg-slate-800 p-4 rounded-2xl border border-slate-700">
+                      <div className="text-slate-400 text-sm mb-1">Linguiça</div>
+                      <div className="text-2xl font-bold text-amber-400">{resultado.linguica} kg</div>
+                    </div>
+                    <div className="bg-slate-800 p-4 rounded-2xl border border-slate-700">
+                      <div className="text-slate-400 text-sm mb-1">Frango / Coração</div>
+                      <div className="text-2xl font-bold text-amber-400">{resultado.frango} kg</div>
+                    </div>
+                    <div className="bg-slate-800 p-4 rounded-2xl border border-slate-700">
+                      <div className="text-slate-400 text-sm mb-1">Pão de Alho</div>
+                      <div className="text-2xl font-bold text-amber-400">{resultado.paoAlho} un.</div>
+                    </div>
                   </div>
-                  <div className="bg-slate-800 p-4 rounded-2xl border border-slate-700">
-                    <div className="text-slate-400 text-sm mb-1">Linguiça</div>
-                    <div className="text-2xl font-bold text-amber-400">{resultado.linguica} kg</div>
-                  </div>
-                  <div className="bg-slate-800 p-4 rounded-2xl border border-slate-700">
-                    <div className="text-slate-400 text-sm mb-1">Frango / Coração</div>
-                    <div className="text-2xl font-bold text-amber-400">{resultado.frango} kg</div>
-                  </div>
-                  <div className="bg-slate-800 p-4 rounded-2xl border border-slate-700">
-                    <div className="text-slate-400 text-sm mb-1">Pão de Alho</div>
-                    <div className="text-2xl font-bold text-amber-400">{resultado.paoAlho} un.</div>
+
+                  <div className="h-px bg-slate-700 my-4 w-full"></div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    {comBebidaAlcoolica && (
+                      <div className="bg-slate-800 p-4 rounded-2xl border border-slate-700">
+                        <div className="text-slate-400 text-sm mb-1">Cerveja (Latas 350ml)</div>
+                        <div className="text-2xl font-bold text-sky-400">{resultado.cerveja} latas</div>
+                      </div>
+                    )}
+                    <div className="bg-slate-800 p-4 rounded-2xl border border-slate-700">
+                      <div className="text-slate-400 text-sm mb-1">Refri / Água / Suco</div>
+                      <div className="text-2xl font-bold text-sky-400">{resultado.refriAgua} L</div>
+                    </div>
+                    <div className="bg-slate-800 p-4 rounded-2xl border border-slate-700">
+                      <div className="text-slate-400 text-sm mb-1">Carvão</div>
+                      <div className="text-2xl font-bold text-slate-300">{resultado.carvao} kg</div>
+                    </div>
+                    <div className="bg-slate-800 p-4 rounded-2xl border border-slate-700">
+                      <div className="text-slate-400 text-sm mb-1">Gelo (Saco 5kg)</div>
+                      <div className="text-2xl font-bold text-slate-300">{resultado.gelo} saco{resultado.gelo > 1 ? 's' : ''}</div>
+                    </div>
                   </div>
                 </div>
 
-                <div className="h-px bg-slate-700 my-4 w-full"></div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  {comBebidaAlcoolica && (
-                    <div className="bg-slate-800 p-4 rounded-2xl border border-slate-700">
-                      <div className="text-slate-400 text-sm mb-1">Cerveja (Latas 350ml)</div>
-                      <div className="text-2xl font-bold text-sky-400">{resultado.cerveja} latas</div>
-                    </div>
-                  )}
-                  <div className="bg-slate-800 p-4 rounded-2xl border border-slate-700">
-                    <div className="text-slate-400 text-sm mb-1">Refri / Água / Suco</div>
-                    <div className="text-2xl font-bold text-sky-400">{resultado.refriAgua} L</div>
-                  </div>
-                  <div className="bg-slate-800 p-4 rounded-2xl border border-slate-700">
-                    <div className="text-slate-400 text-sm mb-1">Carvão</div>
-                    <div className="text-2xl font-bold text-slate-300">{resultado.carvao} kg</div>
-                  </div>
-                  <div className="bg-slate-800 p-4 rounded-2xl border border-slate-700">
-                    <div className="text-slate-400 text-sm mb-1">Gelo (Saco 5kg)</div>
-                    <div className="text-2xl font-bold text-slate-300">{resultado.gelo} saco{resultado.gelo > 1 ? 's' : ''}</div>
-                  </div>
+                {/* Botão de Compartilhar no WhatsApp */}
+                <div className="pt-4 border-t border-slate-800">
+                  <ShareWhatsAppButton
+                    message={mensagemWhatsApp}
+                    buttonText="Enviar Lista de Compras no WhatsApp"
+                    url="https://buscacentral.com.br/utilidades/calculadora-churrasco"
+                    className="w-full justify-center"
+                  />
                 </div>
               </div>
             )}

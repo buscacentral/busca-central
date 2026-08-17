@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { usePersistentState } from '@/hooks/usePersistentState';
+import ShareWhatsAppButton from '@/components/ui/ShareWhatsAppButton';
 
 // ---------------------------------------------------------------------------
 // TIPOS
@@ -107,10 +109,10 @@ function formatInputCurrency(value: string): string {
 // ---------------------------------------------------------------------------
 export default function CalculadoraCLTPJClient() {
   // Inputs
-  const [salarioBruto, setSalarioBruto] = useState('');
-  const [beneficiosCLT, setBeneficiosCLT] = useState('');
-  const [faturamentoPJ, setFaturamentoPJ] = useState('');
-  const [custoContador, setCustoContador] = useState('100,00');
+  const [salarioBruto, setSalarioBruto] = usePersistentState<string>('clt_pj_salario_bruto', '');
+  const [beneficiosCLT, setBeneficiosCLT] = usePersistentState<string>('clt_pj_beneficios', '');
+  const [faturamentoPJ, setFaturamentoPJ] = usePersistentState<string>('clt_pj_faturamento', '');
+  const [custoContador, setCustoContador] = usePersistentState<string>('clt_pj_contador', '100,00');
 
   // Resultado
   const [resultadoCLT, setResultadoCLT] = useState<ResultadoCLT | null>(null);
@@ -512,9 +514,34 @@ export default function CalculadoraCLTPJClient() {
                 ? 'O regime PJ coloca mais dinheiro no seu bolso'
                 : 'O regime CLT oferece um pacote melhor ao considerar todos os benefícios'}
             </p>
-            <p className="text-xs text-slate-400 mt-3">
+            <p className="text-xs text-slate-400 mt-3 mb-4">
               * Cálculo simplificado. Consulte um contador para decisões financeiras.
             </p>
+
+            <div className="pt-4 border-t border-slate-200/80 flex justify-center">
+              <ShareWhatsAppButton
+                message={`⚖️ *Comparativo CLT x PJ — BuscaCentral*
+
+💼 *Proposta CLT:*
+• Salário Bruto: ${formatCurrency(resultadoCLT.salarioBruto)}
+• Salário Líquido: ${formatCurrency(resultadoCLT.salarioLiquido)}
+• Rendimento Real Mensal: ${formatCurrency(resultadoCLT.rendimentoLiquidoReal)} (inclui 13º, Férias e FGTS)
+
+🏢 *Proposta PJ (Simples Nacional):*
+• Faturamento Mensal: ${formatCurrency(resultadoPJ.faturamento)}
+• Imposto Simples (6%): ${formatCurrency(resultadoPJ.impostoSimples)}
+• Rendimento Líquido Real: ${formatCurrency(resultadoPJ.rendimentoLiquidoReal)} (já descontado impostos e contador)
+
+🏆 *Veredito:* ${
+                  melhorOpcao === 'PJ'
+                    ? `O regime PJ rende + ${formatCurrency(resultadoPJ.rendimentoLiquidoReal - resultadoCLT.rendimentoLiquidoReal)} a mais por mês no bolso!`
+                    : `O regime CLT é mais vantajoso (+ ${formatCurrency(resultadoCLT.rendimentoLiquidoReal - resultadoPJ.rendimentoLiquidoReal)}/mês ao considerar todos os benefícios)!`
+                }`}
+                buttonText="Compartilhar Comparativo no WhatsApp"
+                url="https://buscacentral.com.br/financeiro/calculadora-clt-pj"
+                className="w-full sm:w-auto justify-center"
+              />
+            </div>
           </div>
         </div>
       )}

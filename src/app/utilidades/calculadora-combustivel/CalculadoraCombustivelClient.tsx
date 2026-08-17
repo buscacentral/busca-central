@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
+import { usePersistentState } from '@/hooks/usePersistentState';
+import ShareWhatsAppButton from '@/components/ui/ShareWhatsAppButton';
 import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { ResultCard } from '@/components/ui/ResultCard';
@@ -21,8 +23,8 @@ function CalculadoraForm() {
 
   // ─── Modo Viagem ──────────────────────────────────────────────────────────
   const [distancia, setDistancia] = useState<string>('');
-  const [consumo, setConsumo] = useState<string>('');
-  const [preco, setPreco] = useState<string>('');
+  const [consumo, setConsumo] = usePersistentState<string>('calc_combustivel_consumo', '');
+  const [preco, setPreco] = usePersistentState<string>('calc_combustivel_preco', '');
   const [resultado, setResultado] = useState<{
     litros: number;
     custoTotal: number;

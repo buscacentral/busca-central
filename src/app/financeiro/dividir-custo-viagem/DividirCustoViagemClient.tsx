@@ -1,15 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { usePersistentState } from '@/hooks/usePersistentState';
+import ShareWhatsAppButton from '@/components/ui/ShareWhatsAppButton';
 
 export default function DividirCustoViagemClient() {
-  const [distanciaStr, setDistanciaStr] = useState<string>('435');
-  const [consumoStr, setConsumoStr] = useState<string>('11.5');
-  const [precoStr, setPrecoStr] = useState<string>('6.09');
-  const [passageirosStr, setPassageirosStr] = useState<string>('4');
-  const [pedagioStr, setPedagioStr] = useState<string>('45.50');
-  const [chavePix, setChavePix] = useState<string>('');
-  const [copiado, setCopiado] = useState<boolean>(false);
+  const [distanciaStr, setDistanciaStr] = usePersistentState<string>('racha_distancia', '435');
+  const [consumoStr, setConsumoStr] = usePersistentState<string>('racha_consumo', '11.5');
+  const [precoStr, setPrecoStr] = usePersistentState<string>('racha_preco', '6.09');
+  const [passageirosStr, setPassageirosStr] = usePersistentState<string>('racha_passageiros', '4');
+  const [pedagioStr, setPedagioStr] = usePersistentState<string>('racha_pedagio', '45.50');
+  const [chavePix, setChavePix] = usePersistentState<string>('racha_chave_pix', '');
 
   const distancia = parseFloat(distanciaStr) || 0;
   const consumo = parseFloat(consumoStr) || 1;
@@ -22,23 +22,15 @@ export default function DividirCustoViagemClient() {
   const custoTotal = custoCombustivel + pedagio;
   const custoPorPessoa = custoTotal / passageiros;
 
-  const handleCopiarWhatsApp = () => {
-    const pixTexto = chavePix.trim() ? `\n🔑 *Chave Pix:* ${chavePix.trim()}` : '';
-    const resumo = `🚗 *Racha da Viagem!*
+  const pixTexto = chavePix.trim() ? `\n🔑 *Chave Pix:* ${chavePix.trim()}` : '';
+  const mensagemWhatsApp = `🚗 *Racha da Viagem!*
 📍 *Distância:* ${distancia} km
 ⛽ *Combustível:* R$ ${custoCombustivel.toFixed(2).replace('.', ',')} (${litros.toFixed(1)}L)
 🛣️ *Pedágios:* R$ ${pedagio.toFixed(2).replace('.', ',')}
 💰 *Custo Total:* R$ ${custoTotal.toFixed(2).replace('.', ',')}
 👥 *Passageiros:* ${passageiros} pessoas
 
-👉 *Valor por pessoa: R$ ${custoPorPessoa.toFixed(2).replace('.', ',')}*${pixTexto}
-
-Calculado via BuscaCentral: https://buscacentral.com.br/financeiro/dividir-custo-viagem`;
-
-    navigator.clipboard.writeText(resumo);
-    setCopiado(true);
-    setTimeout(() => setCopiado(false), 3000);
-  };
+👉 *Valor por pessoa: R$ ${custoPorPessoa.toFixed(2).replace('.', ',')}*${pixTexto}`;
 
   return (
     <div className="bg-white rounded-2xl border border-slate-200 p-6 md:p-8 shadow-sm space-y-6">
@@ -151,8 +143,8 @@ Calculado via BuscaCentral: https://buscacentral.com.br/financeiro/dividir-custo
         </div>
       </div>
 
-      {/* Cartão de Resultado Destacado Above-The-Fold */}
-      <div className="p-6 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl text-white shadow-lg space-y-4">
+      {/* Cartão de Resultado Destacado */}
+      <div className="p-6 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl text-white shadow-lg space-y-5">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
             <p className="text-xs font-bold text-blue-200 uppercase tracking-wider">Divisão de Custos da Viagem</p>
@@ -164,14 +156,12 @@ Calculado via BuscaCentral: https://buscacentral.com.br/financeiro/dividir-custo
             </p>
           </div>
 
-          <button
-            type="button"
-            onClick={handleCopiarWhatsApp}
-            className="w-full sm:w-auto px-5 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold rounded-xl shadow transition-colors flex items-center justify-center gap-2"
-          >
-            <span>💬</span>
-            <span>{copiado ? 'Copiado para o Clipboard!' : 'Copiar Resumo no WhatsApp'}</span>
-          </button>
+          <ShareWhatsAppButton
+            message={mensagemWhatsApp}
+            buttonText="Enviar Divisão no WhatsApp"
+            url="https://buscacentral.com.br/financeiro/dividir-custo-viagem"
+            className="w-full sm:w-auto"
+          />
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-3 border-t border-blue-500/50 text-center text-xs">
