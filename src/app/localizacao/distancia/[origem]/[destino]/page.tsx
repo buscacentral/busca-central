@@ -391,45 +391,8 @@ export default async function DistanciaParPage({ params }: Props) {
         </section>
       )}
 
-      {/* ================================================================= */}
-      {/* CTA CONVERSÃO — Widget de Contexto de Viagem (glassmorphism)       */}
-      {/* Texto dinâmico com nomes das cidades + ?distancia= prefill         */}
-      {/* ================================================================= */}
-      <Link
-        href={`/utilidades/calculadora-combustivel?distancia=${road}&origem=${encodeURIComponent(origin.n)}&destino=${encodeURIComponent(dest.n)}`}
-        className="group relative block w-full mb-10 p-6 rounded-2xl border border-blue-200/60 bg-gradient-to-r from-blue-50/80 via-white to-emerald-50/80 backdrop-blur-sm shadow-sm hover:shadow-lg hover:border-blue-400 transition-all duration-300 overflow-hidden"
-      >
-        {/* Glow effect on hover */}
-        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-400/10 to-emerald-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        {/* Decorative fuel icon background */}
-        <div className="absolute -right-4 -bottom-4 text-8xl opacity-5 select-none pointer-events-none">⛽</div>
-
-        <div className="relative flex flex-col sm:flex-row items-center gap-4">
-          <div className="flex-shrink-0 w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500 to-emerald-500 flex items-center justify-center text-white text-2xl shadow-md">
-            🚗
-          </div>
-          <div className="flex-1 text-center sm:text-left">
-            <p className="text-lg font-bold text-gray-900 mb-1">
-              Vai viajar de {origin.n} para {dest.n}?
-            </p>
-            <p className="text-sm text-gray-600 leading-relaxed">
-              Calcule o <strong>gasto exato de combustível</strong> e saiba quanto vai gastar na ponta do lápis.
-              Informe o consumo do seu carro e o preço na bomba — os <strong>{road.toLocaleString('pt-BR')} km</strong> já estarão preenchidos.
-            </p>
-          </div>
-          <div className="flex-shrink-0">
-            <span className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-xl shadow-md group-hover:bg-blue-700 group-hover:shadow-lg transition-all">
-              Calcular gasto
-              <svg className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </span>
-          </div>
-        </div>
-      </Link>
-
       {/* Detalhes adicionais da viagem */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-10">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
         <div className="bg-white border border-slate-200 rounded-xl p-4 text-center">
           <p className="text-xs font-medium text-slate-500 mb-1">Ônibus (~60 km/h)</p>
           <p className="text-xl font-bold text-slate-700">{formatHoras(road, 60)}</p>
@@ -447,6 +410,65 @@ export default async function DistanciaParPage({ params }: Props) {
           <p className="text-xl font-bold text-slate-700">
             {(custoCombustivel * 2).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
           </p>
+        </div>
+      </div>
+
+      {/* ================================================================= */}
+      {/* CALLOUTS CONTEXTUAIS — Combustível & Carregadores Elétricos       */}
+      {/* ================================================================= */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-10">
+        {/* Card 1: Calculadora de Combustível */}
+        <div className="flex flex-col justify-between p-6 rounded-2xl bg-gradient-to-br from-blue-50/90 via-sky-50/50 to-white border border-blue-200/80 shadow-sm hover:shadow-md transition-shadow">
+          <div>
+            <div className="flex items-center gap-3 mb-3">
+              <span className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center text-xl shadow-sm">
+                ⛽
+              </span>
+              <span className="text-xs font-semibold uppercase tracking-wider text-blue-700 bg-blue-100/70 px-2.5 py-0.5 rounded-full">
+                Planejamento de Viagem
+              </span>
+            </div>
+            <h2 className="text-lg font-bold text-slate-900 mb-2 leading-snug">
+              Vai viajar de carro? Calcule os gastos com combustível
+            </h2>
+            <p className="text-sm text-slate-600 leading-relaxed mb-6">
+              Estime o consumo de gasolina, etanol e o custo total para o trajeto entre as cidades selecionadas.
+            </p>
+          </div>
+          <Link
+            href={`/utilidades/calculadora-combustivel?distancia=${road}`}
+            className="inline-flex items-center justify-center gap-2 w-full py-3 px-5 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-xl shadow-sm hover:shadow transition-all group"
+          >
+            <span>Calcular Combustível</span>
+            <span className="group-hover:translate-x-0.5 transition-transform">→</span>
+          </Link>
+        </div>
+
+        {/* Card 2: Eletropostos e Carregadores Elétricos */}
+        <div className="flex flex-col justify-between p-6 rounded-2xl bg-gradient-to-br from-emerald-50/90 via-teal-50/50 to-white border border-emerald-200/80 shadow-sm hover:shadow-md transition-shadow">
+          <div>
+            <div className="flex items-center gap-3 mb-3">
+              <span className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-xl shadow-sm">
+                ⚡
+              </span>
+              <span className="text-xs font-semibold uppercase tracking-wider text-emerald-700 bg-emerald-100/70 px-2.5 py-0.5 rounded-full">
+                Mobilidade Elétrica
+              </span>
+            </div>
+            <h2 className="text-lg font-bold text-slate-900 mb-2 leading-snug">
+              Viajando de Carro Elétrico ou Híbrido?
+            </h2>
+            <p className="text-sm text-slate-600 leading-relaxed mb-6">
+              Encontre estações de recarga rápida (BYD, GWM, Volvo) próximas e ao longo de rodovias em tempo real.
+            </p>
+          </div>
+          <Link
+            href="/localizacao/carregador-eletrico/perto-de-mim"
+            className="inline-flex items-center justify-center gap-2 w-full py-3 px-5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm rounded-xl shadow-sm hover:shadow transition-all group"
+          >
+            <span>Ver Eletropostos Perto de Mim</span>
+            <span className="group-hover:translate-x-0.5 transition-transform">→</span>
+          </Link>
         </div>
       </div>
 
