@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -8,7 +8,7 @@ interface BeforeInstallPromptEvent extends Event {
 }
 
 export default function PwaInstaller() {
-  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  const deferredPrompt = useRef<BeforeInstallPromptEvent | null>(null);
   const [showBanner, setShowBanner] = useState(false);
   const [isIos, setIsIos] = useState(false);
 
@@ -51,19 +51,23 @@ export default function PwaInstaller() {
       const isIosDevice = /iphone|ipad|ipod/.test(userAgent);
       const isSafari = /safari/.test(userAgent) && !/chrome|crios|fxios/.test(userAgent);
 
+      let timer: NodeJS.Timeout | null = null;
+
       if (isIosDevice && isSafari) {
         setIsIos(true);
-        const timer = setTimeout(() => {
+        timer = setTimeout(() => {
           setShowBanner(true);
         }, 4500);
-        return () => clearTimeout(timer);
+        return () => {
+          if (timer) clearTimeout(timer);
+        };
       }
 
       // 4. Android / Desktop Chrome beforeinstallprompt handler
       const handleBeforeInstallPrompt = (e: Event) => {
         e.preventDefault();
-        setDeferredPrompt(e as BeforeInstallPromptEvent);
-        setTimeout(() => {
+        deferredPrompt.current = e as BeforeInstallPromptEvent;
+        timer = setTimeout(() => {
           setShowBanner(true);
         }, 4500);
       };
@@ -71,16 +75,17 @@ export default function PwaInstaller() {
       window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
 
       return () => {
+        if (timer) clearTimeout(timer);
         window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
       };
     }
   }, []);
 
   const handleInstallClick = async () => {
-    if (!deferredPrompt) return;
+    if (!deferredPrompt.current) return;
 
-    deferredPrompt.prompt();
-    const choiceResult = await deferredPrompt.userChoice;
+    deferredPrompt.current.prompt();
+    const choiceResult = await deferredPrompt.current.userChoice;
 
     if (choiceResult.outcome === 'accepted') {
       console.log('[PWA] Usuário aceitou a instalação do app.');
@@ -88,7 +93,7 @@ export default function PwaInstaller() {
       console.log('[PWA] Usuário recusou a instalação.');
     }
 
-    setDeferredPrompt(null);
+    deferredPrompt.current = null;
     setShowBanner(false);
   };
 
