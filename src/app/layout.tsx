@@ -8,6 +8,7 @@ import AdPlaceholder from "@/components/AdPlaceholder";
 import CookieBanner from "@/components/CookieBanner";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import MicrosoftClarity from "@/components/MicrosoftClarity";
+import PwaInstaller from "@/components/pwa/PwaInstaller";
 
 const geist = Geist({
   variable: "--font-geist",
@@ -129,6 +130,7 @@ export default function RootLayout({
 
         <Footer />
         <CookieBanner />
+        <PwaInstaller />
       </body>
     </html>
   );
