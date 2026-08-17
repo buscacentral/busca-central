@@ -31,6 +31,11 @@ function slugToProperName(slug: string): string {
 // gerados sob demanda na primeira visita e ficam em cache (ISR).
 export const dynamicParams = true;
 
+// Constantes configuráveis de estimativa de combustível
+const CONSUMO_MEDIO_INLINE = 12; // km/L
+const PRECO_MEDIO_COMBUSTIVEL_INLINE = 6.20; // R$/L
+
+
 interface Props {
   params: Promise<{ origem: string; destino: string }>;
 }
@@ -624,6 +629,36 @@ export default async function DistanciaParPage({ params }: Props) {
               <p className="font-semibold text-slate-800">Dias Úteis</p>
               <p className="text-xs text-slate-500">Calcule prazos de entrega/frete</p>
             </div>
+          </Link>
+        </div>
+      </section>
+
+      {/* ================================================================= */}
+      {/* BLOCO DISCRETO — Custo Estimado de Combustível                    */}
+      {/* ================================================================= */}
+      <section className="mb-8 bg-slate-50 border border-slate-200 rounded-xl p-5">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div>
+            <h3 className="text-sm font-semibold text-slate-800 flex items-center gap-2 mb-1">
+              <span>⛽</span>
+              <span>Custo estimado de combustível para esta rota</span>
+            </h3>
+            <p className="text-sm text-slate-600">
+              Viagem de <strong>{road.toLocaleString('pt-BR')} km</strong>:{' '}
+              <strong className="text-slate-900">
+                {((road / CONSUMO_MEDIO_INLINE) * PRECO_MEDIO_COMBUSTIVEL_INLINE).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+              </strong>{' '}
+              <span className="text-xs text-slate-500">
+                (estimativa com média de {CONSUMO_MEDIO_INLINE} km/L a R$ {PRECO_MEDIO_COMBUSTIVEL_INLINE.toFixed(2).replace('.', ',')}/L)
+              </span>
+            </p>
+          </div>
+          <Link
+            href={`/utilidades/calculadora-combustivel?distancia=${road}`}
+            className="flex-shrink-0 text-sm font-semibold text-blue-600 hover:text-blue-800 hover:underline inline-flex items-center gap-1"
+          >
+            <span>Personalizar na Calculadora</span>
+            <span>→</span>
           </Link>
         </div>
       </section>
