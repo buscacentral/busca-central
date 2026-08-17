@@ -87,6 +87,7 @@ export default async function CryptoPage({ params }: { params: Promise<{ id: str
       title={`${crypto.name} (${crypto.symbol})`}
       description={crypto.description}
       ariaLabel={`Cotação de ${crypto.name} em tempo real`}
+      path={`/financeiro/criptomoedas/${id}`}
       faqItems={faqItems}
     >
       <CryptoDetailClient id={id} name={crypto.name} symbol={crypto.symbol} faqItems={faqItems} />
