@@ -1,5 +1,7 @@
 'use client';
 
+import EvProductCards from '@/components/affiliate/EvProductCards';
+
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
@@ -162,6 +164,12 @@ export default function PertoDeMimClient({
             )}
           </section>
         )}
+
+        {/* Contextual Affiliate Cards */}
+        <EvProductCards
+          title="Equipamentos Essenciais para seu Veículo Elétrico"
+          subtitle="Carregador portátil bivolt de emergência, adaptador V2L para tomadas convencionais e suporte organizador de garagem."
+        />
 
         {/* Top Cities Grid */}
         <section className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 md:p-8 mt-8">

@@ -1,3 +1,4 @@
+import EvProductCards from '@/components/affiliate/EvProductCards';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import ToolPageLayout, { generateToolMetadata } from '@/components/ToolPageLayout';
@@ -68,6 +69,11 @@ export default function CarregadorEletricoIndex() {
           <CarregadorSearch />
         </div>
       </div>
+
+      <EvProductCards
+        title="Acessórios Essenciais para seu Veículo Elétrico"
+        subtitle="Carregador portátil Tipo 2 bivolt, adaptador V2L e suporte organizador recomendados para seu BYD, GWM ou Volvo."
+      />
     </ToolPageLayout>
   );
 }

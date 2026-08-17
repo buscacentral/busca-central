@@ -53,6 +53,10 @@ const MAPA: Record<string, string[]> = {
   'salario-liquido-por-faixa-quanto-sobra': ['/financeiro/salario-liquido', '/financeiro/conversor-clt-pj', '/financeiro/decimo-terceiro'],
   'como-escrever-valores-por-extenso': ['/utilidades/numero-por-extenso', '/documentos/gerador-recibos'],
   'sac-ou-price-qual-o-melhor-para-financiar-imovel': ['/financeiro/financiamento-imobiliario', '/financeiro/financiamento-carro', '/financeiro/juros-compostos'],
+  'como-carregar-carro-eletrico-conectores-byd-gwm-volvo': ['/localizacao/carregador-eletrico/perto-de-mim', '/localizacao/carregador-eletrico', '/localizacao/planejador-viagem-ev'],
+  'potencia-eletropostos-kw-tempo-de-recarga': ['/localizacao/carregador-eletrico/perto-de-mim', '/localizacao/carregador-eletrico', '/localizacao/planejador-viagem-ev'],
+  'eletropostos-minas-gerais-rodovias-onde-carregar': ['/localizacao/carregador-eletrico/perto-de-mim', '/localizacao/planejador-viagem-ev', '/localizacao/distancia-cidades'],
+  'recarga-eletrica-mg-bh-triangulo-rio': ['/localizacao/carregador-eletrico/perto-de-mim', '/localizacao/planejador-viagem-ev', '/localizacao/distancia-cidades'],
 };
 
 const porPath = new Map(tools.map((t) => [t.path, t.name]));

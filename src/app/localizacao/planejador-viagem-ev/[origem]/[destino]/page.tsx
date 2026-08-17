@@ -1,3 +1,4 @@
+import EvProductCards from '@/components/affiliate/EvProductCards';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { fetchRouteChargers, OCMPointOfInterest } from '@/lib/openchargemap';
@@ -165,6 +166,11 @@ export default async function TripPlannerResultsPage({ params }: PageProps) {
           <h2 className="text-lg font-bold text-slate-800 mb-4">Alterar Cidades da Rota:</h2>
           <PlanejadorSearch />
         </div>
+
+        <EvProductCards
+          title={`Equipamentos Recomendados para a Rota ${displayOrigin} ➔ ${displayDest}`}
+          subtitle="Carregador portátil Tipo 2 bivolt e adaptadores recomendados para evitar imprevistos ao longo de qualquer trecho rodoviário."
+        />
 
         {stations.length > 0 ? (
           <div>

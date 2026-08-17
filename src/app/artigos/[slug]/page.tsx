@@ -1,3 +1,4 @@
+import EvProductCards from '@/components/affiliate/EvProductCards';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Link from 'next/link';
@@ -1182,6 +1183,26 @@ const articlesData: Record<string, { title: string; content: React.ReactNode; da
         </ol>
 
         <p>Entender a potência de recarga não apenas otimiza o seu tempo, mas também melhora a sua experiência com a mobilidade elétrica, tornando as viagens mais previsíveis e confortáveis.</p>
+      </>
+    )
+  },
+  'recarga-eletrica-mg-bh-triangulo-rio': {
+    title: 'Eletropostos em Minas Gerais e Principais Rodovias: Onde Recarregar com Segurança',
+    date: '12 de Agosto, 2026',
+    isoDate: '2026-08-12T11:00:00.000Z',
+    category: 'Veículos Elétricos',
+    description: 'Descubra os principais eletropostos em Minas Gerais (MG), no Triângulo Mineiro (Uberaba/Uberlândia) e nas rodovias. Saiba onde carregar no caminho!',
+    content: (
+      <>
+        <p>A infraestrutura para veículos elétricos (VEs) está em franca expansão no Brasil, e quem viaja ou reside na região Sudeste já sente a diferença. Encontrar <strong>eletropostos em MG</strong> deixou de ser um desafio, graças aos crescentes investimentos nos principais corredores federais e estaduais, bem como em cidades-polo estratégicas.</p>
+        <p>A região do Triângulo Mineiro, destacando-se cidades como Uberlândia e Uberaba, tornou-se um <em>hub</em> vital de conexão entre o interior de São Paulo, Belo Horizonte e o Centro-Oeste do país. Planejar <strong>onde carregar no caminho</strong> é fundamental para garantir uma viagem tranquila, sem surpresas e com total segurança energética.</p>
+        <h2 className="text-2xl font-bold mt-8 mb-4">Principais Corredores Elétricos nas Rodovias Federais e Estaduais</h2>
+        <ul className="list-disc pl-6 space-y-2 mb-6">
+          <li><strong>BR-050 e Triângulo Mineiro:</strong> Um dos eixos mais bem servidos do Brasil com opções rápidas conectando Uberlândia e Uberaba.</li>
+          <li><strong>Rodovia Anhanguera (SP-330):</strong> Eletropostos de alta potência acima de 50kW.</li>
+          <li><strong>BR-381 e BR-040 (Belo Horizonte):</strong> Corredores estratégicos para a capital mineira e Rio de Janeiro.</li>
+        </ul>
+        <EvProductCards title="Itens Indispensáveis para Viagens de Carro Elétrico" subtitle="Equipamentos de recarga portátil, adaptador V2L e suporte organizador recomendados para rodar por Minas e pelo Brasil sem preocupações." />
       </>
     )
   },

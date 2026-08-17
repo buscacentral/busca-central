@@ -1,3 +1,4 @@
+import EvProductCards from '@/components/affiliate/EvProductCards';
 import { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -265,6 +266,12 @@ export default async function CarregadorEletricoPage({ params }: PageProps) {
             Eletropostos Perto de Mim 📍
           </Link>
         </div>
+
+        {/* Contextual Affiliate Products */}
+        <EvProductCards
+          title="Equipamentos Recomendados para o seu Carro Elétrico"
+          subtitle={`Itens essenciais para carregar com segurança em ${displayLocation} e garantir autonomia em viagens.`}
+        />
 
         {/* AdSense Placement: Mid-Content / Above SEO Footer */}
         <div className="mt-8 w-full min-h-[100px] flex justify-center">

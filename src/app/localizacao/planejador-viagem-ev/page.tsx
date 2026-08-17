@@ -1,3 +1,4 @@
+import EvProductCards from '@/components/affiliate/EvProductCards';
 import type { Metadata } from 'next';
 import ToolPageLayout, { generateToolMetadata } from '@/components/ToolPageLayout';
 import PlanejadorSearch from './PlanejadorSearch';
