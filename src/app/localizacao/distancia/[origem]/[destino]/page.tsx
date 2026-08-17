@@ -47,40 +47,33 @@ function formatHoras(km: number, velocidade: number): string {
 }
 
 // ---------------------------------------------------------------------------
-// SEO METADATA — Otimizado para CTR (ano dinâmico + copy acionável)
+// SEO METADATA — Otimizado para CTR (km exato + tempo estimado + copy de alto clique)
 // ---------------------------------------------------------------------------
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { origem, destino } = await params;
-  const year = new Date().getFullYear();
   const result = resolvePair(origem, destino);
-
-  const getTitle = (n1: string, n2: string) => {
-    return `Distância e Tempo de Viagem de ${n1} a ${n2} de Carro | BuscaCentral`;
-  };
-
-  const getDescription = (n1: string, n2: string) => {
-    return `Veja a distância rodoviária exata em km e o tempo estimado de viagem de carro entre ${n1} e ${n2}. Trace sua rota e veja postos no caminho.`;
-  };
 
   // Fallback defensivo: usa slugToProperName quando a cidade não existe na base
   if (!result) {
     const originName = slugToProperName(origem);
     const destName = slugToProperName(destino);
+    const title = `Distância de ${originName} a ${destName} de Carro`;
+    const description = `Veja a distância rodoviária de ${originName} para ${destName}, tempo estimado de viagem de carro e custo de combustível. Calcule grátis no BuscaCentral.`;
     return {
-      title: getTitle(originName, destName),
-      description: getDescription(originName, destName),
+      title,
+      description,
     };
   }
 
-  const { origin, dest } = result;
+  const { origin, dest, road } = result;
+  const tempoEstimado = formatHoras(road, 80);
 
   // ─── Title ────────────────────────────────────────────────────────────────
-  // Formato acionável alinhado com queries do Search Console.
-  // Focado na intenção "tempo de viagem [cidade1] [cidade2] de carro"
-  const title = getTitle(origin.n, dest.n);
+  // Ex: "Distância de São Paulo a Rio de Janeiro: 435 km, ~5h26min de carro"
+  const title = `Distância de ${origin.n} a ${dest.n}: ${road.toLocaleString('pt-BR')} km, ~${tempoEstimado} de carro`;
 
   // ─── Description ──────────────────────────────────────────────────────────
-  const description = getDescription(origin.n, dest.n);
+  const description = `Veja a distância rodoviária de ${origin.n} para ${dest.n}, tempo estimado de viagem de carro e custo de combustível. Calcule grátis no BuscaCentral.`;
 
   const canonical = `https://buscacentral.com.br${pairUrl(origin.slug, dest.slug)}`;
 
