@@ -39,13 +39,51 @@ interface ChangelogEntry {
  */
 const changelog: ChangelogEntry[] = [
   {
+    date: '2026-08-16',
+    title: 'Interlinking inteligente e rotas de viagem',
+    changes: [
+      { type: 'melhoria', text: 'Títulos e meta descrições otimizados com quilometragem e tempo exato nas páginas de rotas de distância.' },
+      { type: 'novo', text: 'Blocos integrados de cálculo de combustível e localizador de eletropostos ao longo de viagens.', href: '/localizacao/distancia-cidades' },
+      { type: 'melhoria', text: 'Estimativa de custo médio de combustível em tempo real em todas as páginas de distância rodoviária.' },
+      { type: 'correção', text: 'Padronização canônica e redirecionamento 301 definitivo de domínios via middleware.' },
+    ],
+  },
+  {
     date: '2026-06-16',
     title: 'Busca aprimorada e mais transparência',
     changes: [
       { type: 'novo', text: 'Página de resultados de busca dedicada em /buscar.', href: '/buscar' },
       { type: 'melhoria', text: 'Campo de busca disponível no cabeçalho em todas as páginas (desktop e mobile).' },
-      { type: 'melhoria', text: 'Ferramentas passam a exibir a data da última atualização.' },
-      { type: 'novo', text: 'Esta página de novidades para acompanhar a evolução do site.' },
+      { type: 'melhoria', text: 'Ferramentas passam a exibir a data da última atualização com dados estruturados.' },
+      { type: 'novo', text: 'Página de novidades para acompanhar a evolução do portal.', href: '/novidades' },
+    ],
+  },
+  {
+    date: '2026-05-20',
+    title: 'Novas calculadoras financeiras e trabalhistas',
+    changes: [
+      { type: 'novo', text: 'Lançamento do Conversor CLT x PJ com comparativo completo de impostos e benefícios.', href: '/financeiro/conversor-clt-pj' },
+      { type: 'novo', text: 'Calculadora de Salário Líquido atualizada com as tabelas vigentes de INSS e IRPF.', href: '/financeiro/salario-liquido' },
+      { type: 'novo', text: 'Simulador de Financiamento Imobiliário com sistemas SAC e Price.', href: '/financeiro/financiamento-imobiliario' },
+      { type: 'novo', text: 'Calculadora de ROI Imobiliário para estimativa de cap rate e retorno de aluguel.', href: '/financeiro/roi-imobiliario' },
+    ],
+  },
+  {
+    date: '2026-04-10',
+    title: 'Expansão das ferramentas de localização e mobilidade',
+    changes: [
+      { type: 'novo', text: 'Localizador de Eletropostos e Estações de Recarga para Carros Elétricos (VEs).', href: '/localizacao/carregador-eletrico/perto-de-mim' },
+      { type: 'novo', text: 'Calculadora de Distância entre Cidades do Brasil baseada nas coordenadas oficiais do IBGE.', href: '/localizacao/distancia-cidades' },
+      { type: 'novo', text: 'Estimador de Praças e Custos de Pedágio em rodovias nacionais.', href: '/localizacao' },
+    ],
+  },
+  {
+    date: '2026-03-01',
+    title: 'Ferramentas para desenvolvedores e documentos',
+    changes: [
+      { type: 'novo', text: 'Geradores e validadores oficiais de CPF e CNPJ com algoritmo de módulo 11.', href: '/documentos' },
+      { type: 'novo', text: 'Gerador de Recibos em PDF pronto para impressão.', href: '/documentos/gerador-recibos' },
+      { type: 'novo', text: 'Gerador de QR Code instantâneo com suporte a PIX, links e Wi-Fi.', href: '/utilidades/gerador-qr-code' },
     ],
   },
 ];
