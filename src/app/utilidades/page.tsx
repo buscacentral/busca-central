@@ -2,12 +2,12 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Central de Utilidades',
-  description: 'Ferramentas úteis gratuitas: QR Code, senhas, UUID, textos, imagens e muito mais.',
+  title: 'Central de Utilidades | Calculadoras, Geradores e Conversores',
+  description: 'Ferramentas úteis gratuitas para o dia a dia: calculadoras, QR Code, senhas seguras, UUID, contadores de texto, manipulação de imagens e muito mais.',
   alternates: { canonical: '/utilidades' },
   openGraph: {
     title: 'Central de Utilidades | BuscaCentral',
-    description: 'Ferramentas úteis gratuitas: QR Code, senhas, UUID, textos, imagens e muito mais.',
+    description: 'Ferramentas úteis gratuitas para o dia a dia: calculadoras, QR Code, senhas seguras, UUID, contadores de texto, manipulação de imagens e muito mais.',
     url: 'https://buscacentral.com.br/utilidades',
     siteName: 'BuscaCentral',
     locale: 'pt_BR',
@@ -46,6 +46,7 @@ const subcategorias = [
     icon: '⚡',
     ferramentas: [
       { title: 'Sorteador Online', description: 'Sorteie números ou nomes de forma justa e aleatória.', href: '/utilidades/sorteador', icon: '🎲' },
+      { title: 'Sorteador de Nomes e Rifas', description: 'Realize sorteios de nomes e listas com animação.', href: '/utilidades/sorteador-nomes', icon: '🎟️' },
       { title: 'Calculadora de Combustível', description: 'Saiba quantos litros vai gastar e o custo total da viagem.', href: '/utilidades/calculadora-combustivel', icon: '⛽' },
       { title: 'Gerador de QR Code', description: 'Gere QR Codes a partir de textos ou URLs.', href: '/utilidades/gerador-qr-code', icon: '📱' },
       { title: 'Gerador de Senha', description: 'Gere senhas seguras e aleatórias.', href: '/utilidades/gerador-senha', icon: '🔐' },
@@ -60,6 +61,7 @@ const subcategorias = [
     icon: '☀️',
     ferramentas: [
       { title: 'Calculadora de Churrasco', description: 'Calcule a quantidade exata de carne, bebida e carvão para o seu evento.', href: '/utilidades/calculadora-churrasco', icon: '🍖' },
+      { title: 'Temporizador Pomodoro', description: 'Aumente sua produtividade e foco com a técnica Pomodoro.', href: '/utilidades/pomodoro', icon: '🍅' },
     ],
   },
   {
@@ -68,6 +70,7 @@ const subcategorias = [
     ferramentas: [
       { title: 'Calculadora de IMC', description: 'Calcule seu IMC, classificação OMS e TMB.', href: '/utilidades/calculadora-imc', icon: '⚖️' },
       { title: 'Calculadora de Água Diária', description: 'Descubra quantos litros de água beber por dia baseado no seu peso.', href: '/utilidades/consumo-agua', icon: '💧' },
+      { title: 'Idade Gestacional (DUM/DPP)', description: 'Calcule as semanas de gravidez e a data provável do parto.', href: '/utilidades/idade-gestacional', icon: '🤰' },
       { title: 'Tabela de Calorias', description: 'Consulte calorias e nutrientes de 200 alimentos (TACO/IBGE).', href: '/utilidades/tabela-calorias', icon: '🍎' },
     ],
   },
@@ -112,9 +115,47 @@ const subcategorias = [
   },
 ];
 
+const faqItems = [
+  {
+    question: 'As calculadoras e ferramentas funcionam sem internet?',
+    answer: 'Sim. As calculadoras e utilitários que processam regras matemáticas e algoritmos locais (como porcentagem, regra de três, gerador de senhas e formatadores de texto) continuam funcionando normalmente após o carregamento inicial da página.'
+  },
+  {
+    question: 'Meus dados e arquivos ficam salvos nos servidores do site?',
+    answer: 'Não. Respeitamos rigorosamente a sua privacidade. Textos, códigos, imagens e senhas geradas são processados exclusivamente na memória do seu navegador (client-side) e não são armazenados em servidores.'
+  },
+  {
+    question: 'Posso usar todas as ferramentas pelo celular?',
+    answer: 'Sim. Toda a Central de Utilidades do BuscaCentral é 100% responsiva, adaptada para smartphones, tablets e computadores com navegação intuitiva e rápida.'
+  },
+  {
+    question: 'Com que frequência as ferramentas são atualizadas?',
+    answer: 'Nossas ferramentas recebem atualizações contínuas de segurança, novas funcionalidades e aprimoramento de algoritmos ao longo de todo o ano, garantindo conformidade com padrões modernos da web.'
+  }
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  'dateModified': '2026-08-16',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
 export default function UtilidadesPage() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-8 md:py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+
       <h1 className="text-4xl font-bold text-slate-900 mb-4">Utilidades</h1>
       <p className="text-base md:text-lg text-slate-600 max-w-3xl leading-relaxed mb-12">
         Ferramentas úteis para o dia a dia organizadas por categoria.
@@ -143,6 +184,41 @@ export default function UtilidadesPage() {
           </div>
         </section>
       ))}
+
+      {/* Bloco Explicativo de Apoio */}
+      <section className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm mb-12">
+        <h2 className="text-2xl font-bold text-slate-900 mb-4">Sobre a Central de Utilidades</h2>
+        <p className="text-slate-600 leading-relaxed mb-4">
+          A Central de Utilidades do BuscaCentral reúne dezenas de utilitários rápidos desenvolvidos para facilitar tarefas cotidianas de profissionais, estudantes e desenvolvedores. Desde cálculos essenciais de porcentagem e regra de três até formatação de dados em lote, geradores de QR Code e conversores de mídia, nosso objetivo é oferecer soluções práticas sem burocracia.
+        </p>
+        <p className="text-slate-600 leading-relaxed">
+          Nenhuma ferramenta requer cadastro, instalação de extensões ou download de programas. Tudo funciona de forma ágil, segura e leve diretamente no seu navegador, em qualquer dispositivo.
+        </p>
+      </section>
+
+      {/* Bloco de FAQ */}
+      <section className="mb-12">
+        <h2 className="text-2xl font-bold text-slate-900 mb-6">Perguntas Frequentes sobre Utilidades</h2>
+        <div className="space-y-4">
+          {faqItems.map((item, idx) => (
+            <details
+              key={idx}
+              className="bg-slate-50 border border-slate-200 rounded-xl p-5 group"
+              {...(idx === 0 ? { open: true } : {})}
+            >
+              <summary className="font-semibold text-slate-800 cursor-pointer list-none flex items-center justify-between gap-2">
+                <span>{item.question}</span>
+                <span className="text-slate-400 group-open:rotate-180 transition-transform flex-shrink-0">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </span>
+              </summary>
+              <p className="text-slate-600 mt-3 leading-relaxed">{item.answer}</p>
+            </details>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
