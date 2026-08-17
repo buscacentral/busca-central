@@ -37,6 +37,7 @@ export default async function IndicadoresPage() {
   const schemaMarkup = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
+    "dateModified": "2026-08-16",
     "mainEntity": [
       {
         "@type": "Question",
@@ -67,7 +68,8 @@ export default async function IndicadoresPage() {
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8 text-center">
-          <h1 className="text-3xl font-extrabold text-slate-900 mb-4 tracking-tight">Indicadores Econômicos do Brasil</h1>
+          <h1 className="text-3xl font-extrabold text-slate-900 mb-2 tracking-tight">Indicadores Econômicos do Brasil</h1>
+          <time dateTime="2026-08-16" className="text-xs text-slate-500 block mb-4">Atualizado em: 16 de agosto de 2026</time>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto">
             Acompanhe as taxas oficiais atualizadas diretamente pelo <strong>Banco Central do Brasil</strong>.
             Esses indicadores afetam diretamente seus investimentos em Renda Fixa (CDB, Tesouro Direto) e financiamentos.

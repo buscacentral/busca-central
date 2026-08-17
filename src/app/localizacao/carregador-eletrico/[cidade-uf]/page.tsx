@@ -205,6 +205,7 @@ export default async function CarregadorEletricoPage({ params }: PageProps) {
     "name": `Eletropostos em ${displayLocation}`,
     "description": `Estações de recarga para carros elétricos em ${displayLocation}, compatíveis com BYD, GWM, EZVolt e principais redes de recarga.`,
     "url": `https://buscacentral.com.br/localizacao/carregador-eletrico/${normalizedSlug}`,
+    "dateModified": "2026-08-16",
     "keywords": `carregador eletrico ${cidade}, eletroposto ${cidade}, recarga BYD ${cidade}, EZVolt ${cidade}, postos de recarga ${uf || cidade}`,
   };
 
@@ -220,9 +221,10 @@ export default async function CarregadorEletricoPage({ params }: PageProps) {
             <PlugIcon />
             Eletropostos na região de {displayLocation}
           </h1>
-          <p className="text-gray-600 text-lg mb-4">
+          <p className="text-gray-600 text-lg mb-2">
             Encontre carregadores para veículos elétricos, verifique a potência, conectores disponíveis e como chegar.
           </p>
+          <time dateTime="2026-08-16" className="text-xs text-gray-500 block mb-4">Atualizado em: 16 de agosto de 2026</time>
           <div className="bg-blue-50 border border-blue-100 rounded-lg p-3.5 mb-6 text-sm text-blue-900 flex items-start sm:items-center gap-2.5 shadow-sm">
             <span className="inline-block p-1 bg-blue-100 rounded text-blue-700 font-semibold text-xs shrink-0 mt-0.5 sm:mt-0">
               Compatibilidade
