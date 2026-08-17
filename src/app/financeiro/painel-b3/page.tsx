@@ -65,7 +65,8 @@ export default async function PainelB3Page() {
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8 text-center">
-          <h1 className="text-3xl font-extrabold text-slate-900 mb-4 tracking-tight">Painel B3 (Ações e FIIs)</h1>
+          <h1 className="text-3xl font-extrabold text-slate-900 mb-2 tracking-tight">Painel B3 (Ações e FIIs)</h1>
+          <time dateTime="2026-08-16" className="text-xs text-slate-500 block mb-4">Atualizado em: 16 de agosto de 2026</time>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto">
             Acompanhe a cotação em tempo real dos principais ativos da bolsa brasileira. 
             Digite o código do ticker (ex: PETR4, MXRF11, ITUB4) para ver os detalhes.

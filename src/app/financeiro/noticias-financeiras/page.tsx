@@ -78,7 +78,8 @@ export default async function NoticiasFinanceirasPage() {
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-10 text-center">
-          <h1 className="text-3xl font-extrabold text-slate-900 mb-4 tracking-tight">Notícias do Mercado e Cripto</h1>
+          <h1 className="text-3xl font-extrabold text-slate-900 mb-2 tracking-tight">Notícias do Mercado e Cripto</h1>
+          <time dateTime="2026-08-16" className="text-xs text-slate-500 block mb-4">Atualizado em: 16 de agosto de 2026</time>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto">
             Fique por dentro de tudo que acontece no mundo dos investimentos, blockchain e economia digital.
           </p>

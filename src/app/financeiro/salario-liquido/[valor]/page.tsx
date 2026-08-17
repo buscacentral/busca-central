@@ -67,6 +67,7 @@ export default async function SalarioLiquidoValorPage({ params }: Props) {
   const faqSchema = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
+    'dateModified': '2026-08-16',
     mainEntity: [
       {
         '@type': 'Question',
@@ -122,6 +123,7 @@ export default async function SalarioLiquidoValorPage({ params }: Props) {
           Quem ganha <strong>{brutoFmt}</strong> de salário bruto recebe{' '}
           <strong>{formatarMoeda(r.liquido)}</strong> líquido por mês (sem dependentes).
         </p>
+        <time dateTime="2026-08-16" className="text-xs text-gray-500 block mt-2">Atualizado em: 16 de agosto de 2026</time>
       </header>
 
       {/* Destaque do líquido */}

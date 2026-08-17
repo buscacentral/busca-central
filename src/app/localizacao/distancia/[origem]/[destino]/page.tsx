@@ -201,6 +201,7 @@ export default async function DistanciaParPage({ params }: Props) {
   const faqSchema = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
+    'dateModified': '2026-08-16',
     mainEntity: faqItems.map((item) => ({
       '@type': 'Question',
       name: item.name,
@@ -217,6 +218,7 @@ export default async function DistanciaParPage({ params }: Props) {
   const howToSchema = {
     '@context': 'https://schema.org',
     '@type': 'HowTo',
+    'dateModified': '2026-08-16',
     name: `Como calcular a distância de ${origin.n} a ${dest.n}`,
     description: `Descubra a distância rodoviária, o tempo de viagem e o custo de combustível entre ${origin.n} (${origin.u}) e ${dest.n} (${dest.u}).`,
     totalTime: `PT${Math.floor((road / 80) * 60)}M`,
@@ -287,6 +289,7 @@ export default async function DistanciaParPage({ params }: Props) {
           A distância entre <strong>{origin.n} ({origin.u})</strong> e <strong>{dest.n} ({dest.u})</strong> é de
           aproximadamente <strong>{road.toLocaleString('pt-BR')} km</strong> por estrada.
         </p>
+        <time dateTime="2026-08-16" className="text-xs text-gray-500 block mt-2">Atualizado em: 16 de agosto de 2026</time>
       </header>
 
       {/* ================================================================= */}
