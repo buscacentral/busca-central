@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { fetchChargingStations } from '@/lib/openchargemap';
-import ToolPageLayout, { generateToolMetadata } from '@/components/ToolPageLayout';
+import ToolPageLayout from '@/components/ToolPageLayout';
 import PertoDeMimClient from './PertoDeMimClient';
 
 export const dynamic = 'force-dynamic';
@@ -14,13 +14,31 @@ interface PageProps {
   }>;
 }
 
-const year = new Date().getFullYear();
 export async function generateMetadata(): Promise<Metadata> {
-  return generateToolMetadata(
-    `Eletropostos Perto de Mim: Postos de Recarga por GPS (${year})`,
-    'Localize eletropostos e estações de recarga para carros elétricos (BYD, GWM, Volvo) próximos de você via GPS em tempo real. Conectores Tipo 2 e CCS2.',
-    '/localizacao/carregador-eletrico/perto-de-mim'
-  );
+  const title = 'Eletroposto Perto de Mim: Encontre Carregadores de Carro Elétrico Próximos [Mapa]';
+  const description = 'Localize agora os pontos de recarga e eletropostos mais próximos da sua localização atual. Veja conectores Tipo 2, CCS2, potência e rotas no GPS.';
+  const canonical = 'https://buscacentral.com.br/localizacao/carregador-eletrico/perto-de-mim';
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical,
+    },
+    openGraph: {
+      title,
+      description,
+      url: canonical,
+      siteName: 'BuscaCentral',
+      locale: 'pt_BR',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
+  };
 }
 
 const TOP_CITIES = [
@@ -40,65 +58,64 @@ const TOP_CITIES = [
 
 const seoContent = (
   <article className="prose prose-gray max-w-none">
-    <h2>O que é o Localizador de Eletropostos Perto de Mim?</h2>
+    <h2>Como funciona o localizador de eletropostos perto de mim?</h2>
     <p>
-      O <strong>Localizador de Eletropostos do BuscaCentral</strong> é uma ferramenta de geolocalização em tempo real integrada à base aberta global do <em>Open Charge Map</em>. Desenvolvida especialmente para motoristas de Veículos Elétricos (VE / BEV) e Híbridos Plug-in (PHEV) no Brasil, ela detecta a sua posição GPS e mapeia instantaneamente todas as estações de recarga pública e semipública disponíveis em um raio de até 35 km.
+      O <strong>Localizador de Eletropostos do BuscaCentral</strong> utiliza a tecnologia de geolocalização do seu dispositivo (GPS) combinada com a base aberta global da <em>Open Charge Map</em> para encontrar estações de recarga para carros elétricos (BEV) e híbridos plug-in (PHEV) no raio mais próximo de você.
     </p>
 
-    <h3>Para que serve localizar eletropostos por geolocalização?</h3>
+    <h3>Quais marcas e veículos são compatíveis?</h3>
     <p>
-      Com a rápida expansão da frota de veículos elétricos no país (liderada por marcas como BYD, GWM, Volvo, BMW, Porsche, Audi, Renault e Caoa Chery), encontrar pontos de recarga funcionais e compatíveis é vital para:
+      Nossa ferramenta lista estações compatíveis com todas as principais montadoras presentes no mercado brasileiro:
     </p>
     <ul>
-      <li><strong>Eliminar a Ansiedade de Autonomia (Range Anxiety):</strong> Encontre postos de parada com carregamento no seu caminho antes que o nível da bateria fique crítico.</li>
-      <li><strong>Identificar Conectores e Potência:</strong> Verifique se o ponto oferece plugue <strong>Tipo 2 (Mennekes)</strong> para recarga AC ou <strong>CCS2 (Combo 2)</strong> para carregamento rápido e ultrarrápido DC (50 kW a 150+ kW).</li>
-      <li><strong>Navegação Direta:</strong> Acesse as coordenadas exatas e trace rotas no Waze ou Google Maps com um único clique.</li>
-      <li><strong>Mapeamento em Cidades e Rodovias:</strong> Localize pontos em shoppings, supermercados, postos de combustíveis (Shell Recharge, Ipiranga, Petrobras) e redes privadas (EZVolt, Tupinambá, Zletric, WeCharge).</li>
+      <li><strong>BYD:</strong> Dolphin, Dolphin Mini, Seal, Song Plus, King, Tan, Han e Yuan Pro/Plus.</li>
+      <li><strong>GWM:</strong> Linha Haval H6 (PHEV) e Ora 03 (BEV).</li>
+      <li><strong>Volvo:</strong> EX30, XC40 Recharge, C40 Recharge, XC60 e XC90 T8.</li>
+      <li><strong>BMW, Porsche, Audi, Renault, Nissan, Peugeot e Mercedes-Benz</strong> com portas padrão Tipo 2 (AC) ou CCS2 (DC).</li>
     </ul>
 
-    <h3>Como usar o Localizador de Eletropostos</h3>
-    <ol>
-      <li><strong>Ative o GPS:</strong> Permita que o seu navegador acesse a sua localização atual quando solicitado.</li>
-      <li><strong>Consulte a Lista Ordenada:</strong> As estações mais próximas de você serão exibidas ordenadas por distância em quilômetros.</li>
-      <li><strong>Busque por Outras Cidades:</strong> Caso deseje planejar uma viagem futura, utilize o campo de busca ou selecione as principais capitais brasileiras na lista de atalhos rápidos.</li>
-    </ol>
+    <h3>Diferença entre carregador Tipo 2 (AC) e CCS2 (DC)</h3>
+    <ul>
+      <li><strong>Tipo 2 (Mennekes - AC):</strong> Utilizado para recarga lenta ou semi-rápida (de 3.7 kW a 22 kW). Ideal para paradas prolongadas em shoppings, hotéis, estacionamentos e residências.</li>
+      <li><strong>CCS2 / Combo 2 (DC):</strong> Carregamento rápido e ultrarrápido (de 30 kW até mais de 150 kW). Fornece energia em corrente contínua para recuperar de 20% a 80% da bateria em cerca de 30 minutos em rodovias e postos estruturados.</li>
+    </ul>
   </article>
 );
 
 const faqItems = [
   {
-    question: "Como saber se o eletroposto é compatível com o meu carro elétrico (BYD, GWM, Volvo)?",
-    answer: "A quase totalidade dos carros elétricos e híbridos plug-in vendidos oficialmente no Brasil adota o padrão Tipo 2 (AC) para recargas normais e CCS2 Combo (DC) para recarga rápida. Nossa ferramenta lista os conectores e potências suportados em cada estação."
+    question: "Como achar o eletroposto mais próximo de mim agora?",
+    answer: "Ative o GPS do seu celular ou computador nesta página tocando no botão 'Encontrar Eletropostos Mais Próximos de Mim'. O BuscaCentral calcula a distância exata em tempo real até todas as estações disponíveis no raio de 35 km e exibe a lista ordenada por proximidade."
   },
   {
-    question: "Quanto tempo leva para recarregar a bateria em um eletroposto?",
-    answer: "Em estações rápidas DC (50 kW a 150 kW), a recarga de 20% a 80% leva de 25 a 45 minutos. Em carregadores AC (Wallbox de 7 kW a 22 kW), o tempo médio para uma carga completa varia de 3 a 7 horas dependendo da capacidade da bateria."
+    question: "Quais tipos de conectores de carro elétrico encontro perto de mim?",
+    answer: "Os eletropostos no Brasil contam principalmente com plugues Tipo 2 (AC para recargas de 7 kW a 22 kW) e CCS2 Combo (DC para recarga rápida de 30 kW a 150+ kW), compatíveis com BYD, GWM, Volvo, BMW e demais modelos."
   },
   {
-    question: "Os eletropostos exibidos são gratuitos ou pagos?",
-    answer: "Varia conforme o estabelecimento e a operadora. Muitos shoppings, hotéis e supermercados oferecem recarga cortesia, enquanto redes estruturadas em rodovias (como Shell Recharge, EZVolt, Tupinambá e Zletric) cobram por kWh através de seus respectivos aplicativos."
+    question: "Existem eletropostos gratuitos perto de mim?",
+    answer: "Sim. Vários shoppings centers, supermercados, hotéis e concessionárias oferecem recarga cortesia ou condicionada ao consumo. Na nossa ferramenta, utilize o filtro 'Gratuito' para listar as opções sem cobrança direta por kWh."
   },
   {
-    question: "O mapa funciona durante viagens em rodovias interestaduais?",
-    answer: "Sim. Ao trafegar por rodovias como Dutra, Bandeirantes, Castello Branco ou Régis Bittencourt, você pode atualizar a localização GPS para encontrar os postos de recarga nos pontos de apoio mais próximos."
+    question: "Como traçar rota até o eletroposto pelo Google Maps ou Waze?",
+    answer: "Basta clicar no botão 'Abrir no Google Maps / Waze' no card da estação desejada. Seu aplicativo de mapas favorito será aberto instantaneamente com as coordenadas e navegação curva a curva."
   }
 ];
 
 const relatedTools = [
   {
+    title: "Planejador de Viagem para Carro Elétrico",
+    url: "/localizacao/planejador-viagem-ev",
+    description: "Trace rotas interestaduais com paradas estratégicas em eletropostos ao longo do caminho."
+  },
+  {
     title: "Distância entre Cidades",
     url: "/localizacao/distancia-cidades",
-    description: "Calcule a distância rodoviária oficial entre quaisquer municípios do Brasil."
+    description: "Calcule a distância rodoviária oficial e tempo de viagem entre municípios."
   },
   {
     title: "Calculadora de Combustível",
     url: "/utilidades/calculadora-combustivel",
-    description: "Compare o custo de abastecimento tradicional versus autonomia."
-  },
-  {
-    title: "Busca de CEP e Endereço",
-    url: "/localizacao/busca-cep",
-    description: "Consulte CEPs, logradouros e bairros em todo o território nacional."
+    description: "Simule e compare o custo por km de abastecimento e recarga."
   }
 ];
 
@@ -132,21 +149,61 @@ export default async function EletropostoPertoDeMimPage({
     });
   }
 
+  // Schema JSON-LD WebApplication + FAQPage
+  const webAppSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Eletroposto Perto de Mim - Localizador de Carregadores EV',
+    url: 'https://buscacentral.com.br/localizacao/carregador-eletrico/perto-de-mim',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'All',
+    browserRequirements: 'Requires JavaScript and Geolocation API',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'BRL',
+    },
+    description: 'Localize pontos de recarga e eletropostos mais próximos da sua localização atual por GPS.',
+  };
+
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  };
+
   return (
     <ToolPageLayout
-      title={`Eletropostos Perto de Mim: Postos de Recarga por GPS (${year})`}
-      description="Localize eletropostos e estações de recarga para carros elétricos (BYD, GWM, Volvo) próximos de você via GPS em tempo real."
+      title="Eletroposto Perto de Mim: Encontre Carregadores de Carro Elétrico Próximos [Mapa]"
+      description="Localize agora os pontos de recarga e eletropostos mais próximos da sua localização atual. Veja conectores Tipo 2, CCS2, potência e rotas no GPS."
       ariaLabel="Localizador de eletropostos por GPS interativo"
       path="/localizacao/carregador-eletrico/perto-de-mim"
-      lastUpdated="2026-08-16"
+      lastUpdated="2026-08-18"
       seoContent={seoContent}
       faqItems={faqItems}
       relatedTools={relatedTools}
     >
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <PertoDeMimClient
         initialStations={stations}
         hasCoords={hasCoords}
         topCities={TOP_CITIES}
+        userLat={latNum}
+        userLng={lngNum}
       />
     </ToolPageLayout>
   );
