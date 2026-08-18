@@ -62,23 +62,37 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!result) {
     const originName = slugToProperName(origem);
     const destName = slugToProperName(destino);
-    const title = `Distância de ${originName} a ${destName} de Carro`;
-    const description = `Veja a distância rodoviária de ${originName} para ${destName}, tempo estimado de viagem de carro e custo de combustível. Calcule grátis no BuscaCentral.`;
+    const title = `Distância de ${originName} a ${destName}: Km, Tempo, Pedágios e Custo [2026]`;
+    const description = `Descubra a distância exata de ${originName} até ${destName}, tempo estimado de viagem de carro, valor dos pedágios e custo de combustível. Calcule sua rota!`;
+    const canonical = `https://buscacentral.com.br/localizacao/distancia/${origem}/${destino}`;
     return {
       title,
       description,
+      alternates: { canonical },
+      openGraph: {
+        title,
+        description,
+        url: canonical,
+        siteName: 'BuscaCentral',
+        locale: 'pt_BR',
+        type: 'website',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title,
+        description,
+      },
     };
   }
 
-  const { origin, dest, road } = result;
-  const tempoEstimado = formatHoras(road, 80);
+  const { origin, dest } = result;
 
   // ─── Title ────────────────────────────────────────────────────────────────
-  // Ex: "Distância de São Paulo a Rio de Janeiro: 435 km, ~5h26min de carro"
-  const title = `Distância de ${origin.n} a ${dest.n}: ${road.toLocaleString('pt-BR')} km, ~${tempoEstimado} de carro`;
+  // Fórmula de Alto CTR: "Distância de {Origem} a {Destino}: Km, Tempo, Pedágios e Custo [2026]"
+  const title = `Distância de ${origin.n} a ${dest.n}: Km, Tempo, Pedágios e Custo [2026]`;
 
   // ─── Description ──────────────────────────────────────────────────────────
-  const description = `Veja a distância rodoviária de ${origin.n} para ${dest.n}, tempo estimado de viagem de carro e custo de combustível. Calcule grátis no BuscaCentral.`;
+  const description = `Descubra a distância exata de ${origin.n} até ${dest.n}, tempo estimado de viagem de carro, valor dos pedágios e custo de combustível. Calcule sua rota!`;
 
   const canonical = `https://buscacentral.com.br${pairUrl(origin.slug, dest.slug)}`;
 
@@ -159,40 +173,36 @@ export default async function DistanciaParPage({ params }: Props) {
   // STRUCTURED DATA — FAQ Schema (5 perguntas dinâmicas)
   // -------------------------------------------------------------------------
   const faqItems = [
-    // ── Q1/Q2: espelham exatamente as queries do Search Console ──────────────
-    // "Qual a distância de [A] a [B]?" · "distancia de [A] a [B]"
+    // ── Q1: Distância exata em km ───────────────────────────────────────────
     {
-      name: `Qual a distância de ${origin.n} a ${dest.n}?`,
-      text: `A distância entre ${origin.n} e ${dest.n} é de aproximadamente ${road.toLocaleString('pt-BR')} km por rodovia, com tempo estimado de ${formatHoras(road, 80)} de carro.`,
+      name: `Qual a distância de ${origin.n} a ${dest.n} em km?`,
+      text: `A distância entre ${origin.n} e ${dest.n} é de aproximadamente ${road.toLocaleString('pt-BR')} km por rodovia (${straightLine.toLocaleString('pt-BR')} km em linha reta), com tempo estimado de ${formatHoras(road, 80)} de viagem de carro.`,
     },
-    // "Quantos km de [A] a [B] de carro?" · "quantos km de [A] a [B]"
+    // ── Q2: Duração da viagem de carro ──────────────────────────────────────
     {
-      name: `Quantos km de ${origin.n} a ${dest.n} de carro?`,
-      text: `São aproximadamente ${road.toLocaleString('pt-BR')} km de estrada. Você pode simular o consumo e o custo exato do combustível para esta viagem na nossa calculadora de combustível integrada.`,
+      name: `Quanto tempo dura a viagem de carro entre ${origin.n} e ${dest.n}?`,
+      text: `A viagem de carro entre ${origin.n} e ${dest.n} dura cerca de ${formatHoras(road, 80)} a uma velocidade média de 80 km/h. De ônibus (~60 km/h), o tempo estimado de percurso é de aproximadamente ${formatHoras(road, 60)}.`,
     },
-    // ── Perguntas complementares (tempo, custo, pedágios, rota) ───────────────
+    // ── Q3: Custo de combustível e pedágio ──────────────────────────────────
     {
-      name: `Quanto tempo de carro de ${origin.n} a ${dest.n}?`,
-      text: `De carro, a uma velocidade média de 80 km/h, a viagem de ${origin.n} a ${dest.n} leva aproximadamente ${formatHoras(road, 80)}. De ônibus (~60 km/h), leva cerca de ${formatHoras(road, 60)}.`,
+      name: `Quanto gasta de combustível e pedágio de ${origin.n} a ${dest.n}?`,
+      text: `Considerando um carro com consumo médio de ${consumoPadrao} km/l e gasolina a R$ ${precoPadrao.toFixed(2).replace('.', ',')}/L, o custo estimado de combustível é de ${custoCombustivel.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} só de ida (${litros.toLocaleString('pt-BR', { maximumFractionDigits: 1 })} litros). Os valores de pedágio variam conforme a rodovia e a rota escolhida.`,
     },
-    {
-      name: `Quanto gasto de gasolina de ${origin.n} a ${dest.n}?`,
-      text: `Considerando um veículo que faz ${consumoPadrao} km/l e gasolina a R$ ${precoPadrao.toFixed(2).replace('.', ',')}/litro, o custo estimado é de ${custoCombustivel.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} só de ida (${litros.toLocaleString('pt-BR', { maximumFractionDigits: 1 })} litros).`,
-    },
+    // ── Perguntas complementares (pedágios, rota) ───────────────────────────
     {
       name: `Quantos pedágios tem de ${origin.n} a ${dest.n}?`,
-      text: `O número exato de pedágios varia conforme a rota escolhida. Recomendamos consultar o Google Maps ou o app da concessionária da rodovia para obter os valores atualizados de pedágio entre ${origin.n} e ${dest.n}.`,
+      text: `O número exato e as tarifas de pedágios variam conforme o trajeto e a concessionária da rodovia. Recomendamos consultar a rota no Google Maps ou no app da concessionária para ver os pontos de cobrança atualizados entre ${origin.n} e ${dest.n}.`,
     },
     {
       name: `Qual o melhor caminho de ${origin.n} para ${dest.n}?`,
-      text: `Para visualizar a rota mais rápida ou mais curta de ${origin.n} a ${dest.n}, recomendamos abrir o Google Maps diretamente. Nossa ferramenta calcula a distância estimada (${road.toLocaleString('pt-BR')} km) e o custo de combustível para ajudar no seu planejamento.`,
+      text: `Para visualizar a rota mais rápida ou com menor tráfego de ${origin.n} a ${dest.n}, recomendamos abrir o mapa interativo do Google Maps. Nossa calculadora estima a distância (${road.toLocaleString('pt-BR')} km) e os custos para apoiar o planejamento da sua viagem.`,
     },
     // FAQ extra dinâmico — só aparece em rotas interestaduais (SEO on-page para long-tail)
     ...(isInterestadual
       ? [
           {
             name: `Como calcular o gasto de combustível para viajar de ${origin.n} para ${dest.n}?`,
-            text: `Para calcular o gasto exato, divida a distância total de ${road.toLocaleString('pt-BR')} km pelo consumo médio de km/litro do seu veículo e multiplique pelo preço atual do combustível na bomba. Pode usar a calculadora completa do Buscacentral para simular o valor exato em segundos.`,
+            text: `Para calcular o gasto exato, divida a distância total de ${road.toLocaleString('pt-BR')} km pelo consumo médio (km/L) do seu carro e multiplique pelo preço do combustível na sua região. Você pode usar a Calculadora de Combustível da BuscaCentral com a distância já preenchida.`,
           },
         ]
       : []),
@@ -201,7 +211,7 @@ export default async function DistanciaParPage({ params }: Props) {
   const faqSchema = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    'dateModified': '2026-08-16',
+    'dateModified': '2026-08-18',
     mainEntity: faqItems.map((item) => ({
       '@type': 'Question',
       name: item.name,
@@ -218,7 +228,7 @@ export default async function DistanciaParPage({ params }: Props) {
   const howToSchema = {
     '@context': 'https://schema.org',
     '@type': 'HowTo',
-    'dateModified': '2026-08-16',
+    'dateModified': '2026-08-18',
     name: `Como calcular a distância de ${origin.n} a ${dest.n}`,
     description: `Descubra a distância rodoviária, o tempo de viagem e o custo de combustível entre ${origin.n} (${origin.u}) e ${dest.n} (${dest.u}).`,
     totalTime: `PT${Math.floor((road / 80) * 60)}M`,
@@ -289,8 +299,34 @@ export default async function DistanciaParPage({ params }: Props) {
           A distância entre <strong>{origin.n} ({origin.u})</strong> e <strong>{dest.n} ({dest.u})</strong> é de
           aproximadamente <strong>{road.toLocaleString('pt-BR')} km</strong> por estrada.
         </p>
-        <time dateTime="2026-08-16" className="text-xs text-gray-500 block mt-2">Atualizado em: 16 de agosto de 2026</time>
+        <time dateTime="2026-08-18" className="text-xs text-gray-500 block mt-2">Atualizado em: 18 de agosto de 2026</time>
       </header>
+
+      {/* Quick Summary Callout Box (CTR Booster) */}
+      <div className="mb-6 bg-gradient-to-r from-blue-50 via-indigo-50 to-sky-50 border-2 border-blue-200/80 rounded-2xl p-4 sm:p-5 shadow-sm">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <span className="flex-shrink-0 w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center text-xl font-bold shadow-sm">
+              ⚡
+            </span>
+            <div>
+              <span className="text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-100/80 px-2.5 py-0.5 rounded-full">
+                Resumo Rápido da Rota
+              </span>
+              <p className="text-base sm:text-lg font-bold text-gray-900 mt-1">
+                {road.toLocaleString('pt-BR')} km <span className="text-gray-400 font-normal">|</span> ~{formatHoras(road, 80)} de carro <span className="text-gray-400 font-normal">|</span> Custo estimado: {custoCombustivel.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+              </p>
+            </div>
+          </div>
+          <Link
+            href={`/utilidades/calculadora-combustivel?distancia=${road}&origem=${encodeURIComponent(origin.n)}&destino=${encodeURIComponent(dest.n)}`}
+            className="inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold rounded-xl transition-colors shadow-sm whitespace-nowrap self-start sm:self-auto"
+          >
+            <span>Simular Rota</span>
+            <span>→</span>
+          </Link>
+        </div>
+      </div>
 
       {/* ================================================================= */}
       {/* HERO DATA BLOCK — 3 colunas: distância, tempo, custo              */}
