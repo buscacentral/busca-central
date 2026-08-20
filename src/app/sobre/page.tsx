@@ -1,13 +1,60 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Sobre Nós',
   description: 'Conheça o BuscaCentral — A principal central de ferramentas online gratuitas do Brasil.',
+  alternates: {
+    canonical: 'https://buscacentral.com.br/sobre',
+  },
+  openGraph: {
+    title: 'Sobre Nós | BuscaCentral',
+    description: 'Conheça o BuscaCentral — A principal central de ferramentas online gratuitas do Brasil.',
+    url: 'https://buscacentral.com.br/sobre',
+    siteName: 'BuscaCentral',
+    locale: 'pt_BR',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Sobre Nós | BuscaCentral',
+    description: 'Conheça o BuscaCentral — A principal central de ferramentas online gratuitas do Brasil.',
+  },
 };
 
 export default function Sobre() {
+  const organizationSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'BuscaCentral',
+    url: 'https://buscacentral.com.br',
+    logo: 'https://buscacentral.com.br/favicon.ico',
+    description: 'Central de ferramentas online gratuitas do Brasil. Consultas rápidas, seguras e sem cadastro.',
+    sameAs: [],
+    contactPoint: {
+      '@type': 'ContactPoint',
+      email: 'contato@buscacentral.com.br',
+      contactType: 'customer support',
+      availableLanguage: 'Portuguese',
+    },
+  };
+
+  const aboutPageSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    name: 'Sobre o BuscaCentral',
+    url: 'https://buscacentral.com.br/sobre',
+    description: 'Conheça a missão, propósito e diferenciais do BuscaCentral.',
+    mainEntity: organizationSchema,
+  };
+
   return (
     <div className="max-w-3xl mx-auto px-4 py-12">
+      {/* Dados Estruturados de Entidade (Schema.org) */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutPageSchema) }}
+      />
+
       <h1 className="text-3xl font-bold text-gray-900 mb-8">Sobre o BuscaCentral</h1>
       
       <div className="prose prose-gray max-w-none">

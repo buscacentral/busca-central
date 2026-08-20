@@ -1,6 +1,7 @@
-"use client";
+﻿"use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 interface AdBannerProps {
   adSlot: string;
@@ -15,6 +16,8 @@ export default function AdBanner({
   responsive = true,
   className = "",
 }: AdBannerProps) {
+  const pathname = usePathname();
+
   useEffect(() => {
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -23,10 +26,11 @@ export default function AdBanner({
     } catch (err) {
       console.error("AdSense error:", err);
     }
-  }, []);
+  }, [pathname]);
 
   return (
     <div 
+      key={pathname}
       className={`my-6 flex justify-center w-full min-h-[90px] overflow-hidden ${className}`}
       aria-hidden="true"
     >
