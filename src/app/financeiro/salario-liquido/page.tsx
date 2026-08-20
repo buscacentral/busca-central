@@ -24,7 +24,7 @@ const faqItems = [
 const relatedTools = [
   { title: "Cálculo de Férias", url: "/financeiro/ferias", description: "Calcule quanto você receberá em suas férias, com o abono de 1/3." },
   { title: "Cálculo de 13º Salário", url: "/financeiro/decimo-terceiro", description: "Descubra o valor da primeira e segunda parcela do 13º." },
-  { title: "Cálculo CLT x PJ", url: "/financeiro/clt-pj", description: "Compare propostas e descubra qual vale mais a pena." },
+  { title: "Cálculo CLT x PJ", url: "/financeiro/conversor-clt-pj", description: "Compare propostas e descubra qual vale mais a pena." },
 ];
 
 export default function SalarioLiquidoPage() {

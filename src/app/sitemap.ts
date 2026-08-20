@@ -153,6 +153,10 @@ function routeMeta(route: string): {
   if (route.startsWith('/localizacao/distancia/')) {
     return { priority: 0.7, changeFrequency: 'weekly', lastModified };
   }
+  // Páginas programáticas de estimativa de pedágio entre cidades
+  if (route.startsWith('/localizacao/pedagio/')) {
+    return { priority: 0.7, changeFrequency: 'weekly', lastModified };
+  }
   // Páginas programáticas de Eletropostos
   if (route.startsWith('/localizacao/carregador-eletrico/')) {
     return { priority: 0.8, changeFrequency: 'weekly', lastModified };
@@ -231,6 +235,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const distanceRoutes = getCityPairs().map(
     ({ origem, destino }) => `/localizacao/distancia/${origem}/${destino}`,
   );
+  const pedagioRoutes = getCityPairs().map(
+    ({ origem, destino }) => `/localizacao/pedagio/${origem}/${destino}`,
+  );
   const evTripRoutes = getCityPairs().map(
     ({ origem, destino }) => `/localizacao/planejador-viagem-ev/${origem}/${destino}`,
   );
@@ -255,6 +262,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       ...articleRoutes,
       ...cryptoRoutes,
       ...distanceRoutes,
+      ...pedagioRoutes,
       ...evTripRoutes,
       ...salarioRoutes,
       ...evRoutes

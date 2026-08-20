@@ -56,9 +56,9 @@ const relatedTools = [
     description: "Transforme o link do seu WhatsApp que você acabou de criar em um QR Code para panfletos e cartões de visita."
   },
   {
-    title: "Encurtador de URLs",
-    url: "/utilidades/encurtador-url",
-    description: "Links de WhatsApp podem ser um pouco longos. Encurte-os para que fiquem mais bonitos nas redes sociais."
+    title: "PIX Copia e Cola & QR Code",
+    url: "/utilidades/pix-copia-cola",
+    description: "Crie códigos e chaves PIX para compartilhar no WhatsApp e agilizar pagamentos de clientes."
   },
   {
     title: "Contador de Caracteres",

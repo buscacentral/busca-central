@@ -61,9 +61,9 @@ const relatedTools = [
     description: "Crie um link direto para o seu WhatsApp. Excelente para transformar em QR Code depois!"
   },
   {
-    title: "Encurtador de URLs",
-    url: "/utilidades/encurtador-url",
-    description: "Links muito longos geram QR Codes muito densos. Encurte sua URL primeiro para um código mais limpo."
+    title: "PIX Copia e Cola & QR Code",
+    url: "/utilidades/pix-copia-cola",
+    description: "Gere códigos PIX Copia e Cola e QR Code para receber pagamentos instantâneos."
   },
   {
     title: "Gerador de Senhas Seguras",

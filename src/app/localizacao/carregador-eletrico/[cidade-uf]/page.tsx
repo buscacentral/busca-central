@@ -9,10 +9,7 @@ import { getCityBySlug, getInternationalCities } from "@/lib/distancia-cidades";
 import { PlugIcon, NavigationIcon } from "@/components/ev/Icons";
 import StationCard from "@/components/ev/StationCard";
 import PertoDeMimClient from "../perto-de-mim/PertoDeMimClient";
-
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
-export const fetchCache = 'force-no-store';
+export const revalidate = 86400; // ISR de 24h
 
 interface PageProps {
   params: Promise<{

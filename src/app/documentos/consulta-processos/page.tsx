@@ -67,9 +67,9 @@ const relatedTools = [
     description: "Emita recibos de pagamento profissionais e prontos para impressão."
   },
   {
-    title: "Gerador de Contrato de Aluguel",
-    url: "/documentos/contrato-locacao-residencial",
-    description: "Crie contratos de locação residencial seguros e completos em minutos."
+    title: "Consulta CNPJ na Receita",
+    url: "/documentos/consulta-cnpj",
+    description: "Consulte a situação cadastral de empresas e pessoas jurídicas na Receita Federal."
   },
   {
     title: "Conversor CLT x PJ",
