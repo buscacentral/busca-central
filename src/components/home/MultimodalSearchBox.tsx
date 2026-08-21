@@ -214,8 +214,22 @@ export default function MultimodalSearchBox() {
         (c) =>
           normalizeText(c.name).includes(q) ||
           normalizeText(`${c.name} ${c.uf}`).includes(q) ||
-          c.uf.toLowerCase() === q,
-      ).slice(0, 5);
+          normalizeText(`${c.name}, ${c.uf}`).includes(q) ||
+          normalizeText(`${c.name}-${c.uf}`).includes(q) ||
+          normalizeText(c.uf) === q,
+      )
+        .sort((a, b) => {
+          const aNorm = normalizeText(a.name);
+          const bNorm = normalizeText(b.name);
+          const aExact = aNorm === q ? -1 : 0;
+          const bExact = bNorm === q ? -1 : 0;
+          if (aExact !== bExact) return aExact - bExact;
+
+          const aStarts = aNorm.startsWith(q) ? 0 : 1;
+          const bStarts = bNorm.startsWith(q) ? 0 : 1;
+          return aStarts - bStarts;
+        })
+        .slice(0, 6);
       setOrigemSugestoes(filtered);
       setShowOrigemDropdown(filtered.length > 0);
     } else {
@@ -232,8 +246,22 @@ export default function MultimodalSearchBox() {
         (c) =>
           normalizeText(c.name).includes(q) ||
           normalizeText(`${c.name} ${c.uf}`).includes(q) ||
-          c.uf.toLowerCase() === q,
-      ).slice(0, 5);
+          normalizeText(`${c.name}, ${c.uf}`).includes(q) ||
+          normalizeText(`${c.name}-${c.uf}`).includes(q) ||
+          normalizeText(c.uf) === q,
+      )
+        .sort((a, b) => {
+          const aNorm = normalizeText(a.name);
+          const bNorm = normalizeText(b.name);
+          const aExact = aNorm === q ? -1 : 0;
+          const bExact = bNorm === q ? -1 : 0;
+          if (aExact !== bExact) return aExact - bExact;
+
+          const aStarts = aNorm.startsWith(q) ? 0 : 1;
+          const bStarts = bNorm.startsWith(q) ? 0 : 1;
+          return aStarts - bStarts;
+        })
+        .slice(0, 6);
       setDestinoSugestoes(filtered);
       setShowDestinoDropdown(filtered.length > 0);
     } else {

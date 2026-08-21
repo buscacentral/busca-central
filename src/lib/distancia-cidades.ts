@@ -230,7 +230,8 @@ export function getCapitais(): CityResolved[] {
 
 /** Busca uma capital ou cidade principal pelo slug. */
 export function getCapitalBySlug(slug: string): CityResolved | undefined {
-  return getCapitais().find((c) => c.slug === slug);
+  const norm = normalize(slug);
+  return getCapitais().find((c) => c.slug === norm);
 }
 
 const CITY_SLUG_ALIASES: Record<string, { nome: string; uf: string }> = {
@@ -239,17 +240,18 @@ const CITY_SLUG_ALIASES: Record<string, { nome: string; uf: string }> = {
 
 /** Busca QUALQUER cidade (dentre as 5570 do IBGE) pelo slug */
 export function getCityBySlug(slug: string): City | undefined {
+  const norm = normalize(slug);
   const cities = getAllCities();
 
   // 1. Tenta alias direto
-  const alias = CITY_SLUG_ALIASES[slug];
+  const alias = CITY_SLUG_ALIASES[norm];
   if (alias) {
     const found = cities.find((c) => c.u === alias.uf && normalize(c.n) === normalize(alias.nome));
     if (found) return found;
   }
 
   // 2. Busca pelo slug gerado dinamicamente
-  return cities.find((c) => citySlug(c.n, c.u) === slug);
+  return cities.find((c) => c.slug === norm || citySlug(c.n, c.u) === norm);
 }
 
 /** Distância em linha reta (Haversine) em km. */

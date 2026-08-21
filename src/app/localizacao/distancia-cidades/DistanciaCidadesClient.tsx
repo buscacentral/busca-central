@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { calcularCustoViagem, sanitizeNumber } from '@/lib/viagem-logic';
 import { formatCurrency, formatDecimal } from '@/lib/formatters';
 import { Button } from '@/components/ui/Button';
@@ -15,7 +17,24 @@ interface City {
   lon: number;
 }
 
+function normalizeText(text: string): string {
+  return text
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim();
+}
+
+function toCitySlug(nome: string, uf: string): string {
+  const base = normalizeText(nome)
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+  return `${base}-${uf.toLowerCase()}`;
+}
+
 export default function DistanciaCidadesClient() {
+  const router = useRouter();
   const [cities, setCities] = useState<City[]>([]);
   const [filteredOrigin, setFilteredOrigin] = useState<City[]>([]);
   const [filteredDest, setFilteredDest] = useState<City[]>([]);
@@ -55,15 +74,23 @@ export default function DistanciaCidadesClient() {
 
   const filterCities = useCallback((search: string) => {
     if (search.length < 2) return [];
-    const lower = search.toLowerCase();
+    const normSearch = normalizeText(search);
     return cities
       .filter(c =>
-        c.n.toLowerCase().includes(lower) ||
-        c.u.toLowerCase() === lower
+        normalizeText(c.n).includes(normSearch) ||
+        normalizeText(c.u) === normSearch ||
+        normalizeText(`${c.n} ${c.u}`).includes(normSearch) ||
+        normalizeText(`${c.n} - ${c.u}`).includes(normSearch)
       )
       .sort((a, b) => {
-        const aStarts = a.n.toLowerCase().startsWith(lower) ? 0 : 1;
-        const bStarts = b.n.toLowerCase().startsWith(lower) ? 0 : 1;
+        const aNorm = normalizeText(a.n);
+        const bNorm = normalizeText(b.n);
+        const aExact = aNorm === normSearch ? -1 : 0;
+        const bExact = bNorm === normSearch ? -1 : 0;
+        if (aExact !== bExact) return aExact - bExact;
+
+        const aStarts = aNorm.startsWith(normSearch) ? 0 : 1;
+        const bStarts = bNorm.startsWith(normSearch) ? 0 : 1;
         return aStarts - bStarts;
       })
       .slice(0, 10);
@@ -99,12 +126,14 @@ export default function DistanciaCidadesClient() {
 
   const highlightMatch = (text: string, search: string) => {
     if (!search) return text;
-    const index = text.toLowerCase().indexOf(search.toLowerCase());
+    const normText = normalizeText(text);
+    const normSearch = normalizeText(search);
+    const index = normText.indexOf(normSearch);
     if (index === -1) return text;
     return (
       <>
         {text.slice(0, index)}
-        <strong className="text-blue-600">{text.slice(index, index + search.length)}</strong>
+        <strong className="text-blue-600 font-bold">{text.slice(index, index + search.length)}</strong>
         {text.slice(index + search.length)}
       </>
     );
@@ -122,7 +151,6 @@ export default function DistanciaCidadesClient() {
 
   const handleCalculate = async () => {
     setError('');
-    setResult(null);
 
     if (!originCity || !destCity) {
       setError('Selecione duas cidades válidas');
@@ -135,14 +163,13 @@ export default function DistanciaCidadesClient() {
     }
 
     setCalculating(true);
-    await new Promise(resolve => setTimeout(resolve, 500));
 
-    const distance = haversineDistance(originCity.lat, originCity.lon, destCity.lat, destCity.lon);
-    setResult({
-      distance: Math.round(distance),
-      estimatedRoad: Math.round(distance * 1.3),
-    });
-    setCalculating(false);
+    const slugOrigem = toCitySlug(originCity.n, originCity.u);
+    const slugDestino = toCitySlug(destCity.n, destCity.u);
+    const [slugA, slugB] = [slugOrigem, slugDestino].sort();
+
+    // Redireciona diretamente para a rota canônica ISR enriquecida
+    router.push(`/localizacao/distancia/${slugA}/${slugB}`);
   };
 
   const handleSwap = () => {
