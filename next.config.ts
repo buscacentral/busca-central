@@ -5,6 +5,17 @@ const nextConfig: NextConfig = {
   experimental: {
     cpus: 2,
   },
+  // Garante que o cidades.json seja empacotado nas funções serverless de ISR.
+  // Sem isso, o fs.readFileSync falha em produção na Vercel, retornando 404
+  // para rotas geradas sob demanda (fora do generateStaticParams).
+  outputFileTracingIncludes: {
+    '/localizacao/distancia/[origem]/[destino]': [
+      './public/localizacao/distancia-cidades/cidades.json',
+    ],
+    '/localizacao/pedagio/[origem]/[destino]': [
+      './public/localizacao/distancia-cidades/cidades.json',
+    ],
+  },
   async redirects() {
     return [
       // Garante que a rota perto-de-mim seja sempre canônica (sem trailing slash)

@@ -177,14 +177,26 @@ let _allCitiesCache: CityResolved[] | null = null;
 /** Retorna TODAS as cidades do Brasil formatadas com coordenadas e slug (com cache em memória). */
 export function getAllCities(): CityResolved[] {
   if (_allCitiesCache) return _allCitiesCache;
-  const filePath = path.join(
-    process.cwd(),
-    'public',
-    'localizacao',
-    'distancia-cidades',
-    'cidades.json',
-  );
-  const cities: City[] = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+
+  // Tenta múltiplos caminhos para compatibilidade com Vercel serverless/ISR.
+  // Em serverless, process.cwd() pode diferir do diretório de build.
+  // Os comentários /*turbopackIgnore: true*/ evitam o warning de NFT do Turbopack.
+  const candidates = [
+    path.join(/*turbopackIgnore: true*/ process.cwd(), 'public', 'localizacao', 'distancia-cidades', 'cidades.json'),
+    path.join(/*turbopackIgnore: true*/ __dirname, '..', '..', '..', 'public', 'localizacao', 'distancia-cidades', 'cidades.json'),
+    path.join(/*turbopackIgnore: true*/ __dirname, '..', '..', 'public', 'localizacao', 'distancia-cidades', 'cidades.json'),
+  ];
+
+  let cities: City[] = [];
+  for (const candidate of candidates) {
+    try {
+      cities = JSON.parse(fs.readFileSync(candidate, 'utf-8'));
+      break;
+    } catch {
+      // tenta o próximo
+    }
+  }
+
   const resolved = cities.map((c) => ({
     ...c,
     slug: citySlug(c.n, c.u),
