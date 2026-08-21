@@ -33,7 +33,7 @@ export interface DistanceResult {
  * acentuação é normalizada automaticamente).
  */
 const CIDADES_PRINCIPAIS: { nome: string; uf: string }[] = [
-  // Capitais
+  // Capitais (27)
   { nome: 'Rio Branco', uf: 'AC' },
   { nome: 'Maceió', uf: 'AL' },
   { nome: 'Macapá', uf: 'AP' },
@@ -61,16 +61,27 @@ const CIDADES_PRINCIPAIS: { nome: string; uf: string }[] = [
   { nome: 'São Paulo', uf: 'SP' },
   { nome: 'Aracaju', uf: 'SE' },
   { nome: 'Palmas', uf: 'TO' },
+  // Principais Polos Turísticos e Regionais (12)
+  { nome: 'Ubatuba', uf: 'SP' },
+  { nome: 'Campos do Jordão', uf: 'SP' },
+  { nome: 'Armação dos Búzios', uf: 'RJ' },
+  { nome: 'Gramado', uf: 'RS' },
+  { nome: 'Caldas Novas', uf: 'GO' },
+  { nome: 'Paraty', uf: 'RJ' },
+  { nome: 'Balneário Camboriú', uf: 'SC' },
+  { nome: 'Porto Seguro', uf: 'BA' },
+  { nome: 'Santos', uf: 'SP' },
+  { nome: 'Campinas', uf: 'SP' },
+  { nome: 'Petrópolis', uf: 'RJ' },
+  { nome: 'Angra dos Reis', uf: 'RJ' },
   // Maiores cidades não-capitais (SP)
   { nome: 'Guarulhos', uf: 'SP' },
-  { nome: 'Campinas', uf: 'SP' },
   { nome: 'São Bernardo do Campo', uf: 'SP' },
   { nome: 'Santo André', uf: 'SP' },
   { nome: 'Osasco', uf: 'SP' },
   { nome: 'São José dos Campos', uf: 'SP' },
   { nome: 'Ribeirão Preto', uf: 'SP' },
   { nome: 'Sorocaba', uf: 'SP' },
-  { nome: 'Santos', uf: 'SP' },
   { nome: 'Mauá', uf: 'SP' },
   { nome: 'São José do Rio Preto', uf: 'SP' },
   { nome: 'Mogi das Cruzes', uf: 'SP' },
@@ -88,7 +99,7 @@ const CIDADES_PRINCIPAIS: { nome: string; uf: string }[] = [
   { nome: 'Campos dos Goytacazes', uf: 'RJ' },
   { nome: 'Belford Roxo', uf: 'RJ' },
   { nome: 'Volta Redonda', uf: 'RJ' },
-  { nome: 'Petrópolis', uf: 'RJ' },
+  { nome: 'Cabo Frio', uf: 'RJ' },
   // MG
   { nome: 'Contagem', uf: 'MG' },
   { nome: 'Uberlândia', uf: 'MG' },
@@ -96,6 +107,9 @@ const CIDADES_PRINCIPAIS: { nome: string; uf: string }[] = [
   { nome: 'Betim', uf: 'MG' },
   { nome: 'Montes Claros', uf: 'MG' },
   { nome: 'Uberaba', uf: 'MG' },
+  { nome: 'Ouro Preto', uf: 'MG' },
+  { nome: 'Tiradentes', uf: 'MG' },
+  { nome: 'Poços de Caldas', uf: 'MG' },
   // BA
   { nome: 'Feira de Santana', uf: 'BA' },
   { nome: 'Vitória da Conquista', uf: 'BA' },
@@ -110,6 +124,7 @@ const CIDADES_PRINCIPAIS: { nome: string; uf: string }[] = [
   { nome: 'Cascavel', uf: 'PR' },
   { nome: 'Foz do Iguaçu', uf: 'PR' },
   // RS
+  { nome: 'Canela', uf: 'RS' },
   { nome: 'Caxias do Sul', uf: 'RS' },
   { nome: 'Canoas', uf: 'RS' },
   { nome: 'Pelotas', uf: 'RS' },
@@ -117,39 +132,11 @@ const CIDADES_PRINCIPAIS: { nome: string; uf: string }[] = [
   // GO
   { nome: 'Aparecida de Goiânia', uf: 'GO' },
   { nome: 'Anápolis', uf: 'GO' },
-  // ES
-  { nome: 'Serra', uf: 'ES' },
-  { nome: 'Vila Velha', uf: 'ES' },
-  // PE
-  { nome: 'Olinda', uf: 'PE' },
-  { nome: 'Jaboatão dos Guararapes', uf: 'PE' },
-  { nome: 'Caruaru', uf: 'PE' },
-  { nome: 'Petrolina', uf: 'PE' },
-  // CE
-  { nome: 'Caucaia', uf: 'CE' },
-  { nome: 'Juazeiro do Norte', uf: 'CE' },
-  // PA
-  { nome: 'Ananindeua', uf: 'PA' },
-  { nome: 'Santarém', uf: 'PA' },
-  // Polos Turísticos e Regionais Estratégicos
-  { nome: 'Gramado', uf: 'RS' },
-  { nome: 'Canela', uf: 'RS' },
-  { nome: 'Caldas Novas', uf: 'GO' },
-  { nome: 'Porto Seguro', uf: 'BA' },
-  { nome: 'Armação dos Búzios', uf: 'RJ' },
-  { nome: 'Paraty', uf: 'RJ' },
-  { nome: 'Angra dos Reis', uf: 'RJ' },
-  { nome: 'Cabo Frio', uf: 'RJ' },
-  { nome: 'Campos do Jordão', uf: 'SP' },
-  { nome: 'Ubatuba', uf: 'SP' },
+  { nome: 'Pirenópolis', uf: 'GO' },
+  // Outros Polos
   { nome: 'Ilhabela', uf: 'SP' },
-  { nome: 'Balneário Camboriú', uf: 'SC' },
   { nome: 'Maragogi', uf: 'AL' },
   { nome: 'Bonito', uf: 'MS' },
-  { nome: 'Ouro Preto', uf: 'MG' },
-  { nome: 'Tiradentes', uf: 'MG' },
-  { nome: 'Poços de Caldas', uf: 'MG' },
-  { nome: 'Pirenópolis', uf: 'GO' },
 ];
 
 /** Remove acentos e normaliza para comparação/slug. */
@@ -276,13 +263,11 @@ export function getCityPairs(): { origem: string; destino: string }[] {
 }
 
 /**
- * Subconjunto pré-renderizado no build (generateStaticParams): apenas os pares
- * entre CAPITAIS — os de maior volume de busca. Os demais pares (envolvendo
- * cidades grandes não-capitais) são gerados sob demanda na primeira visita e
- * ficam em cache (ISR), mantendo o build leve.
+ * Subconjunto pré-renderizado no build (generateStaticParams): todas as capitais
+ * e polos turísticos / cidades estratégicas de maior volume de busca.
  */
 export function getCapitalPairs(): { origem: string; destino: string }[] {
-  return buildPairs(getCapitais().slice(0, NUM_CAPITAIS));
+  return buildPairs(CAPITAIS_RESOLVED.slice(0, 32));
 }
 
 function buildPairs(lista: CityResolved[]): { origem: string; destino: string }[] {
