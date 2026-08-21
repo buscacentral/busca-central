@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound, permanentRedirect } from 'next/navigation';
 import AdBanner from '@/components/AdBanner';
+import SemPararBanner from '@/components/affiliates/SemPararBanner';
 import {
   getCapitalPairs,
   resolvePair,
@@ -449,6 +450,14 @@ export default async function DistanciaParPage({ params }: Props) {
           </p>
         </div>
       </div>
+
+      {/* Banner de Afiliado Sem Parar (Awin) */}
+      <SemPararBanner
+        variant="card"
+        className="mb-10"
+        title={`Planejando pegar a estrada de ${origin.n} para ${dest.n}?`}
+        subtitle={`Economize tempo e passe direto nas cabines de pedágio ao longo dos ${road.toLocaleString('pt-BR')} km de trajeto com a tag Sem Parar. 100% de cobertura nacional e descontos no Free Flow.`}
+      />
 
       {/* ================================================================= */}
       {/* CALLOUTS CONTEXTUAIS — Combustível & Carregadores Elétricos       */}

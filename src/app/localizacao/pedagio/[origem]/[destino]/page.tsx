@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound, permanentRedirect } from 'next/navigation';
 import ToolPageLayout from '@/components/ToolPageLayout';
+import SemPararBanner from '@/components/affiliates/SemPararBanner';
 import {
   getCapitalPairs,
   resolvePair,
@@ -219,6 +220,13 @@ export default async function PedagioParPage({ params }: Props) {
             <p className="text-xs text-emerald-700 mt-1">Pedágio + Combustível</p>
           </div>
         </div>
+
+        {/* Banner de Afiliado Sem Parar (Awin) */}
+        <SemPararBanner
+          variant="card"
+          title={`Evite filas de pedágio na viagem entre ${origin.n} e ${dest.n}`}
+          subtitle={`Com cerca de ${numPedagios} praça(s) estimadas ao longo de ${road} km, use a tag Sem Parar para passar direto pelas cancelas e garantir descontos no sistema Free Flow.`}
+        />
 
         {/* Botão de Ação Direta para o Google Maps */}
         <div className="p-5 bg-gradient-to-r from-blue-600 to-indigo-700 rounded-xl text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-md">
