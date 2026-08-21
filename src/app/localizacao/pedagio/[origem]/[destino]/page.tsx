@@ -76,13 +76,13 @@ export default async function PedagioParPage({ params }: Props) {
 
   if (!result) notFound();
 
-  // Garante URL canônica única por par (slugs em ordem alfabética)
-  const [canonA, canonB] = [origem, destino].sort();
+  const { origin, dest, road } = result;
+
+  // Garante URL canônica única por par (slugs canônicos oficiais em ordem alfabética)
+  const [canonA, canonB] = [origin.slug, dest.slug].sort();
   if (origem !== canonA || destino !== canonB) {
     permanentRedirect(`/localizacao/pedagio/${canonA}/${canonB}`);
   }
-
-  const { origin, dest, road } = result;
   const year = new Date().getFullYear();
 
   // Algoritmo de estimativa de pedágios

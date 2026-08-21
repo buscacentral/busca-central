@@ -170,6 +170,20 @@ export function citySlug(nome: string, uf: string): string {
   return `${base}-${uf.toLowerCase()}`;
 }
 
+/** Normaliza qualquer entrada (com espaços, %20, acentos, vírgulas) para o formato slug "nome-uf". */
+export function parseToCitySlug(input: string): string {
+  let decoded = input;
+  try {
+    decoded = decodeURIComponent(input);
+  } catch {
+    // se já estiver decodificado
+  }
+  return normalize(decoded)
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+}
+
 const ALL_CITIES: CityResolved[] = (cidadesData as City[]).map((c) => ({
   ...c,
   slug: citySlug(c.n, c.u),
@@ -206,7 +220,7 @@ export function getCapitais(): CityResolved[] {
 
 /** Busca uma capital ou cidade principal pelo slug. */
 export function getCapitalBySlug(slug: string): CityResolved | undefined {
-  const norm = normalize(slug);
+  const norm = parseToCitySlug(slug);
   return CAPITAIS_RESOLVED.find((c) => c.slug === norm);
 }
 
@@ -214,9 +228,9 @@ const CITY_SLUG_ALIASES: Record<string, { nome: string; uf: string }> = {
   'buzios-rj': { nome: 'Armação dos Búzios', uf: 'RJ' },
 };
 
-/** Busca QUALQUER cidade (dentre as 5570 do IBGE) pelo slug */
+/** Busca QUALQUER cidade (dentre as 5570 do IBGE) pelo slug, aceitando espaços, maiúsculas ou sem UF */
 export function getCityBySlug(slug: string): CityResolved | undefined {
-  const norm = normalize(slug);
+  const norm = parseToCitySlug(slug);
 
   // 1. Tenta alias direto
   const alias = CITY_SLUG_ALIASES[norm];
@@ -229,7 +243,14 @@ export function getCityBySlug(slug: string): CityResolved | undefined {
   const direct = CITIES_BY_SLUG.get(norm);
   if (direct) return direct;
 
-  // 3. Fallback dinâmico
+  // 3. Busca por nome sem sufixo UF (ex: "sao-paulo" -> "sao-paulo-sp")
+  const matchWithoutUf = ALL_CITIES.find((c) => {
+    const withoutUf = c.slug.replace(/-[a-z]{2}$/, '');
+    return withoutUf === norm;
+  });
+  if (matchWithoutUf) return matchWithoutUf;
+
+  // 4. Fallback dinâmico
   return ALL_CITIES.find((c) => c.slug === norm || citySlug(c.n, c.u) === norm);
 }
 
