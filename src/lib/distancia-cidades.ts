@@ -132,6 +132,25 @@ const CIDADES_PRINCIPAIS: { nome: string; uf: string }[] = [
   // PA
   { nome: 'Ananindeua', uf: 'PA' },
   { nome: 'Santarém', uf: 'PA' },
+  // Polos Turísticos e Regionais Estratégicos
+  { nome: 'Gramado', uf: 'RS' },
+  { nome: 'Canela', uf: 'RS' },
+  { nome: 'Caldas Novas', uf: 'GO' },
+  { nome: 'Porto Seguro', uf: 'BA' },
+  { nome: 'Armação dos Búzios', uf: 'RJ' },
+  { nome: 'Paraty', uf: 'RJ' },
+  { nome: 'Angra dos Reis', uf: 'RJ' },
+  { nome: 'Cabo Frio', uf: 'RJ' },
+  { nome: 'Campos do Jordão', uf: 'SP' },
+  { nome: 'Ubatuba', uf: 'SP' },
+  { nome: 'Ilhabela', uf: 'SP' },
+  { nome: 'Balneário Camboriú', uf: 'SC' },
+  { nome: 'Maragogi', uf: 'AL' },
+  { nome: 'Bonito', uf: 'MS' },
+  { nome: 'Ouro Preto', uf: 'MG' },
+  { nome: 'Tiradentes', uf: 'MG' },
+  { nome: 'Poços de Caldas', uf: 'MG' },
+  { nome: 'Pirenópolis', uf: 'GO' },
 ];
 
 /** Remove acentos e normaliza para comparação/slug. */
@@ -153,14 +172,11 @@ export function citySlug(nome: string, uf: string): string {
 }
 
 let _capitaisCache: CityResolved[] | null = null;
+let _allCitiesCache: CityResolved[] | null = null;
 
-/** Quantidade de capitais no início do array CIDADES_PRINCIPAIS. */
-const NUM_CAPITAIS = 27;
-
-/** Carrega as capitais resolvidas (com coordenadas) a partir do cidades.json. */
-export function getCapitais(): CityResolved[] {
-  if (_capitaisCache) return _capitaisCache;
-
+/** Retorna TODAS as cidades do Brasil formatadas com coordenadas e slug (com cache em memória). */
+export function getAllCities(): CityResolved[] {
+  if (_allCitiesCache) return _allCitiesCache;
   const filePath = path.join(
     process.cwd(),
     'public',
@@ -169,6 +185,22 @@ export function getCapitais(): CityResolved[] {
     'cidades.json',
   );
   const cities: City[] = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+  const resolved = cities.map((c) => ({
+    ...c,
+    slug: citySlug(c.n, c.u),
+  }));
+  _allCitiesCache = resolved;
+  return resolved;
+}
+
+/** Quantidade de capitais no início do array CIDADES_PRINCIPAIS. */
+const NUM_CAPITAIS = 27;
+
+/** Carrega as capitais e cidades principais resolvidas a partir do cidades.json. */
+export function getCapitais(): CityResolved[] {
+  if (_capitaisCache) return _capitaisCache;
+
+  const cities = getAllCities();
 
   const resolved: CityResolved[] = [];
   for (const cap of CIDADES_PRINCIPAIS) {
@@ -184,21 +216,27 @@ export function getCapitais(): CityResolved[] {
   return resolved;
 }
 
-/** Busca uma capital pelo slug. */
+/** Busca uma capital ou cidade principal pelo slug. */
 export function getCapitalBySlug(slug: string): CityResolved | undefined {
   return getCapitais().find((c) => c.slug === slug);
 }
 
+const CITY_SLUG_ALIASES: Record<string, { nome: string; uf: string }> = {
+  'buzios-rj': { nome: 'Armação dos Búzios', uf: 'RJ' },
+};
+
 /** Busca QUALQUER cidade (dentre as 5570 do IBGE) pelo slug */
 export function getCityBySlug(slug: string): City | undefined {
-  const filePath = path.join(
-    process.cwd(),
-    'public',
-    'localizacao',
-    'distancia-cidades',
-    'cidades.json',
-  );
-  const cities: City[] = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+  const cities = getAllCities();
+
+  // 1. Tenta alias direto
+  const alias = CITY_SLUG_ALIASES[slug];
+  if (alias) {
+    const found = cities.find((c) => c.u === alias.uf && normalize(c.n) === normalize(alias.nome));
+    if (found) return found;
+  }
+
+  // 2. Busca pelo slug gerado dinamicamente
   return cities.find((c) => citySlug(c.n, c.u) === slug);
 }
 
@@ -244,13 +282,23 @@ function buildPairs(lista: CityResolved[]): { origem: string; destino: string }[
   return pairs;
 }
 
-/** Resolve um par (origem, destino) e calcula as distâncias. */
+/** Resolve um par (origem, destino) e calcula as distâncias com suporte total a ISR. */
 export function resolvePair(
   origemSlug: string,
   destinoSlug: string,
 ): DistanceResult | null {
-  const origin = getCapitalBySlug(origemSlug);
-  const dest = getCapitalBySlug(destinoSlug);
+  let origin = getCapitalBySlug(origemSlug);
+  if (!origin) {
+    const raw = getCityBySlug(origemSlug);
+    if (raw) origin = { ...raw, slug: citySlug(raw.n, raw.u) };
+  }
+
+  let dest = getCapitalBySlug(destinoSlug);
+  if (!dest) {
+    const raw = getCityBySlug(destinoSlug);
+    if (raw) dest = { ...raw, slug: citySlug(raw.n, raw.u) };
+  }
+
   if (!origin || !dest || origin.slug === dest.slug) return null;
 
   const straightLine = Math.round(haversine(origin, dest));
@@ -302,27 +350,4 @@ export function getInternationalCities(): CityResolved[] {
     ...c,
     slug: citySlug(c.n, c.u)
   }));
-}
-
-let _allCitiesCache: CityResolved[] | null = null;
-/** Retorna TODAS as cidades do Brasil formatadas com slug */
-export function getAllCities(): CityResolved[] {
-  if (_allCitiesCache) return _allCitiesCache;
-
-  const filePath = path.join(
-    process.cwd(),
-    'public',
-    'localizacao',
-    'distancia-cidades',
-    'cidades.json',
-  );
-  const cities: City[] = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-  
-  const resolved = cities.map(c => ({
-    ...c,
-    slug: citySlug(c.n, c.u)
-  }));
-  
-  _allCitiesCache = resolved;
-  return resolved;
 }

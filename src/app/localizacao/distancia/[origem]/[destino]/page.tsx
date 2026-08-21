@@ -29,8 +29,9 @@ function slugToProperName(slug: string): string {
 }
 
 // Pré-renderiza no build apenas os pares de capitais; os demais pares são
-// gerados sob demanda na primeira visita e ficam em cache (ISR).
+// gerados sob demanda na primeira visita e ficam em cache (ISR por 24 horas).
 export const dynamicParams = true;
+export const revalidate = 86400;
 
 // Constantes configuráveis de estimativa de combustível
 const CONSUMO_MEDIO_INLINE = 12; // km/L

@@ -12,6 +12,7 @@ import {
 } from '@/lib/distancia-cidades';
 
 export const dynamicParams = true;
+export const revalidate = 86400;
 
 interface Props {
   params: Promise<{ origem: string; destino: string }>;
