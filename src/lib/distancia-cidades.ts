@@ -1,12 +1,11 @@
-import fs from 'node:fs';
-import path from 'node:path';
+import cidadesData from '@/data/cidades.json';
 
 /**
  * Lógica das páginas programáticas de "distância entre cidades".
  *
- * IMPORTANTE: este módulo lê o arquivo de cidades do filesystem em tempo de
- * build, portanto só pode ser importado por código server-side (page.tsx com
- * generateStaticParams / sitemap.ts). Nunca importar em Client Components.
+ * O catálogo de cidades é importado estaticamente de src/data/cidades.json,
+ * garantindo compatibilidade total com o runtime Serverless / ISR da Vercel
+ * sem dependência de I/O em disco ou caminhos de filesystem.
  */
 
 export interface City {
@@ -171,67 +170,44 @@ export function citySlug(nome: string, uf: string): string {
   return `${base}-${uf.toLowerCase()}`;
 }
 
-let _capitaisCache: CityResolved[] | null = null;
-let _allCitiesCache: CityResolved[] | null = null;
+const ALL_CITIES: CityResolved[] = (cidadesData as City[]).map((c) => ({
+  ...c,
+  slug: citySlug(c.n, c.u),
+}));
 
-/** Retorna TODAS as cidades do Brasil formatadas com coordenadas e slug (com cache em memória). */
+/** Mapa de busca O(1) por slug para resolução instantânea */
+const CITIES_BY_SLUG = new Map<string, CityResolved>();
+for (const city of ALL_CITIES) {
+  CITIES_BY_SLUG.set(city.slug, city);
+}
+
+/** Retorna TODAS as cidades do Brasil formatadas com coordenadas e slug. */
 export function getAllCities(): CityResolved[] {
-  if (_allCitiesCache) return _allCitiesCache;
-
-  // Tenta múltiplos caminhos para compatibilidade com Vercel serverless/ISR.
-  // Em serverless, process.cwd() pode diferir do diretório de build.
-  // Os comentários /*turbopackIgnore: true*/ evitam o warning de NFT do Turbopack.
-  const candidates = [
-    path.join(/*turbopackIgnore: true*/ process.cwd(), 'public', 'localizacao', 'distancia-cidades', 'cidades.json'),
-    path.join(/*turbopackIgnore: true*/ __dirname, '..', '..', '..', 'public', 'localizacao', 'distancia-cidades', 'cidades.json'),
-    path.join(/*turbopackIgnore: true*/ __dirname, '..', '..', 'public', 'localizacao', 'distancia-cidades', 'cidades.json'),
-  ];
-
-  let cities: City[] = [];
-  for (const candidate of candidates) {
-    try {
-      cities = JSON.parse(fs.readFileSync(candidate, 'utf-8'));
-      break;
-    } catch {
-      // tenta o próximo
-    }
-  }
-
-  const resolved = cities.map((c) => ({
-    ...c,
-    slug: citySlug(c.n, c.u),
-  }));
-  _allCitiesCache = resolved;
-  return resolved;
+  return ALL_CITIES;
 }
 
 /** Quantidade de capitais no início do array CIDADES_PRINCIPAIS. */
 const NUM_CAPITAIS = 27;
 
+const CAPITAIS_RESOLVED: CityResolved[] = [];
+for (const cap of CIDADES_PRINCIPAIS) {
+  const match = ALL_CITIES.find(
+    (c) => c.u === cap.uf && normalize(c.n) === normalize(cap.nome),
+  );
+  if (match) {
+    CAPITAIS_RESOLVED.push(match);
+  }
+}
+
 /** Carrega as capitais e cidades principais resolvidas a partir do cidades.json. */
 export function getCapitais(): CityResolved[] {
-  if (_capitaisCache) return _capitaisCache;
-
-  const cities = getAllCities();
-
-  const resolved: CityResolved[] = [];
-  for (const cap of CIDADES_PRINCIPAIS) {
-    const match = cities.find(
-      (c) => c.u === cap.uf && normalize(c.n) === normalize(cap.nome),
-    );
-    if (match) {
-      resolved.push({ ...match, slug: citySlug(match.n, match.u) });
-    }
-  }
-
-  _capitaisCache = resolved;
-  return resolved;
+  return CAPITAIS_RESOLVED;
 }
 
 /** Busca uma capital ou cidade principal pelo slug. */
 export function getCapitalBySlug(slug: string): CityResolved | undefined {
   const norm = normalize(slug);
-  return getCapitais().find((c) => c.slug === norm);
+  return CAPITAIS_RESOLVED.find((c) => c.slug === norm);
 }
 
 const CITY_SLUG_ALIASES: Record<string, { nome: string; uf: string }> = {
@@ -239,19 +215,22 @@ const CITY_SLUG_ALIASES: Record<string, { nome: string; uf: string }> = {
 };
 
 /** Busca QUALQUER cidade (dentre as 5570 do IBGE) pelo slug */
-export function getCityBySlug(slug: string): City | undefined {
+export function getCityBySlug(slug: string): CityResolved | undefined {
   const norm = normalize(slug);
-  const cities = getAllCities();
 
   // 1. Tenta alias direto
   const alias = CITY_SLUG_ALIASES[norm];
   if (alias) {
-    const found = cities.find((c) => c.u === alias.uf && normalize(c.n) === normalize(alias.nome));
+    const found = ALL_CITIES.find((c) => c.u === alias.uf && normalize(c.n) === normalize(alias.nome));
     if (found) return found;
   }
 
-  // 2. Busca pelo slug gerado dinamicamente
-  return cities.find((c) => c.slug === norm || citySlug(c.n, c.u) === norm);
+  // 2. Busca O(1) pelo Map
+  const direct = CITIES_BY_SLUG.get(norm);
+  if (direct) return direct;
+
+  // 3. Fallback dinâmico
+  return ALL_CITIES.find((c) => c.slug === norm || citySlug(c.n, c.u) === norm);
 }
 
 /** Distância em linha reta (Haversine) em km. */
