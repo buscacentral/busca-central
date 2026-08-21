@@ -9,14 +9,14 @@ export default function Footer() {
         <nav aria-label="Rodapé - Navegação principal">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <h2 className="text-white font-bold text-xl mb-6">BuscaCentral</h2>
+              <p className="text-white font-bold text-xl mb-6">BuscaCentral</p>
               <p className="text-sm md:text-base text-slate-400 leading-relaxed">
                 Central de ferramentas online gratuitas do Brasil. Consultas rápidas sem cadastro.
               </p>
             </div>
 
             <div>
-              <h3 className="text-white font-semibold mb-6 text-lg">Documentos</h3>
+              <p className="text-white font-semibold mb-6 text-lg">Documentos</p>
               <ul className="space-y-4">
                 <li><Link href="/documentos/gerador-cpf" className="text-sm md:text-base text-slate-400 hover:text-white transition-colors block">Gerador de CPF</Link></li>
                 <li><Link href="/documentos/validador-cpf" className="text-sm md:text-base text-slate-400 hover:text-white transition-colors block">Validador de CPF</Link></li>
@@ -26,7 +26,7 @@ export default function Footer() {
             </div>
 
             <div>
-              <h3 className="text-white font-semibold mb-6 text-lg">Ferramentas</h3>
+              <p className="text-white font-semibold mb-6 text-lg">Ferramentas</p>
               <ul className="space-y-4">
                 <li><Link href="/localizacao/carregador-eletrico/perto-de-mim" className="text-sm md:text-base text-sky-400 font-semibold hover:text-white transition-colors block">Eletropostos Perto de Mim 📍</Link></li>
                 <li><Link href="/localizacao/busca-cep" className="text-sm md:text-base text-slate-400 hover:text-white transition-colors block">Busca de CEP</Link></li>
@@ -39,7 +39,7 @@ export default function Footer() {
             </div>
 
             <div>
-              <h3 className="text-white font-semibold mb-6 text-lg">Institucional</h3>
+              <p className="text-white font-semibold mb-6 text-lg">Institucional</p>
               <ul className="space-y-4">
                 <li><Link href="/sobre" className="text-sm md:text-base text-slate-400 hover:text-white transition-colors block">Sobre Nós</Link></li>
                 <li><Link href="/novidades" className="text-sm md:text-base text-slate-400 hover:text-white transition-colors block">Novidades</Link></li>

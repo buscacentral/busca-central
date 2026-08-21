@@ -91,9 +91,9 @@ export default function Home() {
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-sky-500/20 border border-sky-400/30 rounded-full text-xs font-semibold text-sky-300">
               ⚡ Mobilidade Elétrica
             </div>
-            <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-white">
+            <p className="text-2xl md:text-3xl font-extrabold tracking-tight text-white">
               Procurando Eletropostos Perto de Você?
-            </h2>
+            </p>
             <p className="text-slate-300 text-sm md:text-base max-w-xl">
               Encontre estações de recarga para carros elétricos (BYD, GWM, Volvo, BMW, EZVolt) mais próximas da sua localização via GPS em tempo real.
             </p>
