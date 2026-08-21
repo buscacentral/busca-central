@@ -26,7 +26,12 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/distancia",
-        destination: "/localizacao/distancia",
+        destination: "/localizacao/distancia-cidades",
+        permanent: true,
+      },
+      {
+        source: "/localizacao/distancia",
+        destination: "/localizacao/distancia-cidades",
         permanent: true,
       },
       {
