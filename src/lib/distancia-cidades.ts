@@ -6,6 +6,8 @@ import cidadesData from '@/data/cidades.json';
  * O catálogo de cidades é importado estaticamente de src/data/cidades.json,
  * garantindo compatibilidade total com o runtime Serverless / ISR da Vercel
  * sem dependência de I/O em disco ou caminhos de filesystem.
+ *
+ * Deploy Trigger: Vercel Production Build Sync
  */
 
 export interface City {
