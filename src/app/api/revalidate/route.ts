@@ -1,24 +1,22 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
-
-export const dynamic = 'force-dynamic';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
+  const secret = request.nextUrl.searchParams.get('token');
   const path = request.nextUrl.searchParams.get('path');
-  const token = request.nextUrl.searchParams.get('token');
-  const secretToken = process.env.REVALIDATE_TOKEN;
 
-  if (secretToken && token !== secretToken) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  if (secret !== 'uma-senha-secreta-muito-dificil-12345') {
+    return NextResponse.json({ message: 'Invalid token' }, { status: 401 });
   }
+
   if (!path) {
-    return NextResponse.json({ error: 'Missing path' }, { status: 400 });
+    return NextResponse.json({ message: 'Missing path parameter' }, { status: 400 });
   }
 
   try {
     revalidatePath(path);
     return NextResponse.json({ revalidated: true, path, now: Date.now() });
   } catch (err) {
-    return NextResponse.json({ error: 'Failed to revalidate' }, { status: 500 });
+    return NextResponse.json({ message: 'Error revalidating' }, { status: 500 });
   }
 }
