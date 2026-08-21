@@ -127,13 +127,13 @@ export default async function DistanciaParPage({ params }: Props) {
   const result = resolvePair(origem, destino);
   if (!result) notFound();
 
-  // Garante URL canônica única por par (slugs em ordem alfabética)
-  const [canonA, canonB] = [origem, destino].sort();
+  const { origin, dest, road, straightLine } = result;
+
+  // Garante URL canônica única por par (slugs canônicos oficiais em ordem alfabética)
+  const [canonA, canonB] = [origin.slug, dest.slug].sort();
   if (origem !== canonA || destino !== canonB) {
     permanentRedirect(`/localizacao/distancia/${canonA}/${canonB}`);
   }
-
-  const { origin, dest, road, straightLine } = result;
 
   const isSorocabaPiracicaba =
     (origin.slug === 'sorocaba-sp' && dest.slug === 'piracicaba-sp') ||
