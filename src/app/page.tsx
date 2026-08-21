@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import SearchBar from '@/components/SearchBar';
 import ToolCard from '@/components/ToolCard';
 import AdPlaceholder from '@/components/AdPlaceholder';
+import MultimodalSearchBox from '@/components/home/MultimodalSearchBox';
 
 export const metadata: Metadata = {
+  title: 'BuscaCentral: Como Chegar a Qualquer Lugar do Brasil | Rotas, Pedágios e Ferramentas',
+  description: 'Descubra a melhor rota para qualquer destino no Brasil. Calcule distâncias, tempo de viagem de carro e ônibus, custo de combustível e estimativa de pedágios.',
   alternates: {
     canonical: '/',
   },
@@ -17,7 +19,7 @@ const siteSchema = [
     name: 'BuscaCentral',
     url: 'https://buscacentral.com.br',
     logo: 'https://buscacentral.com.br/logo.png',
-    description: 'Central de ferramentas online gratuitas do Brasil.',
+    description: 'Central de rotas, distâncias e ferramentas online gratuitas do Brasil.',
   },
   {
     '@context': 'https://schema.org',
@@ -55,18 +57,31 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(siteSchema) }}
       />
-      <section className="text-center mx-auto mt-10 mb-10 max-w-4xl px-6 md:px-12">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-4 leading-tight tracking-tight">
-          O que você deseja buscar ou gerar?
+      <section className="text-center mx-auto mt-8 sm:mt-12 mb-12 max-w-5xl px-4 sm:px-6 md:px-12">
+        {/* Badge / Subtítulo Superior dos Modais */}
+        <div className="mb-4">
+          <p className="text-[11px] sm:text-xs font-black uppercase tracking-wider text-blue-800 bg-blue-50 border border-blue-200/90 inline-flex flex-wrap items-center justify-center gap-2 px-4 py-1.5 rounded-full shadow-2xs">
+            <span>🚗 DE CARRO</span>
+            <span>•</span>
+            <span>🚌 ÔNIBUS</span>
+            <span>•</span>
+            <span>⚡ VEÍCULO ELÉTRICO</span>
+            <span>•</span>
+            <span>🛣️ CÁLCULO DE PEDÁGIOS EM TEMPO REAL</span>
+          </p>
+        </div>
+
+        {/* Título de Alto Impacto */}
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 mb-4 leading-tight tracking-tight max-w-3xl mx-auto">
+          Descubra como chegar a qualquer lugar do Brasil
         </h1>
-        <p className="text-slate-500 mb-5 text-lg md:text-xl max-w-3xl mx-auto">
-          Ferramentas gratuitas essenciais em um só lugar, rápidas e sem cadastro.
+
+        <p className="text-slate-600 mb-8 text-sm sm:text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+          Calcule distâncias rodoviárias exatas, tempo estimado, custos de combustível e valores de pedágio em todas as estradas brasileiras.
         </p>
-        <p className="bg-blue-50 text-blue-600 inline-block px-5 py-1.5 rounded-full text-sm font-bold mb-8 shadow-sm border border-blue-100">
-          68 ferramentas gratuitas
-        </p>
-        
-        <SearchBar />
+
+        {/* Search Box Ponto a Ponto Multimodal */}
+        <MultimodalSearchBox />
       </section>
 
       {/* Banner de Destaque: Eletropostos Perto de Mim */}
