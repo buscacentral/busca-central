@@ -103,16 +103,24 @@ export default async function PedagioParPage({ params }: Props) {
 
   const faqItems = [
     {
-      question: `Quantas praças de pedágio existem entre ${origin.n} e ${dest.n}?`,
-      answer: `Estimamos aproximadamente ${numPedagios} praça(s) de pedágio ao longo dos ${road} km de trajeto rodoviário entre ${origin.n} (${origin.u}) e ${dest.n} (${dest.u}).`,
+      question: `Quanto custa o pedágio de ${origin.n} para ${dest.n}?`,
+      answer: `O custo estimado de pedágio de ${origin.n} para ${dest.n} é de aproximadamente R$ ${custoPedagioEstimado.toFixed(2).replace('.', ',')} para carros de passeio na ida, considerando cerca de ${numPedagios} praça(s) ao longo dos ${road} km de trajeto rodoviário. Para ida e volta, o valor estimado de pedágio é de R$ ${(custoPedagioEstimado * 2).toFixed(2).replace('.', ',')}.`,
     },
     {
-      question: `Qual o valor estimado de pedágio de ${origin.n} a ${dest.n}?`,
-      answer: `O custo estimado de pedágio para um carro de passeio nesta rota é de aproximadamente R$ ${custoPedagioEstimado.toFixed(2).replace('.', ',')}, considerando a tarifa média praticada nas concessionárias de rodovias.`,
+      question: `Quantos pedágios tem de ${origin.n} a ${dest.n}?`,
+      answer: `O trajeto rodoviário de ${origin.n} a ${dest.n} possui aproximadamente ${numPedagios} praça(s) de cobrança de pedágio ao longo de ${road} km (média de 1 praça a cada 70 km em rodovias sob concessão).`,
     },
     {
-      question: 'Vale a pena usar tag automática de pedágio na viagem?',
-      answer: 'Sim! Além de evitar filas nas cabines manuais, o uso de tags como Sem Parar, ConectCar, Veloe ou Move Mais garante descontos de tarifa em rodovias federais e estaduais com cobrança eletrônica (Free Flow).',
+      question: `Aceita PIX ou cartão no pedágio de ${origin.n} a ${dest.n}?`,
+      answer: `A maioria das concessionárias de rodovias no Brasil aceita pagamento por aproximação (cartão de débito/crédito) e PIX, além de dinheiro em espécie. No entanto, a forma mais rápida e recomendada é o uso de tags automáticas (como Sem Parar, ConectCar e Veloe), que evitam filas e contam com passagem direta.`,
+    },
+    {
+      question: `Tem cobrança automática Free Flow nessa rota?`,
+      answer: `Em diversas rodovias federais e estaduais no Brasil, está sendo implementado o sistema Free Flow (pedágio eletrônico sem cancela física). A cobrança é realizada automaticamente pela leitura da tag veicular ou da placa, sendo altamente recomendável manter uma tag ativa para evitar multas por evasão de pedágio.`,
+    },
+    {
+      question: `Quanto gasta de combustível e pedágio no total de ${origin.n} a ${dest.n}?`,
+      answer: `O custo total estimado de viagem de ${origin.n} a ${dest.n} é de aproximadamente R$ ${custoTotalViagem.toFixed(2).replace('.', ',')} na ida, somando R$ ${custoPedagioEstimado.toFixed(2).replace('.', ',')} de pedágios e R$ ${custoCombustivelEstimado.toFixed(2).replace('.', ',')} de combustível (calculado para consumo médio de 11,5 km/L a R$ 6,00/L).`,
     },
   ];
 
@@ -188,38 +196,65 @@ export default async function PedagioParPage({ params }: Props) {
           </div>
         </div>
 
-        {/* Resumo da Estimativa Above-the-Fold */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="bg-slate-50 p-5 rounded-xl border border-slate-100">
-            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Praças de Pedágio</p>
-            <p className="text-3xl font-extrabold text-slate-900 mt-1">~{numPedagios}</p>
-            <p className="text-xs text-slate-500 mt-1">Est. 1 praça a cada 70 km</p>
+        {/* ============================================================== */}
+        {/* DIRECT ANSWER BOX — GEO / AI Overview Otimizado                */}
+        {/* Marcação semântica <section> + <dl> para consumo por IA        */}
+        {/* ============================================================== */}
+        <section
+          aria-label="Resumo dos Custos de Pedágio"
+          className="bg-gradient-to-r from-blue-50 via-indigo-50 to-sky-50 border-2 border-blue-200/80 rounded-2xl p-5 sm:p-6 shadow-sm"
+        >
+          <h2 className="text-base sm:text-lg font-extrabold text-gray-900 mb-4 flex items-center gap-2">
+            <span className="flex-shrink-0 w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center text-base shadow-sm" aria-hidden="true">🛣️</span>
+            Resumo do Pedágio: {origin.n} a {dest.n}
+          </h2>
+          <dl className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-sm">
+            <div className="flex flex-col bg-white/80 border border-blue-100 rounded-xl px-4 py-3">
+              <dt className="text-xs font-semibold text-blue-700 uppercase tracking-wide mb-0.5">Valor do pedágio (ida)</dt>
+              <dd className="text-2xl font-black text-blue-900">R$ {custoPedagioEstimado.toFixed(2).replace('.', ',')}</dd>
+              <dd className="text-xs text-slate-500">Média de R$ 6,50 por praça para carros de passeio</dd>
+            </div>
+            <div className="flex flex-col bg-white/80 border border-slate-200 rounded-xl px-4 py-3">
+              <dt className="text-xs font-semibold text-slate-600 uppercase tracking-wide mb-0.5">Praças de cobrança</dt>
+              <dd className="text-2xl font-black text-slate-900">~{numPedagios} praça{numPedagios !== 1 ? 's' : ''}</dd>
+              <dd className="text-xs text-slate-500">Est. 1 praça a cada 70 km em {road} km de trajeto</dd>
+            </div>
+            <div className="flex flex-col bg-white/80 border border-indigo-100 rounded-xl px-4 py-3">
+              <dt className="text-xs font-semibold text-indigo-700 uppercase tracking-wide mb-0.5">Custo ida e volta (pedágio)</dt>
+              <dd className="text-2xl font-black text-indigo-900">R$ {(custoPedagioEstimado * 2).toFixed(2).replace('.', ',')}</dd>
+              <dd className="text-xs text-slate-500">Estimativa total para o percurso completo</dd>
+            </div>
+            <div className="flex flex-col bg-white/80 border border-amber-100 rounded-xl px-4 py-3">
+              <dt className="text-xs font-semibold text-amber-700 uppercase tracking-wide mb-0.5">Formas de pagamento</dt>
+              <dd className="text-sm font-bold text-slate-900 mt-1">Tag Automática · Dinheiro · Cartão · PIX</dd>
+              <dd className="text-xs text-slate-500 mt-0.5">Compatível com Free Flow nas rodovias com pórticos</dd>
+            </div>
+            <div className="flex flex-col bg-white/80 border border-emerald-100 rounded-xl px-4 py-3">
+              <dt className="text-xs font-semibold text-emerald-700 uppercase tracking-wide mb-0.5">Economia com Tag</dt>
+              <dd className="text-2xl font-black text-emerald-700">~{Math.max(3, numPedagios * 3)} a {Math.max(5, numPedagios * 5)} min</dd>
+              <dd className="text-xs text-slate-500">Passagem direta sem filas nas cabines manuais</dd>
+            </div>
+            <div className="flex flex-col bg-white/80 border border-blue-100 rounded-xl px-4 py-3">
+              <dt className="text-xs font-semibold text-blue-700 uppercase tracking-wide mb-0.5">Custo total viagem (ida)</dt>
+              <dd className="text-2xl font-black text-blue-900">R$ {custoTotalViagem.toFixed(2).replace('.', ',')}</dd>
+              <dd className="text-xs text-slate-500">R$ {custoPedagioEstimado.toFixed(2).replace('.', ',')} (pedágio) + R$ {custoCombustivelEstimado.toFixed(2).replace('.', ',')} (combustível)</dd>
+            </div>
+          </dl>
+          <div className="mt-4 flex flex-col sm:flex-row gap-2">
+            <Link
+              href={pairUrl(origin.slug, dest.slug)}
+              className="inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold rounded-xl transition-colors shadow-sm"
+            >
+              <span>Ver distância e rota completa →</span>
+            </Link>
+            <Link
+              href={`/utilidades/calculadora-combustivel?distancia=${road}&origem=${encodeURIComponent(origin.n)}&destino=${encodeURIComponent(dest.n)}`}
+              className="inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl transition-colors shadow-sm"
+            >
+              <span>Calcular consumo do meu carro →</span>
+            </Link>
           </div>
-
-          <div className="bg-blue-50 p-5 rounded-xl border border-blue-100">
-            <p className="text-xs font-semibold text-blue-700 uppercase tracking-wide">Custo Est. de Pedágio</p>
-            <p className="text-3xl font-black text-blue-900 mt-1">
-              R$ {custoPedagioEstimado.toFixed(2).replace('.', ',')}
-            </p>
-            <p className="text-xs text-blue-600 mt-1">Aprox. R$ 6,50 por praça</p>
-          </div>
-
-          <div className="bg-slate-50 p-5 rounded-xl border border-slate-100">
-            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Combustível Est.</p>
-            <p className="text-3xl font-bold text-slate-900 mt-1">
-              R$ {custoCombustivelEstimado.toFixed(2).replace('.', ',')}
-            </p>
-            <p className="text-xs text-slate-500 mt-1">Base: 11,5 km/L a R$ 6,00/L</p>
-          </div>
-
-          <div className="bg-emerald-50 p-5 rounded-xl border border-emerald-100">
-            <p className="text-xs font-semibold text-emerald-700 uppercase tracking-wide">Custo Total de Viagem</p>
-            <p className="text-3xl font-black text-emerald-900 mt-1">
-              R$ {custoTotalViagem.toFixed(2).replace('.', ',')}
-            </p>
-            <p className="text-xs text-emerald-700 mt-1">Pedágio + Combustível</p>
-          </div>
-        </div>
+        </section>
 
         {/* Banner de Afiliado Sem Parar (Awin) */}
         <SemPararBanner
