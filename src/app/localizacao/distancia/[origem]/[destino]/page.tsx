@@ -150,6 +150,13 @@ export default async function DistanciaParPage({ params }: Props) {
   const litrosEstimativa = road / consumoMedio;
   const custoEstimativa = litrosEstimativa * precoPadrao;
 
+  // Estimativa de pedágios (1 praça a cada 70 km, R$ 6,50/praça)
+  const numPedagios = Math.max(1, Math.round(road / 70));
+  const custoPedagio = numPedagios * 6.5;
+
+  // Custo EV estimado (consumo médio 6 km/kWh, R$ 0,80/kWh)
+  const custoEV = (road / 6) * 0.80;
+
   // Rota interestadual (UFs diferentes)
   const isInterestadual = origin.u !== dest.u;
 
@@ -174,36 +181,37 @@ export default async function DistanciaParPage({ params }: Props) {
   // STRUCTURED DATA — FAQ Schema (5 perguntas dinâmicas)
   // -------------------------------------------------------------------------
   const faqItems = [
-    // ── Q1: Distância exata em km ───────────────────────────────────────────
+    // ── Q1: Distância exata em km — resposta direta para AI Overview ────────
     {
       name: `Qual a distância de ${origin.n} a ${dest.n} em km?`,
-      text: `A distância entre ${origin.n} e ${dest.n} é de aproximadamente ${road.toLocaleString('pt-BR')} km por rodovia (${straightLine.toLocaleString('pt-BR')} km em linha reta), com tempo estimado de ${formatHoras(road, 80)} de viagem de carro.`,
+      text: `A distância de ${origin.n} a ${dest.n} é de ${road.toLocaleString('pt-BR')} km por estrada (${straightLine.toLocaleString('pt-BR')} km em linha reta). O tempo estimado de viagem de carro a 80 km/h é de aproximadamente ${formatHoras(road, 80)}.`,
     },
-    // ── Q2: Duração da viagem de carro ──────────────────────────────────────
+    // ── Q2: Tempo de carro e ônibus — resposta direta com valores numéricos ─
     {
-      name: `Quanto tempo dura a viagem de carro entre ${origin.n} e ${dest.n}?`,
-      text: `A viagem de carro entre ${origin.n} e ${dest.n} dura cerca de ${formatHoras(road, 80)} a uma velocidade média de 80 km/h. De ônibus (~60 km/h), o tempo estimado de percurso é de aproximadamente ${formatHoras(road, 60)}.`,
+      name: `Quanto tempo demora de ${origin.n} a ${dest.n} de carro?`,
+      text: `De carro, a viagem de ${origin.n} a ${dest.n} dura aproximadamente ${formatHoras(road, 80)} a uma velocidade média de 80 km/h. De ônibus, o tempo estimado é de ${formatHoras(road, 60)} (considerando ~60 km/h com paradas). A distância rodoviária é de ${road.toLocaleString('pt-BR')} km.`,
     },
-    // ── Q3: Custo de combustível e pedágio ──────────────────────────────────
+    // ── Q3: Custo de combustível com valores explícitos ──────────────────────
     {
-      name: `Quanto gasta de combustível e pedágio de ${origin.n} a ${dest.n}?`,
-      text: `Considerando um carro com consumo médio de ${consumoPadrao} km/l e gasolina a R$ ${precoPadrao.toFixed(2).replace('.', ',')}/L, o custo estimado de combustível é de ${custoCombustivel.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} só de ida (${litros.toLocaleString('pt-BR', { maximumFractionDigits: 1 })} litros). Os valores de pedágio variam conforme a rodovia e a rota escolhida.`,
+      name: `Quanto gasta de gasolina de ${origin.n} a ${dest.n}?`,
+      text: `Considerando consumo de ${consumoPadrao} km/L e gasolina a R$ ${precoPadrao.toFixed(2).replace('.', ',')}/L, o custo de combustível de ${origin.n} a ${dest.n} é de aproximadamente R$ ${custoCombustivel.toFixed(2).replace('.', ',')} (${litros.toLocaleString('pt-BR', { maximumFractionDigits: 1 })} litros) apenas na ida. Para a ida e volta, o custo estimado é de R$ ${(custoCombustivel * 2).toFixed(2).replace('.', ',')}.`,
     },
-    // ── Perguntas complementares (pedágios, rota) ───────────────────────────
+    // ── Q4: Pedágios — estimativa numérica explícita ─────────────────────────
     {
       name: `Quantos pedágios tem de ${origin.n} a ${dest.n}?`,
-      text: `O número exato e as tarifas de pedágios variam conforme o trajeto e a concessionária da rodovia. Recomendamos consultar a rota no Google Maps ou no app da concessionária para ver os pontos de cobrança atualizados entre ${origin.n} e ${dest.n}.`,
+      text: `Estimamos aproximadamente ${numPedagios} praça(s) de pedágio entre ${origin.n} e ${dest.n}, com custo médio de R$ ${custoPedagio.toFixed(2).replace('.', ',')} (base: R$ 6,50 por praça). O número exato varia conforme o trajeto e a concessionária da rodovia.`,
     },
+    // ── Q5: Rota e mapa ──────────────────────────────────────────────────────
     {
-      name: `Qual o melhor caminho de ${origin.n} para ${dest.n}?`,
-      text: `Para visualizar a rota mais rápida ou com menor tráfego de ${origin.n} a ${dest.n}, recomendamos abrir o mapa interativo do Google Maps. Nossa calculadora estima a distância (${road.toLocaleString('pt-BR')} km) e os custos para apoiar o planejamento da sua viagem.`,
+      name: `Qual a melhor rota de ${origin.n} para ${dest.n}?`,
+      text: `A rota mais comum de ${origin.n} (${origin.u}) a ${dest.n} (${dest.u}) cobre ${road.toLocaleString('pt-BR')} km e dura cerca de ${formatHoras(road, 80)} de carro. Para ver o trajeto em tempo real com alternativas de rota, abra o Google Maps.`,
     },
-    // FAQ extra dinâmico — só aparece em rotas interestaduais (SEO on-page para long-tail)
+    // FAQ extra dinâmico — só aparece em rotas interestaduais
     ...(isInterestadual
       ? [
           {
-            name: `Como calcular o gasto de combustível para viajar de ${origin.n} para ${dest.n}?`,
-            text: `Para calcular o gasto exato, divida a distância total de ${road.toLocaleString('pt-BR')} km pelo consumo médio (km/L) do seu carro e multiplique pelo preço do combustível na sua região. Você pode usar a Calculadora de Combustível da BuscaCentral com a distância já preenchida.`,
+            name: `Quanto custa viajar de ${origin.n} para ${dest.n} incluindo pedágio?`,
+            text: `O custo total estimado de ${origin.n} a ${dest.n} é de aproximadamente R$ ${(custoCombustivel + custoPedagio).toFixed(2).replace('.', ',')} na ida, incluindo R$ ${custoCombustivel.toFixed(2).replace('.', ',')} de combustível e R$ ${custoPedagio.toFixed(2).replace('.', ',')} de pedágio estimado (${numPedagios} praça(s) a ~R$ 6,50 cada). A distância é de ${road.toLocaleString('pt-BR')} km.`,
           },
         ]
       : []),
@@ -303,31 +311,149 @@ export default async function DistanciaParPage({ params }: Props) {
         <time dateTime="2026-08-18" className="text-xs text-gray-500 block mt-2">Atualizado em: 18 de agosto de 2026</time>
       </header>
 
-      {/* Quick Summary Callout Box (CTR Booster) */}
-      <div className="mb-6 bg-gradient-to-r from-blue-50 via-indigo-50 to-sky-50 border-2 border-blue-200/80 rounded-2xl p-4 sm:p-5 shadow-sm">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <span className="flex-shrink-0 w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center text-xl font-bold shadow-sm">
-              ⚡
-            </span>
-            <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-100/80 px-2.5 py-0.5 rounded-full">
-                Resumo Rápido da Rota
-              </span>
-              <p className="text-base sm:text-lg font-bold text-gray-900 mt-1">
-                {road.toLocaleString('pt-BR')} km <span className="text-gray-400 font-normal">|</span> ~{formatHoras(road, 80)} de carro <span className="text-gray-400 font-normal">|</span> Custo estimado: {custoCombustivel.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-              </p>
-            </div>
+      {/* ============================================================== */}
+      {/* DIRECT ANSWER BOX — GEO / AI Overview optimizado               */}
+      {/* Marcação semântica <section> + <dl> para consumo por IA        */}
+      {/* ============================================================== */}
+      <section
+        aria-label={`Resumo Rápido da Rota de ${origin.n} a ${dest.n}`}
+        className="mb-6 bg-gradient-to-r from-blue-50 via-indigo-50 to-sky-50 border-2 border-blue-200/80 rounded-2xl p-5 sm:p-6 shadow-sm"
+      >
+        <h2 className="text-base sm:text-lg font-extrabold text-gray-900 mb-4 flex items-center gap-2">
+          <span className="flex-shrink-0 w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center text-base shadow-sm" aria-hidden="true">⚡</span>
+          Resumo do Trajeto de {origin.n} a {dest.n}
+        </h2>
+        <dl className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-sm">
+          <div className="flex flex-col bg-white/70 border border-blue-100 rounded-xl px-4 py-3">
+            <dt className="text-xs font-semibold text-blue-700 uppercase tracking-wide mb-0.5">Distância rodoviária</dt>
+            <dd className="text-xl font-black text-gray-900">{road.toLocaleString('pt-BR')} km</dd>
+            <dd className="text-xs text-gray-500">{straightLine.toLocaleString('pt-BR')} km em linha reta</dd>
           </div>
+          <div className="flex flex-col bg-white/70 border border-emerald-100 rounded-xl px-4 py-3">
+            <dt className="text-xs font-semibold text-emerald-700 uppercase tracking-wide mb-0.5">Tempo de carro</dt>
+            <dd className="text-xl font-black text-gray-900">~{formatHoras(road, 80)}</dd>
+            <dd className="text-xs text-gray-500">a 80 km/h de velocidade média</dd>
+          </div>
+          <div className="flex flex-col bg-white/70 border border-violet-100 rounded-xl px-4 py-3">
+            <dt className="text-xs font-semibold text-violet-700 uppercase tracking-wide mb-0.5">Tempo de ônibus</dt>
+            <dd className="text-xl font-black text-gray-900">~{formatHoras(road, 60)}</dd>
+            <dd className="text-xs text-gray-500">~60 km/h com paradas estimadas</dd>
+          </div>
+          <div className="flex flex-col bg-white/70 border border-amber-100 rounded-xl px-4 py-3">
+            <dt className="text-xs font-semibold text-amber-700 uppercase tracking-wide mb-0.5">Custo médio de combustível</dt>
+            <dd className="text-xl font-black text-gray-900">{custoCombustivel.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</dd>
+            <dd className="text-xs text-gray-500">{consumoPadrao} km/L · R$ {precoPadrao.toFixed(2).replace('.', ',')}/L · só ida</dd>
+          </div>
+          <div className="flex flex-col bg-white/70 border border-slate-100 rounded-xl px-4 py-3">
+            <dt className="text-xs font-semibold text-slate-600 uppercase tracking-wide mb-0.5">Praças de pedágio est.</dt>
+            <dd className="text-xl font-black text-gray-900">~{numPedagios} praça{numPedagios !== 1 ? 's' : ''}</dd>
+            <dd className="text-xs text-gray-500">~R$ {custoPedagio.toFixed(2).replace('.', ',')} estimado (R$ 6,50/praça)</dd>
+          </div>
+          <div className="flex flex-col bg-white/70 border border-blue-100 rounded-xl px-4 py-3 sm:col-span-1">
+            <dt className="text-xs font-semibold text-blue-700 uppercase tracking-wide mb-0.5">Custo total estimado</dt>
+            <dd className="text-xl font-black text-gray-900">{(custoCombustivel + custoPedagio).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</dd>
+            <dd className="text-xs text-gray-500">combustível + pedágio (ida)</dd>
+          </div>
+        </dl>
+        <div className="mt-4 flex flex-col sm:flex-row gap-2">
           <Link
             href={`/utilidades/calculadora-combustivel?distancia=${road}&origem=${encodeURIComponent(origin.n)}&destino=${encodeURIComponent(dest.n)}`}
-            className="inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold rounded-xl transition-colors shadow-sm whitespace-nowrap self-start sm:self-auto"
+            className="inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold rounded-xl transition-colors shadow-sm"
           >
-            <span>Simular Rota</span>
-            <span>→</span>
+            <span>Calcular com meu carro →</span>
+          </Link>
+          <Link
+            href={`/localizacao/pedagio/${origin.slug}/${dest.slug}`}
+            className="inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl transition-colors shadow-sm"
+          >
+            <span>Ver estimativa de pedágios →</span>
           </Link>
         </div>
-      </div>
+      </section>
+
+      {/* ============================================================== */}
+      {/* TABELA COMPARATIVA DE MODAIS DE VIAGEM — GEO / AI Overview     */}
+      {/* ============================================================== */}
+      <section aria-label="Comparativo de modais de transporte" className="mb-8">
+        <h2 className="text-base font-bold text-gray-800 mb-3">Compare as opções de viagem</h2>
+        <div className="overflow-x-auto rounded-2xl border border-slate-200 shadow-sm">
+          <table className="w-full text-sm text-left border-collapse">
+            <thead>
+              <tr className="bg-slate-50 border-b border-slate-200">
+                <th scope="col" className="px-4 py-3 font-bold text-slate-700 whitespace-nowrap">Modal</th>
+                <th scope="col" className="px-4 py-3 font-bold text-slate-700 whitespace-nowrap">Tempo Estimado</th>
+                <th scope="col" className="px-4 py-3 font-bold text-slate-700 whitespace-nowrap">Custo Médio (ida)</th>
+                <th scope="col" className="px-4 py-3 font-bold text-slate-700">Vantagens</th>
+                <th scope="col" className="px-4 py-3 font-bold text-slate-700">Ação</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {/* Linha Carro */}
+              <tr className="hover:bg-blue-50/40 transition-colors">
+                <td className="px-4 py-3 font-semibold text-gray-900 whitespace-nowrap">
+                  <span className="mr-1.5" aria-hidden="true">🚗</span>Carro
+                </td>
+                <td className="px-4 py-3 text-gray-700 font-medium">~{formatHoras(road, 80)}</td>
+                <td className="px-4 py-3 text-gray-700">
+                  {(custoCombustivel + custoPedagio).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                  <span className="block text-xs text-gray-500">combustível + pedágio</span>
+                </td>
+                <td className="px-4 py-3 text-gray-600 text-xs">Flexível, porta a porta, bagagem livre</td>
+                <td className="px-4 py-3">
+                  <Link
+                    href={`/localizacao/pedagio/${origin.slug}/${dest.slug}`}
+                    className="inline-flex items-center text-xs font-semibold text-blue-600 hover:text-blue-800 whitespace-nowrap gap-1"
+                  >
+                    Ver pedágios →
+                  </Link>
+                </td>
+              </tr>
+              {/* Linha Ônibus */}
+              <tr className="hover:bg-violet-50/40 transition-colors">
+                <td className="px-4 py-3 font-semibold text-gray-900 whitespace-nowrap">
+                  <span className="mr-1.5" aria-hidden="true">🚌</span>Ônibus
+                </td>
+                <td className="px-4 py-3 text-gray-700 font-medium">~{formatHoras(road, 60)}</td>
+                <td className="px-4 py-3 text-gray-700">
+                  <span className="text-xs text-gray-500">Varia conforme empresa</span>
+                </td>
+                <td className="px-4 py-3 text-gray-600 text-xs">Econômico, sem preocupação com direção e pedágio</td>
+                <td className="px-4 py-3">
+                  <a
+                    href={`https://www.buscaonibus.com.br/${origin.n.toLowerCase().replace(/\s+/g, '-')}-${dest.n.toLowerCase().replace(/\s+/g, '-')}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center text-xs font-semibold text-violet-600 hover:text-violet-800 whitespace-nowrap gap-1"
+                  >
+                    Comparar Passagens →
+                  </a>
+                </td>
+              </tr>
+              {/* Linha Carro Elétrico */}
+              <tr className="hover:bg-emerald-50/40 transition-colors">
+                <td className="px-4 py-3 font-semibold text-gray-900 whitespace-nowrap">
+                  <span className="mr-1.5" aria-hidden="true">⚡</span>Carro Elétrico
+                </td>
+                <td className="px-4 py-3 text-gray-700 font-medium">~{formatHoras(road, 80)}</td>
+                <td className="px-4 py-3 text-gray-700">
+                  ~{custoEV.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                  <span className="block text-xs text-gray-500">6 km/kWh · R$ 0,80/kWh</span>
+                </td>
+                <td className="px-4 py-3 text-gray-600 text-xs">Custo menor que gasolina, zero emissões locais</td>
+                <td className="px-4 py-3">
+                  <Link
+                    href={`/localizacao/planejador-viagem-ev/${origin.slug}/${dest.slug}`}
+                    className="inline-flex items-center text-xs font-semibold text-emerald-600 hover:text-emerald-800 whitespace-nowrap gap-1"
+                  >
+                    Planejar rota EV →
+                  </Link>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p className="text-xs text-gray-500 mt-2">* Estimativas baseadas em médias de mercado. Valores reais variam conforme veículo, combustível e rota.</p>
+      </section>
 
       {/* ================================================================= */}
       {/* HERO DATA BLOCK — 3 colunas: distância, tempo, custo              */}
