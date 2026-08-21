@@ -242,3 +242,5 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+
+// Cache invalidation commit: forçando Vercel a reconhecer /api/revalidate
